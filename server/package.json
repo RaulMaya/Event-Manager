@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/RaulMaya/Event-Manager/issues"
   },
-  "homepage": "https://github.com/RaulMaya/Event-Manager#readme"
+  "homepage": "https://github.com/RaulMaya/Event-Manager#readme",
+  "dependencies": {
+    "jsonwebtoken": "^9.0.0"
+  }
 }

@@ -1,0 +1,20 @@
+{
+  "name": "event-manager",
+  "version": "1.0.0",
+  "description": "Event Management Platform: Users create, discover, and manage events based on location. Register, log in, create profiles, specify event details, set visibility preferences, browse events, RSVP, and communicate with organizers and attendees.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RaulMaya/Event-Manager.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RaulMaya/Event-Manager/issues"
+  },
+  "homepage": "https://github.com/RaulMaya/Event-Manager#readme"
+}

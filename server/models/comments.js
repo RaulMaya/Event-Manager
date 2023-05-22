@@ -1,34 +1,26 @@
-const { Schema, model } = require('mongoose');
-const commentSchema = require('./events');
+const { Schema, model } = require("mongoose");
 
-const commentSchema = new Schema (
-    {
-    thoughtText: {
-        type: String,
-        required: true,
-        maxlength: 280,
-        minlength: 1
-    },
-    createdAt: {
-        type: Date, 
-        default: Date.now,
-    },
-
-    username: {
-        type: String,
-        required: true,
-    },
-},
-{
-    toJSON: {
-      getters: true,
-    },
-    id: false,
+const commentSchema = new Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
+  event: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Event",
+    required: true,
+  },
+  commentText: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  timestamp: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
-)
-
-
-
-const Comment = model('Comment', commentSchema);
+const Comment = model("Comment", commentSchema);
 module.exports = Comment;

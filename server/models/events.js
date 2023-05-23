@@ -26,6 +26,12 @@ const commentSchema = new Schema (
 
 
     },
+    comment: [
+        {
+        type: Schema.Types.ObjectId,
+        ref: 'Comment'
+        }
+    ],
     tags: {
 
 

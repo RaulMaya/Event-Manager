@@ -1,10 +1,11 @@
 const { Comment, User } = require('../models');
 
 
-const thoughtController = {
+const commentController =
+  {   
     async getComment(req, res) {
       try {
-        const users = await Thought.find();
+        const users = await Comment.find();
         res.json(users);
       } catch (err) {
         res.status(500).json(err);
@@ -12,7 +13,7 @@ const thoughtController = {
     },
     async getSingleComment(req, res) {
       try {
-        const thought = await Thought.findOne({ _id: req.params.thoughtId })
+        const thought = await Comment.findOne({ _id: req.params.thoughtId })
           .select('-__v');
   
         if (!thought) {
@@ -24,8 +25,7 @@ const thoughtController = {
         console.log(err);
         res.status(500).json(err);
       }
-    },
-
+    }, 
     async createComment(req, res) {
       try {
         const dbThoughtData = await Comment.create(req.body);
@@ -48,7 +48,7 @@ const thoughtController = {
     },
     async updateComment(req, res) {
       // Uses findOneAndUpdate() method on model
-          const dbUserData = await Commentought.findOneAndUpdate(
+          const dbUserData = await Comment.findOneAndUpdate(
             { _id: req.params.thoughtId },
             { $set: req.body },
             // Sets to true so updated document is returned; Otherwise original document will be returned
@@ -73,4 +73,4 @@ const thoughtController = {
   
 
 
-module.exports = thoughtController
+module.exports = commentController

@@ -27,13 +27,21 @@ const userSchema = new Schema (
         ref:'User'
         }
     ],
+    assistingEvents: [
+      {
+      type: Schema.Types.ObjectId,
+      ref:'event'
+    }
+  ],
 },
+
 {
-    toJSON: {
-      virtuals: true,
-    },
-    id: false,
-  }
+  toJSON: {
+    getters: true,
+  },
+  id: false,
+},
+
 )
 
 

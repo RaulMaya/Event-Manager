@@ -1,5 +1,5 @@
 const { Comment, User, Events } = require('../models');
-
+//we will probably add stuff with user and events later.
 
 const eventController = {
   
@@ -29,34 +29,33 @@ const eventController = {
 
   },
   // create a new user
-  async createUser(req, res) {
+  async createEvent(req, res) {
     try {
       console.log(req.body);
-      const dbUserData = await User.create(req.body);
+      const dbUserData = await Event.create(req.body);
       res.json(dbUserData);
     } catch (err) {
       console.log(err);
       res.status(500).json(err);
     }
   },
-  async updateUser(req, res) {
-    const dbUserData = await User.findOneAndUpdate(
+  async updateEvent(req, res) {
+    const dbUserData = await Event.findOneAndUpdate(
       { _id: req.params.userId },
       { $set: req.body },
       { new: true }
-      // Sets to true so updated document is returned; Otherwise original document will be returned
     );
     res.json (dbUserData);
 
   },
-  async deleteUser(req, res) {
-    const dbUserData = await User.findOneAndDelete(
+  async deleteEvent(req, res) {
+    const dbUserData = await Event.findOneAndDelete(
       { _id: req.params.userId },
       { $set: req.body },
       { new: true }
   );
   if (!dbUserData) {
-    return res.status(404).json({ message: 'No user with that ID' });
+    return res.status(404).json({ message: 'No event with that ID' });
   }
   res.json (dbUserData);
   

@@ -32,7 +32,6 @@ const commentController =
         const dbUserData = await User.findOneAndUpdate(
           { _id: req.body.userId },
           {$push: {comment: dbThoughtData._id}},
-          // Sets to true so updated document is returned; Otherwise original document will be returned
           { new: true })
           if(!dbUserData) {
             return res.status(404).json({message: "error"});
@@ -47,11 +46,9 @@ const commentController =
 
     },
     async updateComment(req, res) {
-      // Uses findOneAndUpdate() method on model
           const dbUserData = await Comment.findOneAndUpdate(
             { _id: req.params.thoughtId },
             { $set: req.body },
-            // Sets to true so updated document is returned; Otherwise original document will be returned
             { new: true }
           );
           res.json (dbUserData);

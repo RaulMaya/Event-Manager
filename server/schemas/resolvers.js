@@ -6,10 +6,10 @@ const resolvers = {
       return await Comment.find({});
     },
     events: async () => {
-      return await Event.find({}).populate("professor");
+      return await Event.find({}).populate("comments");
     },
     users: async () => {
-      return await User.find({}).populate("comments").populate("events");
+      return await User.find({}).populate("comments");
     },
   },
 };

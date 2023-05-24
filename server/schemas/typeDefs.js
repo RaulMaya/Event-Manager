@@ -4,7 +4,7 @@ const typeDefs = gql`
   type Comment {
     _id: ID
     commentText: String
-    createdAt: Date
+    createdAt: String
     user: User
     event: Event
   }
@@ -13,10 +13,10 @@ const typeDefs = gql`
     _id: ID
     eventName: String
     eventDescription: String
-    mainImg: URL
-    portraitImg: URL
+    mainImg: String
+    portraitImg: String
     tags: String
-    eventStartDate: Date
+    eventStartDate: String
     eventLocation: String
     eventType: String
     eventCapacity: Int
@@ -29,13 +29,13 @@ const typeDefs = gql`
   type User {
     _id: ID
     username: String
-    email: Email
+    email: String
     password: String
-    dateOfBirth: Date
-    profilePic: URL
+    dateOfBirth: String
+    profilePic: String
     comments: [Comment]
-    friends
-    assistingEvents
+    friends: String
+    assistingEvents: String
   }
 
   type Query {

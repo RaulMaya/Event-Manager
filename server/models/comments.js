@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const commentSchema = new Schema(
   {
-    thoughtText: {
+    commentText: {
       type: String,
       required: true,
       maxlength: 280,

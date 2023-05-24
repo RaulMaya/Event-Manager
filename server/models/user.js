@@ -1,6 +1,5 @@
-const { Schema, model, Types } = require("mongoose");
+const { Schema, model } = require("mongoose");
 const { hashPassword, checkPassword } = require("../utils/helpers");
-
 
 const userSchema = new Schema(
   {

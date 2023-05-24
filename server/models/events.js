@@ -1,93 +1,80 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require("mongoose");
 
-
-const commentSchema = new Schema (
-    {
+const eventSchema = new Schema(
+  {
     eventName: {
-        type: String,
-        required: true,
-        maxLength: 50,
-        minLength: 1
-
+      type: String,
+      required: true,
+      maxLength: 50,
+      minLength: 1,
     },
     eventDescription: {
-        type: String,
-        required: true,
-        maxlength: 280,
-        minlength: 1
+      type: String,
+      required: true,
+      maxLength: 280,
+      minLength: 1,
     },
+    // For the images we supose that links are being passed
     mainImg: {
-        type: String,
-
-
+      type: String,
     },
+    // For the images we supose that links are being passed
     portraitImg: {
-        type: String,
-
-
+      type: String,
     },
-    comment: [
-        {
+    comments: [
+      {
         type: Schema.Types.ObjectId,
-        ref: 'Comment'
-        }
+        ref: "Comment",
+      },
     ],
     tags: {
-
-
+      type: [String],
     },
-    usersAssisting: {
-        type: String,
-
-    },
-    
+    usersAssisting: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     eventStartDate: {
-        type: Date,
-        required: true,
+      type: Date,
+      required: true,
     },
     eventLocation: {
-        type: String,
-        required: true,
-        maxlength: 280,
-        minlength: 1
-        
+      address: String,
+      city: String,
+      country: String,
+      state: String,
+      lat: Number,
+      lon: Number,
     },
     eventType: {
-        type: String,
-        type: String,
-        required: true,
-        maxlength: 280,
-        minlength: 1
+      type: String,
+      required: true,
+      maxLength: 280,
+      minLength: 1,
     },
-    
-    
     eventCapacity: {
-        type: String,
-        type: String,
-        required: true,
-        maxlength: 280,
-        minlength: 1
+      type: Number,
+      required: true,
     },
     eventInvitation: {
-
-
+      type: Boolean,
+      default: false,
     },
     createdAt: {
-        type: Date, 
-        default: Date.now,
+      type: Date,
+      default: Date.now,
     },
-
-},
-{
+  },
+  {
     toJSON: {
-      getters: true,
+      virtuals: true,
     },
     id: false,
-  },
+  }
+);
 
-)
-
-
-
-const Events = model('Events', commentSchema);
-module.exports = Events;
+const Event = model("Event", eventSchema);
+module.exports = Event;

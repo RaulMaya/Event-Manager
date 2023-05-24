@@ -1,11 +1,5 @@
-const mongoose = require('mongoose');
 const User = require('../models/User'); // Import the User model
 
-// Connect to the MongoDB database
-mongoose.connect('mongodb://localhost/partymaster', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
 
 // Create an array of user data to seed the model
 const userData = [
@@ -45,8 +39,7 @@ const seedUsers = async () => {
   } catch (error) {
     console.error('Error seeding User model:', error);
   } finally {
-    // Disconnect from the MongoDB database
-    mongoose.disconnect();
+    console.log("Users Seed Done")
   }
 };
 

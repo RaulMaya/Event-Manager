@@ -1,11 +1,4 @@
-const mongoose = require("mongoose");
 const Event = require('../models/Event');  // Import the Event model
-
-// Connect to the MongoDB database
-mongoose.connect("mongodb://localhost/partymaster", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
 
 // Create an array of event data to seed the model
 const eventData = [
@@ -67,8 +60,7 @@ const seedEvents = async () => {
   } catch (error) {
     console.error("Error seeding Event model:", error);
   } finally {
-    // Disconnect from the MongoDB database
-    mongoose.disconnect();
+    console.log("Events Created")
   }
 };
 

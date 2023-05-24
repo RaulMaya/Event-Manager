@@ -1,13 +1,7 @@
-const mongoose = require("mongoose");
 const Comment = require('../models/Comment'); // Import the Comment model
 const User = require('../models/User'); // Import the User model
 const Event = require('../models/Event'); // Import the Event model
 
-// Connect to the MongoDB database
-mongoose.connect("mongodb://localhost/partymaster", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
 
 // Create an array of comment data to seed the model
 const commentData = [
@@ -52,8 +46,7 @@ const seedComments = async () => {
   } catch (error) {
     console.error("Error seeding Comment model:", error);
   } finally {
-    // Disconnect from the MongoDB database
-    mongoose.disconnect();
+    console.log("Comments Created")
   }
 };
 

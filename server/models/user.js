@@ -1,6 +1,7 @@
 const { Schema, model, Types } = require("mongoose");
 const { hashPassword, checkPassword } = require("../utils/helpers");
 
+
 const userSchema = new Schema(
   {
     username: {
@@ -73,4 +74,5 @@ userSchema.virtual("friendCount").get(function () {
 });
 
 const User = model("User", userSchema);
+
 module.exports = User;

@@ -1,19 +1,19 @@
-const router = require('express').Router();
+const router = require("express").Router();
 const {
-
+  getUsers,
+  getSingleUser,
   createUser,
+  updateUser,
   deleteUser,
-  addFriend,
-  deleteFriend,
-  //view friend
-  //view friend's events
-} = require('../controllers/userController');
+} = require("../controllers/userController");
 
-router.route('/create').post(createUser);
+router.route("/").get(getUsers);
 
-router.route('/:userId').delete(deleteUser);
+router.route("/create").post(createUser);
 
-router.route('/:userId/friends/:friendId').post(addFriend).delete(deleteFriend);
+router.route("/:userId").get(getSingleUser).put(updateUser).delete(deleteUser);
 
+// Assuming the addFriend and deleteFriend methods are defined in the userController
+// router.route('/:userId/friends/:friendId').post(addFriend).delete(deleteFriend);
 
 module.exports = router;

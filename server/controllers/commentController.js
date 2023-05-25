@@ -72,16 +72,22 @@ const commentController = {
   // update a comment by ID
   async updateComment(req, res) {
     try {
+      // Attempt to find and update the comment
       const comment = await Comment.findByIdAndUpdate(
         req.params.commentId,
         req.body,
         { new: true }
       );
+
+      // If no comment is found, send a 404 response
       if (!comment) {
         return res.status(404).json({ message: "No comment with that ID" });
       }
+
+      // If a comment was found and updated, send it back in the response
       res.json(comment);
     } catch (err) {
+      // If there was an error, send it back in the response
       res.status(500).json(err);
     }
   },
@@ -89,11 +95,15 @@ const commentController = {
   // delete a comment by ID
   async deleteComment(req, res) {
     try {
+      // Attempt to find and delete the comment
       const comment = await Comment.findByIdAndRemove(req.params.commentId);
+
+      // If no comment is found, send a 404 response
       if (!comment) {
         return res.status(404).json({ message: "No comment with that ID" });
       }
-      // Pull the deleted comment from the corresponding user's and event's comments
+
+      // If the comment was found and deleted, remove it from the user and event documents as well
       await User.findByIdAndUpdate(
         comment.user,
         { $pull: { comments: comment._id } },
@@ -104,8 +114,11 @@ const commentController = {
         { $pull: { comments: comment._id } },
         { new: true }
       );
+
+      // Send the deleted comment back in the response
       res.json(comment);
     } catch (err) {
+      // If there was an error, send it back in the response
       res.status(500).json(err);
     }
   },

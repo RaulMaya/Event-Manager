@@ -1,22 +1,22 @@
-
-const router = require('express').Router();
+const router = require("express").Router();
 const {
-//   get comment? idk
-//   viewFriendsComments?
-    getCommentsByEvent,
-    createComment,
-    deleteComment,
-    updateComment,
-} = require('../controllers/eventController')
+  getCommentsByEvent,
+  createComment,
+  deleteComment,
+  updateComment,
+} = require("../controllers/commentController");
 
-router.route('/:eventId').get(getCommentsByEvent);
+// Get comments by event
+router.route("/:eventId").get(getCommentsByEvent);
 
-router.route('/create').post(createComment);
+// Create a new comment
+router.route("/create").post(createComment);
 
-router.route('/:userId').put(updateComment).delete(deleteComment);
+// Update or delete a comment
+router.route("/:commentId").put(updateComment).delete(deleteComment);
 
-
-router.route('/:userId/friends/:friendId').post(addFriend).delete(deleteFriend);
-
+// Add or remove a friend
+// Uncomment this line if you have implemented addFriend and deleteFriend methods
+// router.route('/:userId/friends/:friendId').post(addFriend).delete(deleteFriend);
 
 module.exports = router;

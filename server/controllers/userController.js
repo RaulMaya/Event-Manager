@@ -1,8 +1,7 @@
-const { User } = require('../models');
-
+const { User } = require("../models");
 
 const userController = {
-  
+  // GET all users
   async getUsers(req, res) {
     try {
       const users = await User.find();
@@ -11,11 +10,13 @@ const userController = {
       res.status(500).json(err);
     }
   },
+
+  // GET a single user by id
   async getSingleUser(req, res) {
     try {
-      const user = await User.findOne({ _id: req.params.userId })
+      const user = await User.findOne({ _id: req.params.userId });
       if (!user) {
-        return res.status(404).json({ message: 'No user with that ID' });
+        return res.status(404).json({ message: "No user with that ID" });
       }
 
       res.json(user);
@@ -23,9 +24,9 @@ const userController = {
       console.log(err);
       res.status(500).json(err);
     }
-
   },
-  // create a new user
+
+  // CREATE a new user
   async createUser(req, res) {
     try {
       console.log(req.body);
@@ -36,28 +37,40 @@ const userController = {
       res.status(500).json(err);
     }
   },
+
+  // UPDATE an existing user by id
   async updateUser(req, res) {
-    const dbUserData = await User.findOneAndUpdate(
-      { _id: req.params.userId },
-      { $set: req.body },
-      { new: true }
-    );
-    res.json (dbUserData);
-
+    try {
+      const dbUserData = await User.findOneAndUpdate(
+        { _id: req.params.userId },
+        { $set: req.body },
+        { new: true }
+      );
+      if (!dbUserData) {
+        return res.status(404).json({ message: "No user with that ID" });
+      }
+      res.json(dbUserData);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
   },
-  async deleteUser(req, res) {
-    const dbUserData = await User.findOneAndDelete(
-      { _id: req.params.userId },
-      { $set: req.body },
-      { new: true }
-  );
-  if (!dbUserData) {
-    return res.status(404).json({ message: 'No user with that ID' });
-  }
-  res.json (dbUserData);
-  
-},
 
+  // DELETE a user by id
+  async deleteUser(req, res) {
+    try {
+      const dbUserData = await User.findOneAndDelete({
+        _id: req.params.userId,
+      });
+      if (!dbUserData) {
+        return res.status(404).json({ message: "No user with that ID" });
+      }
+      res.json(dbUserData);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  },
 };
 
 module.exports = userController;

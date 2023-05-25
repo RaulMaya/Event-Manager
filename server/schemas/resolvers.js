@@ -6,10 +6,13 @@ const resolvers = {
       return await Comment.find({});
     },
     events: async () => {
-      return await Event.find({});
+      return await Event.find({}).populate("usersAssisting").populate({
+        path: "usersAssisting",
+        populate: "comments",
+      });
     },
     users: async () => {
-      return await User.find({});
+      return await User.find({}).populate("comments");
     },
   },
 };

@@ -39,9 +39,9 @@ const typeDefs = gql`
   }
 
   type Query {
-    comment: [Comment]
-    event: [Event]
-    user: [User]
+    comments: [Comment]
+    events: [Event]
+    users: [User]
   }
 `;
 

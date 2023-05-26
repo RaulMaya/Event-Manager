@@ -8,6 +8,11 @@ const eventSchema = new Schema(
       maxLength: 50,
       minLength: 1,
     },
+    eventCategory: {
+      type: String,
+
+      // On the front end. The input should be a select category. It will be chosen in the front end.
+    },
     eventDescription: {
       type: String,
       required: true,

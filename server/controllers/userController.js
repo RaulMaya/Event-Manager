@@ -37,7 +37,38 @@ const userController = {
       res.status(500).json(err);
     }
   },
+// not done yet, needs testing.
+  async addFriend(req, res) {
+    try {
+      const { userId, friendID } = req.body;
+      await User.findByIdAndUpdate(
+        userId,
+        { $push: { friends: friendID } },
+        { new: true }
+      );
+      res.json(friends);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
 
+  // needs testing
+  async deleteFriend(req, res) {
+    try {
+      if (!comment) {
+        return res.status(404).json({ message: "No comment with that ID" });
+      }
+      await User.findByIdAndUpdate(
+        userId,
+        { $pull: { friends: friendId } },
+        { new: true }
+      );
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }},
+//not done yet, need testing.
+      
   // UPDATE an existing user by id
   async updateUser(req, res) {
     try {

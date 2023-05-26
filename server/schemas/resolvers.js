@@ -3,7 +3,7 @@ const { Comment, Event, User } = require("../models");
 const resolvers = {
   Query: {
     comments: async () => {
-      return await Comment.find({});
+      return await Comment.find({}).populate("user");
     },
     events: async () => {
       return await Event.find({}).populate("usersAssisting").populate({

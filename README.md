@@ -64,3 +64,24 @@ Front End: Saul Sharif, Freddy Corona, (Raul Maya).
 Back End: David Dominguez, Samuel Russek, Freddy Corona.
 
 --
+
+
+Pages:
+- Home (Trending Events)
+- Login | Register (Page or Modal)
+    * If User Log In:
+        - Create Event Page
+        - Specific Event Page (Can view and write comments, Assist or Interested)
+        - User Dashboard (Which events the user will attend and which events the user create | List of Friends)
+    
+1. Fix GraphQL End Points
+- User
+    * CRUD User
+    * Friends/Private Profile
+    * Create Events
+    * Assiting Events
+- Events
+    * Create Event - Event
+    * Event List
+2. User Authentication (React + Backend)
+3. Investigate about image upload and image provider (Cloudinary)

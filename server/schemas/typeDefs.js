@@ -1,6 +1,19 @@
 const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
+  type User {
+    _id: ID
+    username: String
+    email: String
+    password: String
+    dateOfBirth: String
+    profilePic: String
+    comments: [Comment]
+    friends: [User]
+    assistingEvents: [Event]
+    createdEvents: [Event]
+  }
+
   type Comment {
     _id: ID
     commentText: String
@@ -22,6 +35,9 @@ const typeDefs = gql`
     eventCapacity: Int!
     eventInvitation: Boolean!
     minAge: Int!
+    createdAt: String!
+    usersAssisting: [User]
+    createdBy: User
   }
 
   type EventLocation {
@@ -40,18 +56,6 @@ const typeDefs = gql`
     state: String
     lat: Float
     lon: Float
-  }
-
-  type User {
-    _id: ID
-    username: String
-    email: String
-    password: String
-    dateOfBirth: String
-    profilePic: String
-    comments: [Comment]
-    friends: [User]
-    assistingEvents: String
   }
 
   type Query {
@@ -92,6 +96,7 @@ const typeDefs = gql`
       eventCapacity: Int!
       eventInvitation: Boolean!
       minAge: Int!
+      createdBy: ID!
     ): Event
     updateEvent(
       id: ID!
@@ -107,6 +112,7 @@ const typeDefs = gql`
       eventCapacity: Int!
       eventInvitation: Boolean!
       minAge: Int!
+      createdBy: ID!
     ): Event
     deleteEvent(id: ID!): Event
     # Set the required fields for new schools

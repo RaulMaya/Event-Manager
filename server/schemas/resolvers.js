@@ -3,22 +3,19 @@ const { Comment, Event, User } = require("../models");
 const resolvers = {
   Query: {
     comments: async () => {
-      return await Comment.find({}).populate("user");
+      return await Comment.find({})
     },
     events: async () => {
-      return await Event.find({}).populate("usersAssisting").populate({
-        path: "usersAssisting",
-        populate: "comments",
-      });
+      return await Event.find({})
     },
     event: async (parent, args) => {
-      return await Event.findById(args.id);
+      return await Event.findById(args.id)
     },
     users: async () => {
-      return await User.find({}).populate("comments");
+      return await User.find({}).populate("createdEvents");
     },
     user: async (parent, args) => {
-      return await User.findById(args.id);
+      return await User.findById(args.id).populate("createdEvents");
     },
   },
   Mutation: {
@@ -58,7 +55,55 @@ const resolvers = {
     },
 
     createEvent: async (parent, args) => {
-      return await Event.create(args);
+      const {
+        eventName,
+        eventCategory,
+        eventDescription,
+        mainImg,
+        portraitImg,
+        tags,
+        eventStartDate,
+        eventLocation,
+        eventType,
+        eventCapacity,
+        eventInvitation,
+        minAge,
+        createdBy,
+      } = args;
+
+      // Here, you can use the 'createdBy' ID to fetch the corresponding user
+      // and establish the relationship between the user and the event.
+
+      // Example code to fetch the user by ID (this may vary depending on your data source):
+      const user = await User.findById(createdBy);
+      console.log(user)
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      // Create the event with the user relationship
+      const event = await Event.create({
+        eventName,
+        eventCategory,
+        eventDescription,
+        mainImg,
+        portraitImg,
+        tags,
+        eventStartDate,
+        eventLocation,
+        eventType,
+        eventCapacity,
+        eventInvitation,
+        minAge,
+        createdBy: user, // Set the createdBy field to the user object
+      });
+
+      // Add the created event to the user's createdEvents array
+      user.createdEvents.push(event);
+      await user.save();
+
+      // Return the created event
+      return event;
     },
 
     updateEvent: async (parent, args) => {

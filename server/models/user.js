@@ -46,6 +46,12 @@ const userSchema = new Schema(
         ref: "Event",
       },
     ],
+    createdEvents: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Event",
+      },
+    ],
   },
 
   {

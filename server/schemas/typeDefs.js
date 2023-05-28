@@ -43,8 +43,12 @@ const typeDefs = gql`
     users: [User]
   }
 
-  # Define which mutations the client is allowed to make
+
   type Mutation {
+    createUser(username: String!, email: String!,
+    dateOfBirth: String!, profilePic: String!, password: String!): User 
+    updateUser(email: String!,id: ID!,
+    dateOfBirth: String!, profilePic: String!, password: String!): User
     # Set the required fields for new schools
     addComment(commentText: String!, userId: String!, eventId: String!): Comment
   }

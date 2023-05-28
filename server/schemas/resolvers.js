@@ -17,7 +17,6 @@ const resolvers = {
   },
   Mutation: {
     addComment: async (parent, args) => {
-
       // find the user
       const userObj = User.findById(args.userId);
 
@@ -28,8 +27,20 @@ const resolvers = {
       return await Comment.create({
         commentText: args.commentText,
         user: userObj,
-        event: eventObj
+        event: eventObj,
       });
+    },
+
+    createUser: async (parent, args) => {
+      return await User.create(args);
+    },
+
+    updateUser: async (parent, args) => {
+      return await User.findOneAndUpdate(
+        { _id: args.id },
+        { email: args.email, password: args.password },
+        { new: true }
+      );
     },
   },
 };

@@ -15,6 +15,23 @@ const resolvers = {
       return await User.find({}).populate("comments");
     },
   },
+  Mutation: {
+    addComment: async (parent, args) => {
+
+      // find the user
+      const userObj = User.findById(args.userId);
+
+      // find the event
+      const eventObj = Event.findById(args.eventId);
+
+      // Create and return the new Comment object
+      return await Comment.create({
+        commentText: args.commentText,
+        user: userObj,
+        event: eventObj
+      });
+    },
+  },
 };
 
 module.exports = resolvers;

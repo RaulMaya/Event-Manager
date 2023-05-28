@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server-express');
+const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
   type Comment {
@@ -23,7 +23,6 @@ const typeDefs = gql`
     eventInvitation: Boolean
     comments: [Comment]
     usersAssisting: [User]
-
   }
 
   type User {
@@ -42,6 +41,12 @@ const typeDefs = gql`
     comments: [Comment]
     events: [Event]
     users: [User]
+  }
+
+  # Define which mutations the client is allowed to make
+  type Mutation {
+    # Set the required fields for new schools
+    addComment(commentText: String!, userId: String!, eventId: String!): Comment
   }
 `;
 

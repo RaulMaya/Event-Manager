@@ -60,6 +60,30 @@ const resolvers = {
     createEvent: async (parent, args) => {
       return await Event.create(args);
     },
+
+    updateEvent: async (parent, args) => {
+      return await Event.findOneAndUpdate(
+        { _id: args.id },
+        {
+          eventName: args.eventName,
+          eventCategory: args.eventCategory,
+          eventDescription: args.eventDescription,
+          mainImg: args.mainImg,
+          portraitImg: args.portraitImg,
+          tags: args.tags,
+          eventStartDate: args.eventStartDate,
+          eventLocation: args.eventLocation,
+          eventType: args.eventType,
+          eventCapacity: args.eventCapacity,
+          eventInvitation: args.eventInvitation,
+          minAge: args.minAge,
+        },
+        { new: true }
+      );
+    },
+    deleteEvent: async (parent, args) => {
+      return await Event.findOneAndRemove({ _id: args.id });
+    },
   },
 };
 

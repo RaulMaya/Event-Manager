@@ -93,6 +93,22 @@ const typeDefs = gql`
       eventInvitation: Boolean!
       minAge: Int!
     ): Event
+    updateEvent(
+      id: ID!
+      eventName: String!
+      eventCategory: String!
+      eventDescription: String!
+      mainImg: String!
+      portraitImg: String!
+      tags: [String!]!
+      eventStartDate: String!
+      eventLocation: EventLocationInput!
+      eventType: String!
+      eventCapacity: Int!
+      eventInvitation: Boolean!
+      minAge: Int!
+    ): Event
+    deleteEvent(id: ID!): Event
     # Set the required fields for new schools
     addComment(commentText: String!, userId: String!, eventId: String!): Comment
   }

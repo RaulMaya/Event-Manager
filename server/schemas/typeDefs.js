@@ -38,6 +38,7 @@ const typeDefs = gql`
     createdAt: String!
     usersAssisting: [User]
     createdBy: User
+    comments: [Comment]
   }
 
   type EventLocation {
@@ -64,6 +65,7 @@ const typeDefs = gql`
     users: [User]
     user(id: ID!): User
     event(id: ID!): Event
+    comment(id: ID!): Comment
   }
 
   type Mutation {
@@ -116,8 +118,8 @@ const typeDefs = gql`
     ): Event
     deleteEvent(id: ID!): Event
     assistEvent(eventId: ID!, userId: ID!): Event
-    # Set the required fields for new schools
-    addComment(commentText: String!, userId: String!, eventId: String!): Comment
+    createComment(eventId: ID!, userId: ID!, commentText: String!): Comment
+    deleteComment(id: ID!): Comment
   }
 `;
 

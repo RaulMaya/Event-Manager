@@ -3,39 +3,76 @@ const { Comment, Event, User } = require("../models");
 const resolvers = {
   Query: {
     comments: async () => {
-      return await Comment.find({});
+      return await Comment.find({}).populate("user");
+    },
+    comment: async (parent, args) => {
+      return await Comment.findById(args.id).populate("user");
     },
     events: async () => {
-      return await Event.find({});
+      return await Event.find({}).populate("comments").populate({
+        path: "comments",
+        populate: "user",
+      });;
     },
     event: async (parent, args) => {
-      return await Event.findById(args.id);
+      return await Event.findById(args.id).populate("comments");
     },
     users: async () => {
       return await User.find({})
         .populate("createdEvents")
-        .populate("assistingEvents");
+        .populate("assistingEvents")
+        .populate("comments");
     },
     user: async (parent, args) => {
-      return await User.findById(args.id).populate("createdEvents");
+      return await User.findById(args.id)
+        .populate("createdEvents")
+        .populate("assistingEvents")
+        .populate("comments");
     },
   },
   Mutation: {
-    addComment: async (parent, args) => {
-      // find the user
-      const userObj = User.findById(args.userId);
+    createComment: async (parent, { eventId, userId, commentText }) => {
+      try {
+        // Check if the event exists
+        const event = await Event.findById(eventId);
+        if (!event) {
+          throw new Error("Event not found");
+        }
 
-      // find the event
-      const eventObj = Event.findById(args.eventId);
+        // Check if the user exists
+        const user = await User.findById(userId);
+        if (!user) {
+          throw new Error("User not found");
+        }
 
-      // Create and return the new Comment object
-      return await Comment.create({
-        commentText: args.commentText,
-        user: userObj,
-        event: eventObj,
-      });
+        // Create the new comment
+        const comment = new Comment({
+          commentText,
+          user: user._id,
+          event: event._id,
+        });
+
+        // Save the comment
+        await comment.save();
+
+        // Add the comment to the event's comments array
+        event.comments.push(comment._id);
+        await event.save();
+
+        // Add the comment to the user's comments array
+        user.comments.push(comment._id);
+        await user.save();
+
+        // Return the created comment
+        return comment;
+      } catch (error) {
+        console.error("Error creating comment:", error);
+        throw new Error("Failed to create comment");
+      }
     },
-
+    deleteComment: async (parent, args) => {
+      return await Comment.findOneAndRemove({ _id: args.id });
+    },
     createUser: async (parent, args) => {
       return await User.create(args);
     },

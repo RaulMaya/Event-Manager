@@ -12,7 +12,7 @@ const resolvers = {
       return await Event.find({}).populate("comments").populate({
         path: "comments",
         populate: "user",
-      });;
+      });
     },
     event: async (parent, args) => {
       return await Event.findById(args.id).populate("comments");
@@ -21,13 +21,15 @@ const resolvers = {
       return await User.find({})
         .populate("createdEvents")
         .populate("assistingEvents")
-        .populate("comments");
+        .populate("comments")
+        .populate("friends");
     },
     user: async (parent, args) => {
       return await User.findById(args.id)
         .populate("createdEvents")
         .populate("assistingEvents")
-        .populate("comments");
+        .populate("comments")
+        .populate("friends");
     },
   },
   Mutation: {
@@ -68,6 +70,27 @@ const resolvers = {
       } catch (error) {
         console.error("Error creating comment:", error);
         throw new Error("Failed to create comment");
+      }
+    },
+    updateComment: async (parent, { commentId, commentText }) => {
+      try {
+        // Check if the comment exists
+        const comment = await Comment.findById(commentId);
+        if (!comment) {
+          throw new Error("Comment not found");
+        }
+
+        // Update the comment text
+        comment.commentText = commentText;
+
+        // Save the updated comment
+        await comment.save();
+
+        // Return the updated comment
+        return comment;
+      } catch (error) {
+        console.error("Error updating comment:", error);
+        throw new Error("Failed to update comment");
       }
     },
     deleteComment: async (parent, args) => {
@@ -185,6 +208,60 @@ const resolvers = {
         return event;
       } catch (error) {
         throw new Error("Error attending event");
+      }
+    },
+    addFriend: async (parent, { userId, friendId }) => {
+      try {
+        // Check if both users exist
+        const user = await User.findById(userId);
+        const friend = await User.findById(friendId);
+
+        if (!user || !friend) {
+          throw new Error("User or friend not found");
+        }
+
+        // Check if the user is already friends with the friend
+        if (user.friends.includes(friendId)) {
+          throw new Error("You already have this user as a friend");
+        }
+
+        // Add friend to the user's friends array
+        user.friends.push(friend._id);
+        await user.save();
+
+        // Return the updated user
+        return user;
+      } catch (error) {
+        console.error("Error adding friend:", error);
+        throw new Error("Failed to add friend");
+      }
+    },
+    removeFriend: async (parent, { userId, friendId }) => {
+      try {
+        // Check if both users exist
+        const user = await User.findById(userId);
+        const friend = await User.findById(friendId);
+
+        if (!user || !friend) {
+          throw new Error("User or friend not found");
+        }
+
+        // Check if the friend exists in the user's friends array
+        if (!user.friends.includes(friendId)) {
+          throw new Error("This user is not in your friends list");
+        }
+
+        // Remove the friend from the user's friends array
+        user.friends = user.friends.filter(
+          (friend) => friend.toString() !== friendId
+        );
+        await user.save();
+
+        // Return the updated user
+        return user;
+      } catch (error) {
+        console.error("Error removing friend:", error);
+        throw new Error("Failed to remove friend");
       }
     },
   },

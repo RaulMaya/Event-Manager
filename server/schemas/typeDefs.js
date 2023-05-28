@@ -120,6 +120,9 @@ const typeDefs = gql`
     assistEvent(eventId: ID!, userId: ID!): Event
     createComment(eventId: ID!, userId: ID!, commentText: String!): Comment
     deleteComment(id: ID!): Comment
+    updateComment(commentId: ID!, commentText: String!): Comment
+    addFriend(userId: ID!, friendId: ID!): User
+    removeFriend(userId: ID!, friendId: ID!): User
   }
 `;
 

@@ -115,6 +115,7 @@ const typeDefs = gql`
       createdBy: ID!
     ): Event
     deleteEvent(id: ID!): Event
+    assistEvent(eventId: ID!, userId: ID!): Event
     # Set the required fields for new schools
     addComment(commentText: String!, userId: String!, eventId: String!): Comment
   }

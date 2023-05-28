@@ -3,16 +3,18 @@ const { Comment, Event, User } = require("../models");
 const resolvers = {
   Query: {
     comments: async () => {
-      return await Comment.find({})
+      return await Comment.find({});
     },
     events: async () => {
-      return await Event.find({})
+      return await Event.find({});
     },
     event: async (parent, args) => {
-      return await Event.findById(args.id)
+      return await Event.findById(args.id);
     },
     users: async () => {
-      return await User.find({}).populate("createdEvents");
+      return await User.find({})
+        .populate("createdEvents")
+        .populate("assistingEvents");
     },
     user: async (parent, args) => {
       return await User.findById(args.id).populate("createdEvents");
@@ -72,7 +74,7 @@ const resolvers = {
       } = args;
 
       const user = await User.findById(createdBy);
-      console.log(user)
+      console.log(user);
       if (!user) {
         throw new Error("User not found");
       }
@@ -116,13 +118,37 @@ const resolvers = {
           eventType: args.eventType,
           eventCapacity: args.eventCapacity,
           eventInvitation: args.eventInvitation,
-          minAge: args.minAge, createdBy: args.createdBy,
+          minAge: args.minAge,
         },
         { new: true }
       );
     },
     deleteEvent: async (parent, args) => {
       return await Event.findOneAndRemove({ _id: args.id });
+    },
+    assistEvent: async (parent, { eventId, userId }) => {
+      try {
+        // Find the user and event
+        const user = await User.findById(userId);
+        const event = await Event.findById(eventId);
+
+        if (!user || !event) {
+          throw new Error("User or event not found");
+        }
+
+        // Add the user to the event's usersAssisting array
+        event.usersAssisting.push(user);
+        await event.save();
+
+        // Add the event to the user's assistingEvents array
+        user.assistingEvents.push(event);
+        await user.save();
+
+        // Return the updated event
+        return event;
+      } catch (error) {
+        throw new Error("Error attending event");
+      }
     },
   },
 };

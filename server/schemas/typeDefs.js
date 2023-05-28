@@ -43,6 +43,13 @@ const typeDefs = gql`
     events: [Event]
     users: [User]
   }
+
+  type Mutation {
+    createUser(username: String!, email: String!,
+    dateOfBirth: String!, profilePic: String!, password: String!): User 
+    updateUser(email: String!,id: ID!,
+    dateOfBirth: String!, profilePic: String!, password: String!): User
+  }
 `;
 
 module.exports = typeDefs;

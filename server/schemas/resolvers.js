@@ -15,6 +15,16 @@ const resolvers = {
       return await User.find({}).populate("comments");
     },
   },
+  Mutation: {
+    createUser: async (parent, args) => {
+    return await User.create(args);
+    },
+    
+    updateUser: async (parent, args) => {
+    return await User.findOneAndUpdate({_id:args.id}, {email:args.email, password: args.password }, {new:true});
+      }
+  }
+
 };
 
 module.exports = resolvers;

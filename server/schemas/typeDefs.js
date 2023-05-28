@@ -33,7 +33,7 @@ const typeDefs = gql`
     dateOfBirth: String
     profilePic: String
     comments: [Comment]
-    friends: String
+    friends: [User]
     assistingEvents: String
   }
 
@@ -41,14 +41,28 @@ const typeDefs = gql`
     comments: [Comment]
     events: [Event]
     users: [User]
+    user(id: ID!): User
   }
 
-
   type Mutation {
-    createUser(username: String!, email: String!,
-    dateOfBirth: String!, profilePic: String!, password: String!): User 
-    updateUser(email: String!,id: ID!,
-    dateOfBirth: String!, profilePic: String!, password: String!): User
+    createUser(
+      username: String!
+      email: String!
+      dateOfBirth: String!
+      profilePic: String!
+      password: String!
+    ): User
+    updateUser(
+      id: ID!
+      username: String!
+      email: String!
+      dateOfBirth: String!
+      profilePic: String!
+      password: String!
+    ): User
+    deleteUser(
+      id: ID!
+    ): User
     # Set the required fields for new schools
     addComment(commentText: String!, userId: String!, eventId: String!): Comment
   }

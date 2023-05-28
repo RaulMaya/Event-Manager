@@ -14,6 +14,9 @@ const resolvers = {
     users: async () => {
       return await User.find({}).populate("comments");
     },
+    user: async (parent, args) => {
+      return await User.findById(args.id);
+    },
   },
   Mutation: {
     addComment: async (parent, args) => {
@@ -38,9 +41,17 @@ const resolvers = {
     updateUser: async (parent, args) => {
       return await User.findOneAndUpdate(
         { _id: args.id },
-        { email: args.email, password: args.password },
+        {
+          username: args.username,
+          email: args.email,
+          password: args.password,
+          profilePic: args.profilePic,
+        },
         { new: true }
       );
+    },
+    deleteUser: async (parent, args) => {
+      return await User.findOneAndRemove({ _id: args.id });
     },
   },
 };

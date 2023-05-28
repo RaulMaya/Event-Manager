@@ -71,17 +71,12 @@ const resolvers = {
         createdBy,
       } = args;
 
-      // Here, you can use the 'createdBy' ID to fetch the corresponding user
-      // and establish the relationship between the user and the event.
-
-      // Example code to fetch the user by ID (this may vary depending on your data source):
       const user = await User.findById(createdBy);
       console.log(user)
       if (!user) {
         throw new Error("User not found");
       }
 
-      // Create the event with the user relationship
       const event = await Event.create({
         eventName,
         eventCategory,
@@ -121,7 +116,7 @@ const resolvers = {
           eventType: args.eventType,
           eventCapacity: args.eventCapacity,
           eventInvitation: args.eventInvitation,
-          minAge: args.minAge,
+          minAge: args.minAge, createdBy: args.createdBy,
         },
         { new: true }
       );

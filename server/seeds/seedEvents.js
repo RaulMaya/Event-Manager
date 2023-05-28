@@ -22,6 +22,7 @@ const eventData = [
     eventType: "Type 1",
     eventCapacity: 100,
     eventInvitation: false,
+    minAge: 18
   },
   {
     eventName: "Event 2",
@@ -43,6 +44,7 @@ const eventData = [
     eventType: "Type 2",
     eventCapacity: 200,
     eventInvitation: true,
+    minAge: 15
   },
   // Add more event objects as needed
 ];

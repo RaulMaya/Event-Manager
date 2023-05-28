@@ -11,6 +11,9 @@ const resolvers = {
         populate: "comments",
       });
     },
+    event: async (parent, args) => {
+      return await Event.findById(args.id);
+    },
     users: async () => {
       return await User.find({}).populate("comments");
     },
@@ -52,6 +55,10 @@ const resolvers = {
     },
     deleteUser: async (parent, args) => {
       return await User.findOneAndRemove({ _id: args.id });
+    },
+
+    createEvent: async (parent, args) => {
+      return await Event.create(args);
     },
   },
 };

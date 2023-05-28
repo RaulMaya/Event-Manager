@@ -15,14 +15,31 @@ const typeDefs = gql`
     eventDescription: String
     mainImg: String
     portraitImg: String
-    tags: String
+    tags: [String!]!
     eventStartDate: String
-    eventLocation: String
-    eventType: String
-    eventCapacity: Int
-    eventInvitation: Boolean
-    comments: [Comment]
-    usersAssisting: [User]
+    eventLocation: EventLocation!
+    eventType: String!
+    eventCapacity: Int!
+    eventInvitation: Boolean!
+    minAge: Int!
+  }
+
+  type EventLocation {
+    address: String
+    city: String
+    country: String
+    state: String
+    lat: Float
+    lon: Float
+  }
+
+  input EventLocationInput {
+    address: String
+    city: String
+    country: String
+    state: String
+    lat: Float
+    lon: Float
   }
 
   type User {
@@ -42,6 +59,7 @@ const typeDefs = gql`
     events: [Event]
     users: [User]
     user(id: ID!): User
+    event(id: ID!): Event
   }
 
   type Mutation {
@@ -60,9 +78,21 @@ const typeDefs = gql`
       profilePic: String!
       password: String!
     ): User
-    deleteUser(
-      id: ID!
-    ): User
+    deleteUser(id: ID!): User
+    createEvent(
+      eventName: String!
+      eventCategory: String!
+      eventDescription: String!
+      mainImg: String!
+      portraitImg: String!
+      tags: [String!]!
+      eventStartDate: String!
+      eventLocation: EventLocationInput!
+      eventType: String!
+      eventCapacity: Int!
+      eventInvitation: Boolean!
+      minAge: Int!
+    ): Event
     # Set the required fields for new schools
     addComment(commentText: String!, userId: String!, eventId: String!): Comment
   }

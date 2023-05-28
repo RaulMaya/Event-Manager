@@ -68,6 +68,10 @@ const eventSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    minAge: {
+      type: Number,
+      default: false,
+    },
     createdAt: {
       type: Date,
       default: Date.now,

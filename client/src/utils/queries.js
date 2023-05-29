@@ -31,14 +31,21 @@ export const QUERY_EVENTS = gql`
     events {
       _id
       eventName
-      comments {
+      eventDescription
+      mainImg
+      createdBy {
         _id
-        commentText
-        user {
-          _id
-          username
-        }
+        username
       }
+      eventLocation {
+        city
+        country
+      }
+      eventType
+      eventStartDate
+      eventCapacity
+      eventInvitation
+      minAge
     }
   }
 `;

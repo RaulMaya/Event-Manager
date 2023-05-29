@@ -21,8 +21,17 @@ To run GraphQL: in your terminal: npm i, npm run seed, npm run start.
 To run React: npm i, npm run seed, npm run develop.
 
 ## Usage
+1.- Provide the info you want in your sign up. Then you can log in at any time.
+![Sign Up](client/public/img/sign-up-2.png)
 
-TBA
+2.- Enjoy
+![Home](client/public/img/home-img.png)
+Provide information and sign up to be able to use the app.
+
+
+
+
+
 
 ## Credits
 

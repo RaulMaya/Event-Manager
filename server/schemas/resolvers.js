@@ -48,6 +48,10 @@ const resolvers = {
         .populate("createdEvents")
         .populate("assistingEvents")
         .populate("comments")
+        .populate({
+          path: "comments",
+          populate: "event",
+        })
         .populate("friends");
     },
     user: async (parent, args) => {
@@ -65,6 +69,10 @@ const resolvers = {
         })
         .populate("assistingEvents")
         .populate("comments")
+        .populate({
+          path: "comments",
+          populate: "event",
+        })
         .populate("friends");
     },
   },

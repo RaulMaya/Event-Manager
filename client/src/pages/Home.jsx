@@ -13,17 +13,15 @@ const Home = () => {
 
     return (
         <div className="container">
-            <h1 className="my-4">Events</h1>
-            <div className="col-12 col-md-10 my-3">
-                {loading ? (
-                    <div>Loading...</div>
-                ) : (
-                    <EventList
-                        events={events}
-                        title="Here's the current roster of friends..."
-                    />
-                )}
-            </div>
+            <h1 className="my-4">Trending Events</h1>
+            {loading ? (
+                <div>Loading...</div>
+            ) : (
+                <EventList
+                    events={events}
+                    title="All our events..."
+                />
+            )}
             <div style={{ marginBottom: '20px' }}></div> {/* Margin at the bottom of all cards */}
         </div>
     );

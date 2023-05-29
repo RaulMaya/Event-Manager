@@ -1,4 +1,7 @@
 const { Comment, Event, User } = require("../models");
+const { AuthenticationError } = require("apollo-server-express");
+const { signToken } = require("../utils/auth");
+const bcrypt = require("bcrypt");
 
 const resolvers = {
   Query: {
@@ -54,6 +57,32 @@ const resolvers = {
     },
   },
   Mutation: {
+    login: async (_, { usernameOrEmail, password }) => {
+      try {
+        // Find the user by username or email
+        const user = await User.findOne({
+          $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
+        });
+
+        if (!user) {
+          throw new AuthenticationError("Invalid username/email");
+        }
+
+        // Compare the provided password with the stored password hash
+        const isPasswordMatch = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordMatch) {
+          throw new AuthenticationError("Invalid password");
+        }
+
+        // Password is correct, return the user
+        const token = signToken(user);
+        return { token, user };
+      } catch (error) {
+        console.error("Error logging in:", error);
+        throw new Error("Failed to log in");
+      }
+    },
     createComment: async (parent, { eventId, userId, commentText }) => {
       try {
         // Check if the event exists
@@ -118,7 +147,10 @@ const resolvers = {
       return await Comment.findOneAndRemove({ _id: args.id });
     },
     createUser: async (parent, args) => {
-      return await User.create(args);
+      const userCreated = await User.create(args);
+      const token = signToken(userCreated);
+
+      return { token, user: userCreated };
     },
 
     updateUser: async (parent, args) => {

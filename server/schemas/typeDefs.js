@@ -14,6 +14,11 @@ const typeDefs = gql`
     createdEvents: [Event]
   }
 
+  type Auth {
+    token: ID!
+    user: User
+  }
+
   type Comment {
     _id: ID
     commentText: String
@@ -75,7 +80,7 @@ const typeDefs = gql`
       dateOfBirth: String!
       profilePic: String!
       password: String!
-    ): User
+    ): Auth
     updateUser(
       id: ID!
       username: String!
@@ -124,6 +129,7 @@ const typeDefs = gql`
     updateComment(commentId: ID!, commentText: String!): Comment
     addFriend(userId: ID!, friendId: ID!): User
     removeFriend(userId: ID!, friendId: ID!): User
+    login(username: String!, password: String!): Auth
   }
 `;
 

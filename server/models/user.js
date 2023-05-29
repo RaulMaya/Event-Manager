@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 const { hashPassword, checkPassword } = require("../utils/helpers");
+const bcrypt = require("bcrypt");
 
 const userSchema = new Schema(
   {
@@ -67,11 +68,19 @@ const userSchema = new Schema(
   }
 );
 
-userSchema.methods = {
-  checkPassword: function (password) {
-    // Use the helper function for comparing passwords
-    return checkPassword(password, this.password);
-  },
+// set up pre-save middleware to create password
+userSchema.pre("save", async function (next) {
+  if (this.isNew || this.isModified("password")) {
+    const saltRounds = 10;
+    this.password = await bcrypt.hash(this.password, saltRounds);
+  }
+
+  next();
+});
+
+// compare the incoming password with the hashed password
+userSchema.methods.isCorrectPassword = async function (password) {
+  return bcrypt.compare(password, this.password);
 };
 
 userSchema.virtual("friendCount").get(function () {

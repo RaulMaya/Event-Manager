@@ -2,9 +2,10 @@
   "name": "event-manager",
   "version": "1.0.0",
   "description": "Event Management Platform: Users create, discover, and manage events based on location. Register, log in, create profiles, specify event details, set visibility preferences, browse events, RSVP, and communicate with organizers and attendees.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "watch": "nodemon",
     "seed": "node seeds/seed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,6 +28,7 @@
     "graphql": "^16.2.0",
     "graphql-scalars": "^1.22.0",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^7.0.2"
+    "mongoose": "^7.0.2",
+    "nodemon": "^2.0.22"
   }
 }

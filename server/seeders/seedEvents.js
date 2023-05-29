@@ -8,7 +8,8 @@ const eventData = [
     eventDescription:
       "Join your favorite superheroes for a day of fun and adventure!",
     mainImg: "superhero_convention.jpg",
-    portraitImg: "superhero_portrait.jpg",
+    portraitImg:
+      "https://assets.simpleviewinc.com/simpleview/image/upload/c_limit,h_1200,q_75,w_1200/v1/clients/irving-redesign/Events_Page_Header_2903ed9c-40c1-4f6c-9a69-70bb8415295b",
     tags: ["superheroes", "cosplay", "comics"],
     eventStartDate: "2023-06-01",
     eventLocation: {
@@ -30,7 +31,8 @@ const eventData = [
     eventDescription:
       "Can you and your team escape from an alien-infested spaceship?",
     mainImg: "alien_escape_room.jpg",
-    portraitImg: "alien_portrait.jpg",
+    portraitImg:
+      "https://media.istockphoto.com/id/499517325/photo/a-man-speaking-at-a-business-conference.jpg?s=612x612&w=0&k=20&c=gWTTDs_Hl6AEGOunoQ2LsjrcTJkknf9G8BGqsywyEtE=",
     tags: ["escape room", "aliens", "puzzles"],
     eventStartDate: "2023-06-15",
     eventLocation: {

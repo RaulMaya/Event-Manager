@@ -10,7 +10,10 @@ const SingleEvent = () => {
   const { loading, error, data } = useQuery(QUERY_EVENT, {
     variables: { id: id },
   });
-  const [createComment, { error: mutationError }] = useMutation(CREATE_COMMENT);
+  
+  const [createComment, { error: mutationError }] = useMutation(CREATE_COMMENT, {
+    refetchQueries: [{ query: QUERY_EVENT, variables: { id } }],
+  });
 
   const handleCommentSubmit = async (event) => {
     event.preventDefault();

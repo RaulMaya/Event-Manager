@@ -120,7 +120,7 @@ export const QUERY_ALL_COMMENTS = gql`
         eventName
       }
     }
-  }f
+  }
 `;
 
 export const QUERY_SINGLE_COMMENT = gql`

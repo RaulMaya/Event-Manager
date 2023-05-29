@@ -39,16 +39,16 @@ const seedData = async () => {
       profilePic: "tony.jpg",
     });
 
-    // Create events
     const event1 = await Event.create({
-      eventName: "Avengers Party",
-      eventDescription: "Join us for an epic gathering of Avengers fans!",
-      mainImg: "avengers-party.jpg",
-      portraitImg: "avengers-portrait.jpg",
-      tags: ["superheroes", "marvel", "party"],
+      eventName: "Pizza Party",
+      eventDescription: "Join us for a delicious pizza feast!",
+      mainImg:
+        "https://www.allrecipes.com/thmb/ULiSEmH8Tje7Hh-TW1aN2P8dC98=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/240376-homemade-pepperoni-pizza-Beauty-3x4-1-6ae54059c23348b3b9a703b6a3067a44.jpg",
+      portraitImg: "https://example.com/pizza-party-portrait.jpg",
+      tags: ["food", "party", "pizza"],
       eventStartDate: "2023-06-15",
       eventLocation: {
-        address: "123 Stark Tower",
+        address: "123 Pizza Avenue",
         city: "New York",
         country: "USA",
         state: "NY",
@@ -66,8 +66,9 @@ const seedData = async () => {
     const event2 = await Event.create({
       eventName: "Game Night",
       eventDescription: "Bring your favorite board games for a night of fun!",
-      mainImg: "game-night.jpg",
-      portraitImg: "game-portrait.jpg",
+      mainImg:
+        "https://static.vecteezy.com/system/resources/previews/002/187/599/non_2x/game-night-neon-signs-style-text-free-vector.jpg",
+      portraitImg: "https://example.com/game-night-portrait.jpg",
       tags: ["games", "friends", "fun"],
       eventStartDate: "2023-07-20",
       eventLocation: {
@@ -87,10 +88,11 @@ const seedData = async () => {
     });
 
     const event3 = await Event.create({
-      eventName: "Beach Day",
-      eventDescription: "Enjoy a sunny day at the beach with friends!",
-      mainImg: "beach-day.jpg",
-      portraitImg: "beach-portrait.jpg",
+      eventName: "Beach Bonanza",
+      eventDescription: "Enjoy a day of sun, sand, and water at the beach!",
+      mainImg:
+        "https://cdn.mos.cms.futurecdn.net/wtqqnkYDYi2ifsWZVW2MT4-1920-80.jpg.webp",
+      portraitImg: "https://example.com/beach-bonanza-portrait.jpg",
       tags: ["beach", "fun", "sun"],
       eventStartDate: "2023-08-10",
       eventLocation: {
@@ -110,20 +112,20 @@ const seedData = async () => {
     });
 
     const event4 = await Event.create({
-      eventName: "Cosplay Convention",
-      eventDescription:
-        "Show off your best cosplay costumes at the convention!",
-      mainImg: "cosplay-convention.jpg",
-      portraitImg: "cosplay-portrait.jpg",
-      tags: ["cosplay", "convention", "costumes"],
+      eventName: "Comic Con",
+      eventDescription: "Experience the ultimate celebration of pop culture!",
+      mainImg:
+        "https://ca-times.brightspotcdn.com/dims4/default/6c1b204/2147483647/strip/true/crop/3710x3264+0+0/resize/1200x1056!/format/webp/quality/80/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F3d%2Fcb%2Fb0cd7d234a098a40cf2c24f98966%2F3085409-sd-me-comic-con-saturday-10.JPG",
+      portraitImg: "https://example.com/comic-con-portrait.jpg",
+      tags: ["comic", "convention", "pop culture"],
       eventStartDate: "2023-09-25",
       eventLocation: {
-        address: "101 Cosplay Street",
-        city: "Tokyo",
-        country: "Japan",
-        state: "Tokyo",
-        lat: 35.6895,
-        lon: 139.6917,
+        address: "101 Comic Street",
+        city: "San Diego",
+        country: "USA",
+        state: "CA",
+        lat: 32.7157,
+        lon: -117.1611,
       },
       eventType: "Convention",
       eventCapacity: 500,
@@ -132,7 +134,6 @@ const seedData = async () => {
       createdBy: user1._id,
       usersAssisting: [user2._id, user3._id],
     });
-
     // Create comments
     const comment1 = await Comment.create({
       commentText: "Looking forward to the Avengers Party!",

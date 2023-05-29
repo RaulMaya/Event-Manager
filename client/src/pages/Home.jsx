@@ -18,7 +18,12 @@ const Home = () => {
 
                     <div key={event._id} className="col-md-4 mb-4">
                         <div className="card">
-                            <img src={event.mainImg} className="card-img-top" alt={event.eventName} />
+                            <img
+                                src={event.mainImg}
+                                className="card-img-top"
+                                alt={event.eventName}
+                                style={{ height: '200px', objectFit: 'cover' }}
+                            />
                             <div className="card-body">
                                 <h5 className="card-title">{event.eventName}</h5>
                                 <p className="card-text">{event.eventDescription}</p>

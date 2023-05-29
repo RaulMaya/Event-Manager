@@ -13,7 +13,7 @@ const NavBar = () => {
             <div className="container">
                 <Link className="text-dark" to="/">
                     <h1 className="m-0" style={{ fontSize: '3rem' }}>
-                        All Events
+                        PartyMaster
                     </h1>
                 </Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">

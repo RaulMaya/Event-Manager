@@ -63,7 +63,7 @@ const resolvers = {
         const user = await User.findOne({
           $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
         });
-
+        console.log(user)
         if (!user) {
           throw new AuthenticationError("Invalid username/email");
         }
@@ -294,24 +294,27 @@ const resolvers = {
     addFriend: async (parent, { userId, friendId }) => {
       try {
         // Check if both users exist
-        const user = await User.findById(userId);
-        const friend = await User.findById(friendId);
+        const user = await User.findById(userId).populate("friends");
+        const friend = await User.findById(friendId).select("username email");
 
         if (!user || !friend) {
           throw new Error("User or friend not found");
         }
 
         // Check if the user is already friends with the friend
-        if (user.friends.includes(friendId)) {
+        if (user.friends.some((friend) => friend._id.toString() === friendId)) {
           throw new Error("You already have this user as a friend");
         }
 
         // Add friend to the user's friends array
-        user.friends.push(friend._id);
-        await user.save();
+        const updatedUser = await User.findByIdAndUpdate(
+          userId,
+          { $push: { friends: friend } },
+          { new: true }
+        ).populate("friends");
 
         // Return the updated user
-        return user;
+        return updatedUser;
       } catch (error) {
         console.error("Error adding friend:", error);
         throw new Error("Failed to add friend");

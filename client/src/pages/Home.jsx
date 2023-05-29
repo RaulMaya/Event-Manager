@@ -6,7 +6,7 @@ const Home = () => {
     const { loading, error, data } = useQuery(QUERY_ALL_EVENTS);
 
     console.log('Event Data:', data); // Display event data in the console
-    data.events.map((event) => console.log(event.location))
+    // data.events.map((event) => console.log(event.location))
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
 

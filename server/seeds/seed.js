@@ -18,7 +18,7 @@ const seedData = async () => {
     const user1 = await User.create({
       username: "johndoe",
       email: "john@example.com",
-      password: "password123",
+      password: "password#123",
       dateOfBirth: "1990-05-15",
       profilePic: "john.jpg",
     });
@@ -26,7 +26,7 @@ const seedData = async () => {
     const user2 = await User.create({
       username: "janesmith",
       email: "jane@example.com",
-      password: "password456",
+      password: "password#456",
       dateOfBirth: "1992-09-20",
       profilePic: "jane.jpg",
     });
@@ -34,7 +34,7 @@ const seedData = async () => {
     const user3 = await User.create({
       username: "ironman",
       email: "tony@example.com",
-      password: "password789",
+      password: "password#789",
       dateOfBirth: "1970-10-05",
       profilePic: "tony.jpg",
     });

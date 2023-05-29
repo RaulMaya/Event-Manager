@@ -1,5 +1,4 @@
 const { Schema, model } = require("mongoose");
-const { hashPassword, checkPassword } = require("../utils/helpers");
 const bcrypt = require("bcrypt");
 
 const userSchema = new Schema(
@@ -20,7 +19,6 @@ const userSchema = new Schema(
       type: String,
       required: true,
       minlength: 8,
-      set: hashPassword, // We use Mongoose's 'set' to automatically hash passwords before they are stored
     },
     dateOfBirth: {
       type: Date,

@@ -86,7 +86,7 @@ const resolvers = {
         }
 
         // Compare the provided password with the stored password hash
-        const isPasswordMatch = await bcrypt.compare(password, user.password);
+        const isPasswordMatch = await user.isCorrectPassword(password);
 
         if (!isPasswordMatch) {
           throw new AuthenticationError("Invalid password");

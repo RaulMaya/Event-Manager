@@ -12,7 +12,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
-import Signup from './pages/Signup';
+import Signup from './pages/SignUp';
 import Login from './pages/Login';
 import Event from "./pages/Event"
 

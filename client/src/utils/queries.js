@@ -55,6 +55,21 @@ export const QUERY_EVENT = gql`
     event(id: $id) {
       _id
       eventName
+      eventDescription
+      mainImg
+      createdBy {
+        _id
+        username
+      }
+      eventLocation {
+        city
+        country
+      }
+      eventType
+      eventStartDate
+      eventCapacity
+      eventInvitation
+      minAge
       comments {
         _id
         commentText

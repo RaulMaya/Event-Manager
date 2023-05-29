@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { QUERY_EVENTS } from '../utils/queries';
 
@@ -34,7 +35,9 @@ const Home = () => {
                   <strong>Capacity:</strong> {event.eventCapacity}
                 </p>
                 <div className="d-flex">
-                  <button className="btn btn-primary m-2">See Event</button>
+                <Link to={`/event/${event._id}`} className="btn btn-primary m-2">
+                  See Event
+                  </Link>
                   <button className="btn btn-secondary m-2">Add to Assisting</button>
                 </div>
               </div>

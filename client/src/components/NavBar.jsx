@@ -1,17 +1,42 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
+import Auth from '../utils/auth';
 
 const NavBar = () => {
+    const logout = (event) => {
+        event.preventDefault();
+        Auth.logout();
+    };
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
             <div className="container">
-                <a className="navbar-brand" href="/">All Events</a>
+                <Link className="text-dark" to="/">
+                    <h1 className="m-0" style={{ fontSize: '3rem' }}>
+                        All Events
+                    </h1>
+                </Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div className="navbar-nav ms-auto">
-                        <a className="nav-link" href="#">Log In</a>
-                        <a className="nav-link" href="#">Sign In</a>
+                        <div>
+                            {Auth.loggedIn() ? (
+                                <button className="btn btn-lg btn-light m-2" onClick={logout}>
+                                    Logout
+                                </button>
+                            ) : (
+                                <>
+                                    <Link className="btn btn-lg btn-primary m-2" to="/login">
+                                        Login
+                                    </Link>
+                                    <Link className="btn btn-lg btn-light m-2" to="/signup">
+                                        Signup
+                                    </Link>
+                                </>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -10,8 +10,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
-import Event from "./components/singleEvent"
-import Header from "./components/Header"
+import Home from "./pages/Home";
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -39,12 +38,13 @@ const client = new ApolloClient({
 
 const App = () => {
     return (
-        <div>
-            <NavBar />
-            <Header />
-
-            <Footer />
-        </div>
+        <ApolloProvider client={client}>
+            <div>
+                <NavBar />
+                <Home />
+                <Footer />
+            </div>
+        </ApolloProvider>
     );
 };
 

@@ -2,21 +2,19 @@ import React from 'react';
 
 const Footer = () => {
     return (
-        <div className="card">
-            <div className="card-header">
-                Quote
+        <footer className="fixed-bottom bg-light">
+            <div className="container py-2"> {/* Reduced py-4 to py-2 */}
+                <div className="row">
+                    <div className="col">
+                        <blockquote className="blockquote text-center">
+                            <p className="mb-2">Event Manager - A project for managing events</p> {/* Reduced mb-3 to mb-2 */}
+                            <footer className="blockquote-footer">Developed by Team 2</footer>
+                        </blockquote>
+                    </div>
+                </div>
             </div>
-            <div className="card-body">
-                <blockquote className="blockquote mb-0">
-                    <p>A well-known quote, contained in a blockquote element.</p>
-                    <footer className="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
-                </blockquote>
-            </div>
-        </div>
-    )
-
-
+        </footer>
+    );
 };
 
 export default Footer;
-

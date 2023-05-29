@@ -63,6 +63,7 @@ const typeDefs = gql`
     lat: Float
     lon: Float
   }
+  
 
   type Query {
     comments: [Comment]

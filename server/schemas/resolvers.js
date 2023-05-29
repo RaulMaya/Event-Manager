@@ -6,10 +6,22 @@ const bcrypt = require("bcrypt");
 const resolvers = {
   Query: {
     comments: async () => {
-      return await Comment.find({}).populate("user").populate("event");
+      return await Comment.find({})
+        .populate("user")
+        .populate("event")
+        .populate({
+          path: "event",
+          populate: "createdBy",
+        });
     },
     comment: async (parent, args) => {
-      return await Comment.findById(args.id).populate("user").populate("event");
+      return await Comment.findById(args.id)
+        .populate("user")
+        .populate("event")
+        .populate({
+          path: "comments",
+          populate: "user",
+        });
     },
     events: async () => {
       return await Event.find({})
@@ -57,13 +69,10 @@ const resolvers = {
     },
   },
   Mutation: {
-    login: async (_, { usernameOrEmail, password }) => {
+    login: async (parent, { username, password }) => {
       try {
         // Find the user by username or email
-        const user = await User.findOne({
-          $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
-        });
-        console.log(user)
+        const user = await User.findOne({ username });
         if (!user) {
           throw new AuthenticationError("Invalid username/email");
         }
@@ -166,7 +175,33 @@ const resolvers = {
       );
     },
     deleteUser: async (parent, args) => {
-      return await User.findOneAndRemove({ _id: args.id });
+      try {
+        const userId = args.id;
+
+        // Find the user
+        const user = await User.findById(userId);
+        if (!user) {
+          throw new Error("User not found");
+        }
+
+        // Find the events created by the user
+        const userEvents = await Event.find({ createdBy: userId });
+
+        // Delete the comments associated with the user's events
+        const eventIds = userEvents.map((event) => event._id);
+        await Comment.deleteMany({ event: { $in: eventIds } });
+
+        // Delete the events created by the user
+        await Event.deleteMany({ createdBy: userId });
+
+        // Remove the user
+        await User.findOneAndRemove({ _id: userId });
+
+        return user;
+      } catch (error) {
+        console.error("Error deleting user:", error);
+        throw new Error("Failed to delete user");
+      }
     },
 
     createEvent: async (parent, args) => {
@@ -237,7 +272,26 @@ const resolvers = {
       );
     },
     deleteEvent: async (parent, args) => {
-      return await Event.findOneAndRemove({ _id: args.id });
+      try {
+        const eventId = args.id;
+
+        // Find the event
+        const event = await Event.findById(eventId);
+        if (!event) {
+          throw new Error("Event not found");
+        }
+
+        // Delete the comments associated with the event
+        await Comment.deleteMany({ event: eventId });
+
+        // Remove the event
+        await Event.findOneAndRemove({ _id: eventId });
+
+        return event;
+      } catch (error) {
+        console.error("Error deleting event:", error);
+        throw new Error("Failed to delete event");
+      }
     },
     assistEvent: async (parent, { eventId, userId }) => {
       try {

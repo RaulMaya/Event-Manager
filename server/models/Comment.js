@@ -12,7 +12,6 @@ const commentSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      get: (timestamp) => dateFormat(timestamp),
     },
     // Modified the username variable since it wasn´t connected to the user model
     user: {

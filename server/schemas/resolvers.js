@@ -3,19 +3,30 @@ const { Comment, Event, User } = require("../models");
 const resolvers = {
   Query: {
     comments: async () => {
-      return await Comment.find({}).populate("user");
+      return await Comment.find({}).populate("user").populate("event");
     },
     comment: async (parent, args) => {
-      return await Comment.findById(args.id).populate("user");
+      return await Comment.findById(args.id).populate("user").populate("event");
     },
     events: async () => {
-      return await Event.find({}).populate("comments").populate({
-        path: "comments",
-        populate: "user",
-      });
+      return await Event.find({})
+        .populate("comments")
+        .populate({
+          path: "comments",
+          populate: "user",
+        })
+        .populate("createdBy")
+        .populate("usersAssisting");
     },
     event: async (parent, args) => {
-      return await Event.findById(args.id).populate("comments");
+      return await Event.findById(args.id)
+        .populate("comments")
+        .populate({
+          path: "comments",
+          populate: "user",
+        })
+        .populate("createdBy")
+        .populate("usersAssisting");
     },
     users: async () => {
       return await User.find({})
@@ -27,6 +38,16 @@ const resolvers = {
     user: async (parent, args) => {
       return await User.findById(args.id)
         .populate("createdEvents")
+        .populate({
+          path: "createdEvents",
+          populate: {
+            path: "comments",
+            populate: {
+              path: "user",
+              model: "User",
+            },
+          },
+        })
         .populate("assistingEvents")
         .populate("comments")
         .populate("friends");
@@ -208,6 +229,34 @@ const resolvers = {
         return event;
       } catch (error) {
         throw new Error("Error attending event");
+      }
+    },
+    unconfirmEvent: async (_, { eventId, userId }) => {
+      try {
+        // Find the user and event
+        const user = await User.findById(userId);
+        const event = await Event.findById(eventId);
+
+        if (!user || !event) {
+          throw new Error("User or event not found");
+        }
+
+        // Remove the user from the event's usersAssisting array
+        event.usersAssisting = event.usersAssisting.filter(
+          (user) => user.toString() !== userId
+        );
+        await event.save();
+
+        // Remove the event from the user's assistingEvents array
+        user.assistingEvents = user.assistingEvents.filter(
+          (event) => event.toString() !== eventId
+        );
+        await user.save();
+
+        // Return the updated event
+        return event;
+      } catch (error) {
+        throw new Error("Error unconfirming event attendance");
       }
     },
     addFriend: async (parent, { userId, friendId }) => {

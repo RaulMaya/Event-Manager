@@ -1,11 +1,12 @@
-const Event = require('../models/Event');  // Import the Event model
+const Event = require("../models/Event"); // Import the Event model
 
 // Create an array of event data to seed the model
 const eventData = [
   {
     eventName: "Superhero Convention",
     eventCategory: "Entertainment",
-    eventDescription: "Join your favorite superheroes for a day of fun and adventure!",
+    eventDescription:
+      "Join your favorite superheroes for a day of fun and adventure!",
     mainImg: "superhero_convention.jpg",
     portraitImg: "superhero_portrait.jpg",
     tags: ["superheroes", "cosplay", "comics"],
@@ -16,7 +17,7 @@ const eventData = [
       country: "Superland",
       state: "Metropolis",
       lat: 40.7128,
-      lon: -74.0060,
+      lon: -74.006,
     },
     eventType: "Convention",
     eventCapacity: 500,
@@ -26,7 +27,8 @@ const eventData = [
   {
     eventName: "Alien Invasion Escape Room",
     eventCategory: "Gaming",
-    eventDescription: "Can you and your team escape from an alien-infested spaceship?",
+    eventDescription:
+      "Can you and your team escape from an alien-infested spaceship?",
     mainImg: "alien_escape_room.jpg",
     portraitImg: "alien_portrait.jpg",
     tags: ["escape room", "aliens", "puzzles"],
@@ -59,7 +61,7 @@ const seedEvents = async () => {
   } catch (error) {
     console.error("Error seeding Event model:", error);
   } finally {
-    console.log("Events Created")
+    console.log("Events Created");
   }
 };
 

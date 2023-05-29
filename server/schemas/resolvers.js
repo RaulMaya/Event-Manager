@@ -9,10 +9,17 @@ const resolvers = {
       return await Comment.findById(args.id).populate("user");
     },
     events: async () => {
-      return await Event.find({}).populate("comments").populate({
-        path: "comments",
-        populate: "user",
-      });
+      return await Event.find({})
+        .populate("comments")
+        .populate({
+          path: "comments",
+          populate: {
+            path: "user",
+            model: "User",
+          },
+        })
+        .populate("createdBy") // Populate the createdBy field
+        .populate("usersAssisting");
     },
     event: async (parent, args) => {
       return await Event.findById(args.id).populate("comments");

@@ -18,7 +18,7 @@ Now users can easily create, invite, and inform themselves about incoming events
 
 To run GraphQL: in your terminal: npm i, npm run seed, npm run start.
 
-To run React: npm i, npm run seed, npm run develop.
+To run React: in your terminal: npm i, npm run build, npm run seed, npm run develop.
 
 ## Usage
 1.- Provide the info you want in your sign up. Then you can log in at any time.

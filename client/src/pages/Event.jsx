@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
-import { QUERY_SINGLE_USER } from '../utils/queries';
+import { QUERY_SINGLE_EVENT } from '../utils/queries';
 import { CREATE_COMMENT } from '../utils/mutations';
 
 const SingleEvent = () => {
-    const [commentText, setCommentText] = useState('');
     const { id } = useParams();
-    const { loading, error, data } = useQuery(QUERY_SINGLE_USER, {
-        variables: { id: id },
+    const { loading, error, data } = useQuery(QUERY_SINGLE_EVENT, {
+        variables: { eventId: id },
     });
+    const [commentText, setCommentText] = useState('');
+    console.log(data)
     const [createComment, { error: mutationError }] = useMutation(CREATE_COMMENT);
 
     const handleCommentSubmit = async (event) => {

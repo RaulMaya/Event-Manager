@@ -1,87 +1,63 @@
-# Event-Manager
-Event Management Platform: Users create, discover, and manage events based on location. Register, log in, create profiles, specify event details, set visibility preferences, browse events, RSVP, and communicate with organizers and attendees.
+# <Event-Manager>
 
+## Description
 
-Steps:
+Our motivation.
+We wanted an app that helps us find incoming events. As well as creating our own and sharing it with friends. So we created this project this project to fill that need.
 
-1 User uploads event. (this may be changed for an API that provides the event).
+Now users can easily create, invite, and inform themselves about incoming events.
 
-Other users can see the list of the event.
+## Table of Contents
 
-Users can comment on the event to ask information.
+- [Installation](#installation)
+- [Usage](#usage)
+- [Credits](#credits)
+- [License](#license)
 
-Users can confirm assistance to the events, with a button.
+## Installation
 
-A list will the updated with the users that confirm assistance.
+To run GraphQL: in your terminal: npm i, npm run seed, npm run start.
 
---
-Optional
+To run React: npm i, npm run seed, npm run develop.
 
-Events will be confirmed 48 hours earlier, depending on the assistance number. Otherwise it will be canceled and users will be told.
+## Usage
 
-For example. My party only had 2 of the 5 assistance confirmations, so it gets canceled. Notifying the users 
+TBA
 
+## Credits
 
+Team of Full Stack Web Developers
 
---
+David Dominguez: https://github.com/Drums180
 
+Raul Maya: https://github.com/RaulMaya
 
-Technologies we plan to use:
+Samuel Russek: https://github.com/SamRF13
 
-Mongoose.
-Javascript.
-React. 
-Node.
-Express. [Mern]
+## Features
 
-(we don't know if we will use State) (PWA) 
+TBA
 
+## License
 
+MIT License
 
+Copyright (c) [2023] [Raul Maya]
 
-Other Things we could do
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-Define general design of Front End, viable with React
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-Searcher of events by name
-
-- Searcher or filter of events
-
-- Searcher of Events by date
-
-
-
-- Define how the events will be shown to de user at Home page. (chronological order, by number of assistances)
-
- - Hacer una base de datos. Crear Modelos (Eventos) (Usuarios) (Comentarios).
-
-
------
-Delegation
-
-Front End: Saul Sharif, Freddy Corona, (Raul Maya).
-
-Back End: David Dominguez, Samuel Russek, Freddy Corona.
-
---
-
-
-Pages:
-- Home (Trending Events)
-- Login | Register (Page or Modal)
-    * If User Log In:
-        - Create Event Page
-        - Specific Event Page (Can view and write comments, Assist or Interested)
-        - User Dashboard (Which events the user will attend and which events the user create | List of Friends)
-    
-1. Fix GraphQL End Points
-- User
-    * CRUD User
-    * Friends/Private Profile
-    * Create Events
-    * Assiting Events
-- Events
-    * Create Event - Event
-    * Event List
-2. User Authentication (React + Backend)
-3. Investigate about image upload and image provider (Cloudinary)
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

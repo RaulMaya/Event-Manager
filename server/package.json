@@ -1,31 +1,25 @@
 {
-  "name": "event-manager",
+  "name": "mern-server",
   "version": "1.0.0",
-  "description": "Event Management Platform: Users create, discover, and manage events based on location. Register, log in, create profiles, specify event details, set visibility preferences, browse events, RSVP, and communicate with organizers and attendees.",
-  "main": "index.js",
+  "description": "",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "seed": "node seeds/seed.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/RaulMaya/Event-Manager.git"
+    "watch": "nodemon",
+    "seed": "node seeders/seed.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/RaulMaya/Event-Manager/issues"
-  },
-  "homepage": "https://github.com/RaulMaya/Event-Manager#readme",
   "dependencies": {
-    "apollo-server-express": "^3.6.1",
-    "bcrypt": "^5.1.0",
-    "date-fns": "^2.30.0",
+    "apollo-server-express": "^3.6.2",
+    "bcrypt": "^5.0.0",
     "express": "^4.17.2",
-    "graphql": "^16.2.0",
-    "jsonwebtoken": "^9.0.0",
+    "graphql": "^16.3.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^7.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
   }
 }

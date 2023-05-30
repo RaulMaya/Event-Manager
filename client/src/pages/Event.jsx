@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Auth from '../utils/auth';
 import { useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_SINGLE_EVENT } from '../utils/queries';
@@ -6,30 +7,33 @@ import { CREATE_COMMENT } from '../utils/mutations';
 
 const SingleEvent = () => {
     const { id } = useParams();
-    const { loading, error, data } = useQuery(QUERY_SINGLE_EVENT, {
+    const { loading, error, data, refetch } = useQuery(QUERY_SINGLE_EVENT, {
         variables: { eventId: id },
     });
     const [commentText, setCommentText] = useState('');
-    console.log(data)
+
     const [createComment, { error: mutationError }] = useMutation(CREATE_COMMENT);
 
     const handleCommentSubmit = async (event) => {
         event.preventDefault();
 
+        console.log(Auth.getUser());
+      
         try {
-            await createComment({
-                variables: {
-                    eventId: id,
-                    userId: 'hardCodedUserId',
-                    commentText,
-                },
-            });
+          await createComment({
+            variables: {
+              eventId: id,
+              userId: Auth.getUser().data._id,  // use the logged in user's id
+              commentText,
+            },
+          });
 
-            setCommentText('');
+          setCommentText('');
+          refetch();
         } catch (error) {
-            console.error(error);
+          console.error(error);
         }
-    };
+      };
 
     useEffect(() => {
         if (mutationError) {
@@ -41,7 +45,7 @@ const SingleEvent = () => {
     if (error) return <p>Error :(</p>;
 
     const event = data.event;
-
+    
     return (
         <div className="container mt-4">
             <div className="card">

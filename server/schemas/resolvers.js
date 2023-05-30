@@ -306,12 +306,16 @@ const resolvers = {
     assistEvent: async (parent, args, { user }) => {
       try {
         // Find the user and event
-        console.log(args.eventId);
         const authUser = await User.findById(user._id);
         const event = await Event.findById(args.eventId);
         console.log(event, authUser);
         if (!authUser || !event) {
           throw new Error("User or event not found");
+        }
+
+        // Check if the user is already attending the event
+        if (event.usersAssisting.includes(user._id)) {
+          throw new Error("You are already attending this event");
         }
 
         // Add the user to the event's usersAssisting array
@@ -329,27 +333,27 @@ const resolvers = {
         throw new Error("Error attending event");
       }
     },
-    unconfirmEvent: async (parent, { eventId, userId }) => {
+    unconfirmEvent: async (parent, args, { user }) => {
       try {
         // Find the user and event
-        const user = await User.findById(userId);
-        const event = await Event.findById(eventId);
+        const authUser = await User.findById(user._id);
+        const event = await Event.findById(args.eventId);
 
-        if (!user || !event) {
+        if (!authUser || !event) {
           throw new Error("User or event not found");
         }
 
         // Remove the user from the event's usersAssisting array
         event.usersAssisting = event.usersAssisting.filter(
-          (user) => user.toString() !== userId
+          (authUser) => authUser.toString() !== user._id
         );
         await event.save();
 
         // Remove the event from the user's assistingEvents array
-        user.assistingEvents = user.assistingEvents.filter(
-          (event) => event.toString() !== eventId
+        authUser.assistingEvents = authUser.assistingEvents.filter(
+          (event) => event.toString() !== args.eventId
         );
-        await user.save();
+        await authUser.save();
 
         // Return the updated event
         return event;

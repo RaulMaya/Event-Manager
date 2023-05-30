@@ -71,6 +71,7 @@ const typeDefs = gql`
     user(id: ID!): User
     event(id: ID!): Event
     comment(id: ID!): Comment
+    me: User
   }
 
   type Mutation {

@@ -1,14 +1,9 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import { QUERY_SINGLE_USER } from '../utils/queries';
-import Auth from '../utils/auth';
+import { QUERY_ME } from '../utils/queries';
 
 const UserDashboard = () => {
-    const  id  = Auth.getUser()?.data._id
-    console.log(id)
-    const { loading, error, data } = useQuery(QUERY_SINGLE_USER, {
-        variables: { userId: id },
-    });
+    const { loading, error, data } = useQuery(QUERY_ME);
 
     if (loading) {
         return <p>Loading...</p>;

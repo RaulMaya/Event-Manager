@@ -1,7 +1,21 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN } from '../utils/mutations';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
+import {
+    Flex,
+    Box,
+    FormControl,
+    FormLabel,
+    Input,
+    Checkbox,
+    Stack,
+    Link,
+    Button,
+    Heading,
+    Text,
+    useColorModeValue,
+} from '@chakra-ui/react';
 
 import Auth from '../utils/auth';
 
@@ -23,7 +37,6 @@ const LoginForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
         try {
             const { data } = await login({
                 variables: { ...formData },
@@ -36,51 +49,105 @@ const LoginForm = () => {
         }
         // clear form values
         setFormData({
-            email: '',
+            username: '',
             password: '',
         });
     };
 
+    const bgColor = useColorModeValue('purple.100', 'purple.900');
+    const borderColor = useColorModeValue('purple.200', 'purple.800');
+    const headingColor = useColorModeValue('purple.600', 'purple.400');
+    const buttonColor = useColorModeValue('white', 'purple.600');
+    const buttonHoverColor = useColorModeValue('purple.500', 'purple.700');
+
     return (
-        <div className="card">
-            <h4 className="card-header bg-dark text-light p-2">Login</h4>
-            <div className="card-body">
-                {data ? (
-                    <p>
-                        Success! You may now head{' '}
-                        <Link to="/">back to the homepage.</Link>
-                    </p>
-                ) : (
-                    <form onSubmit={handleSubmit}>
-                        <div className="mb-3">
-                            <input
-                                type="text"
-                                name="username"
-                                value={formData.username}
-                                onChange={handleChange}
-                                className="form-control"
-                                placeholder="Username"
-                                required
-                            />
-                        </div>
-                        <div className="mb-3">
-                            <input
-                                type="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                className="form-control"
-                                placeholder="Password"
-                                required
-                            />
-                        </div>
-                        <button type="submit" className="btn btn-primary" disabled={loading}>
-                            Log In
-                        </button>
-                        {error && <p>Error occurred. Please try again.</p>}
-                    </form>)}
-            </div>
-        </div>
+        <Flex
+            minH={'100vh'}
+            align={'center'}
+            justify={'center'}
+            bg={bgColor}
+        >
+            <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+                <Stack align={'center'}>
+                    <Heading fontSize={'4xl'} color={headingColor}>
+                        Sign in to your account
+                    </Heading>
+                    <Text fontSize={'lg'} color={'gray.600'}>
+                        to enjoy all of our cool{' '}
+                        <Link as={RouterLink} color={headingColor} to={'/'}>
+                            features
+                        </Link>{' '}
+                        ✌️
+                    </Text>
+                </Stack>
+                <Box
+                    rounded={'lg'}
+                    bg={useColorModeValue('white', 'purple.800')}
+                    boxShadow={'lg'}
+                    p={8}
+                >
+                    <Stack spacing={4}>
+                        {data ? (
+                            <Text>
+                                Success! You may now head{' '}
+                                <Link as={RouterLink} to={'/'}>
+                                    back to the homepage.
+                                </Link>
+                            </Text>
+                        ) : (
+                            <form onSubmit={handleSubmit}>
+                                <FormControl id="username">
+                                    <FormLabel color={headingColor}>Username</FormLabel>
+                                    <Input
+                                        type="text"
+                                        name="username"
+                                        value={formData.username}
+                                        onChange={handleChange}
+                                        required
+                                        borderColor={borderColor}
+                                    />
+                                </FormControl>
+                                <FormControl id="password">
+                                    <FormLabel color={headingColor}>Password</FormLabel>
+                                    <Input
+                                        type="password"
+                                        name="password"
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        required
+                                        borderColor={borderColor}
+                                    />
+                                </FormControl>
+                                <Stack spacing={10}>
+                                    <Stack
+                                        direction={{ base: 'column', sm: 'row' }}
+                                        align={'start'}
+                                        justify={'space-between'}
+                                    >
+                                        <Checkbox color={headingColor}>Remember me</Checkbox>
+                                        <Link as={RouterLink} color={headingColor} to={'/'}>
+                                            Forgot password?
+                                        </Link>
+                                    </Stack>
+                                    <Button
+                                        bg={headingColor}
+                                        color={buttonColor}
+                                        _hover={{
+                                            bg: buttonHoverColor,
+                                        }}
+                                        type="submit"
+                                        isLoading={loading}
+                                    >
+                                        Sign in
+                                    </Button>
+                                </Stack>
+                                {error && <Text>Error occurred. Please try again.</Text>}
+                            </form>
+                        )}
+                    </Stack>
+                </Box>
+            </Stack>
+        </Flex>
     );
 };
 

@@ -6,7 +6,7 @@ import { Box, Grid, Image, Heading, Text, Button, Flex, useColorModeValue } from
 import { Link as RouterLink } from 'react-router-dom';
 
 const EventList = ({ events }) => {
-    const { loading, error, data } = useQuery(QUERY_ME);
+    const { loading, error, data, client } = useQuery(QUERY_ME);
     const eventAtt = data?.me?.assistingEvents || [];
 
     const [attendEvent] = useMutation(ATTEND_EVENT);
@@ -18,11 +18,27 @@ const EventList = ({ events }) => {
             if (isAttending) {
                 await cancelEvent({ variables: { eventId } });
                 const updatedEventAtt = eventAtt.filter((event) => event._id !== eventId);
-                data.me.assistingEvents = updatedEventAtt;
+                client.writeQuery({
+                    query: QUERY_ME,
+                    data: {
+                        me: {
+                            ...data.me,
+                            assistingEvents: updatedEventAtt,
+                        },
+                    },
+                });
             } else {
                 await attendEvent({ variables: { eventId } });
                 const updatedEventAtt = [...eventAtt, { _id: eventId }];
-                data.me.assistingEvents = updatedEventAtt;
+                client.writeQuery({
+                    query: QUERY_ME,
+                    data: {
+                        me: {
+                            ...data.me,
+                            assistingEvents: updatedEventAtt,
+                        },
+                    },
+                });
             }
         } catch (error) {
             console.error('Error updating attendance:', error);
@@ -44,6 +60,9 @@ const EventList = ({ events }) => {
                             borderWidth="1px"
                             minH="400px"
                             mb="5"
+                            display="flex"
+                            flexDirection="column"
+                            justifyContent="space-between"
                         >
                             <Image
                                 borderRadius="md"
@@ -69,37 +88,34 @@ const EventList = ({ events }) => {
                                 <Text color="gray.500">
                                     <strong>Capacity:</strong> {event.eventCapacity}
                                 </Text>
-                                <Flex justify="flex-start" mt="3">
-                                    <Button
-                                        as={RouterLink}
-                                        to={`/event/${event._id}`}
-                                        colorScheme="purple"
-                                        variant="outline"
-                                        w="130px"
-                                        mr="3"
-                                        isTruncated
-                                    >
-                                        See Event
-                                    </Button>
-                                    <Button
-                                        colorScheme={
-                                            eventAtt.some((eventAtt) => eventAtt._id === event._id)
-                                                ? 'green'
-                                                : 'purple'
-                                        }
-                                        onClick={() => handleButtonClick(event._id)}
-                                        w="130px"
-                                        isTruncated
-                                    >
-                                        {eventAtt.some((eventAtt) => eventAtt._id === event._id)
-                                            ? 'Assisting'
-                                            : 'Attend Event'}
-                                    </Button>
-                                </Flex>
                             </Box>
+                            <Flex justify="flex-start" mt="3">
+                                <Button
+                                    as={RouterLink}
+                                    to={`/event/${event._id}`}
+                                    colorScheme="purple"
+                                    variant="outline"
+                                    w="130px"
+                                    mr="3"
+                                    isTruncated
+                                >
+                                    See Event
+                                </Button>
+                                <Button
+                                    colorScheme={
+                                        eventAtt.some((eventAtt) => eventAtt._id === event._id) ? 'green' : 'purple'
+                                    }
+                                    onClick={() => handleButtonClick(event._id)}
+                                    w="130px"
+                                    isTruncated
+                                >
+                                    {eventAtt.some((eventAtt) => eventAtt._id === event._id) ? 'Assisting' : 'Attend Event'}
+                                </Button>
+                            </Flex>
                         </Box>
                     ))}
                 </Grid>
+
             )}
         </div>
     );

@@ -1,11 +1,14 @@
 # <Event-Manager>
 
+## Event Manager
 ## Description
 
-Our motivation.
 We wanted an app that helps us find incoming events. As well as creating our own and sharing it with friends. So we created this project this project to fill that need.
 
 Now users can easily create, invite, and inform themselves about incoming events.
+
+https://github.com/RaulMaya/PartyMaster
+(Deploy Link Here. TBA)
 
 ## Table of Contents
 

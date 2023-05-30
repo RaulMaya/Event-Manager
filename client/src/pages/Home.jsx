@@ -2,11 +2,14 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { QUERY_ALL_EVENTS } from '../utils/queries';
 import EventList from '../components/EventList';
+import Auth from '../utils/auth'; // Asegúrate de importar desde '../utils/auth' en lugar de '../utils/Auth'
 
 const Home = () => {
     const { loading, error, data } = useQuery(QUERY_ALL_EVENTS);
     const events = data?.events || [];
-    console.log('Event Data:', events); // Display event data in the console
+
+    const user = Auth.getUser();
+    const userId = user ? user.id : null;
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
@@ -20,9 +23,10 @@ const Home = () => {
                 <EventList
                     events={events}
                     title="All our events..."
+                    userId={userId}
                 />
             )}
-            <div style={{ marginBottom: '20px' }}></div> {/* Margin at the bottom of all cards */}
+            <div style={{ marginBottom: '20px' }}></div>
         </div>
     );
 };

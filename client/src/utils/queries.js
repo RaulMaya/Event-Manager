@@ -93,6 +93,10 @@ export const QUERY_ALL_EVENTS = gql`
       }
       eventType
       eventStartDate
+      usersAssisting {
+        _id
+        username
+      }
       eventCapacity
       eventInvitation
       minAge

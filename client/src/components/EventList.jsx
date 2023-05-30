@@ -1,11 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { ATTEND_EVENT } from '../utils/mutations';
-
+import { QUERY_ME } from '../utils/queries';
 
 const EventList = ({ events }) => {
-    const [assistEvent, { data }] = useMutation(ATTEND_EVENT);
+    const [assistEvent] = useMutation(ATTEND_EVENT);
+
+    // Fetch current user's data
+    const { loading, error, data: userData, refetch } = useQuery(QUERY_ME);
 
     const handleButtonClick = async (eventId) => {
         try {
@@ -15,11 +18,21 @@ const EventList = ({ events }) => {
                 variables: {
                     eventId: eventId,
                 },
-                // refetchQueries: [] // Opcional: si necesitas refrescar datos después de la mutación, especifica aquí las consultas que deben actualizarse
             });
+
+            // After mutation, refetch the query
+            refetch();
         } catch (e) {
             console.error(e);
         }
+    }
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
+    if (error) {
+        return <p>Error :(</p>;
     }
 
     console.log('events:', events);
@@ -27,46 +40,51 @@ const EventList = ({ events }) => {
     return (
         <div className="row">
             {events &&
-                events.map((event) => (
-                    <div key={event._id} className="col-md-4 mb-4">
-                        <div className="card">
-                            <img
-                                src={event.mainImg}
-                                className="card-img-top"
-                                alt={event.eventName}
-                                style={{ height: '200px', objectFit: 'cover' }}
-                            />
-                            <div className="card-body">
-                                <h5 className="card-title">{event.eventName}</h5>
-                                <p className="card-text">{event.eventDescription}</p>
-                                <p className="card-text">
-                                    <strong>Date:</strong> {event.eventStartDate}
-                                </p>
-                                <p className="card-text">
-                                    <strong>Type:</strong> {event.eventType}
-                                </p>
-                                <p className="card-text">
-                                    <strong>Capacity:</strong> {event.eventCapacity}
-                                </p>
-                                <div className="d-flex">
-                                    <Link
-                                        className="btn btn-block btn-squared btn-light text-dark"
-                                        to={`/event/${event._id}`}
-                                    >
-                                        See Event
-                                    </Link>
-                                    <button 
-                                        className="btn btn-secondary m-2"
-                                        onClick={() => handleButtonClick(event._id)}
-                                        style={data && data.assistEvent._id === event._id ? {backgroundColor: 'green'} : {}}
-                                    >
-                                        {data && data.assistEvent._id === event._id ? "Assisting" : "Add to Assisting"}
-                                    </button>
+                events.map((event) => {
+                    // Check if user is attending this event
+                    const isAttending = userData.me.assistingEvents.some(userEvent => userEvent._id === event._id);
+
+                    return (
+                        <div key={event._id} className="col-md-4 mb-4">
+                            <div className="card">
+                                <img
+                                    src={event.mainImg}
+                                    className="card-img-top"
+                                    alt={event.eventName}
+                                    style={{ height: '200px', objectFit: 'cover' }}
+                                />
+                                <div className="card-body">
+                                    <h5 className="card-title">{event.eventName}</h5>
+                                    <p className="card-text">{event.eventDescription}</p>
+                                    <p className="card-text">
+                                        <strong>Date:</strong> {event.eventStartDate}
+                                    </p>
+                                    <p className="card-text">
+                                        <strong>Type:</strong> {event.eventType}
+                                    </p>
+                                    <p className="card-text">
+                                        <strong>Capacity:</strong> {event.eventCapacity}
+                                    </p>
+                                    <div className="d-flex">
+                                        <Link
+                                            className="btn btn-block btn-squared btn-light text-dark"
+                                            to={`/event/${event._id}`}
+                                        >
+                                            See Event
+                                        </Link>
+                                        <button 
+                                            className="btn btn-secondary m-2"
+                                            onClick={() => handleButtonClick(event._id)}
+                                            style={isAttending ? {backgroundColor: 'green'} : {}}
+                                        >
+                                            {isAttending ? "Assisting" : "Add to Assisting"}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
         </div>
     );
 };

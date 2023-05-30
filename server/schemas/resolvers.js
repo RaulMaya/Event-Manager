@@ -43,6 +43,7 @@ const resolvers = {
         .populate("createdBy")
         .populate("usersAssisting");
     },
+
     users: async () => {
       return await User.find({})
         .populate("createdEvents")

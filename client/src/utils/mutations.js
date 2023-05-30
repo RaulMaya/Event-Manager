@@ -59,6 +59,15 @@ export const ATTEND_EVENT = gql`
   }
 `;
 
+export const CANCEL_ATTEND_EVENT = gql`
+  mutation unconfirmEvent($eventId: ID!) {
+    unconfirmEvent(eventId: $eventId) {
+      _id
+      eventName
+    }
+  }
+`;
+
 export const CREATE_COMMENT = gql`
   mutation CreateComment($eventId: ID!, $userId: ID!, $commentText: String!) {
     createComment(

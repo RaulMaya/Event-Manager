@@ -52,34 +52,13 @@ const App = () => {
                     <NavBar />
                     <div className="container">
                         <Routes>
-                            <Route
-                                path="/"
-                                element={<Home />}
-                            />
-                            <Route
-                                path="/login"
-                                element={<Login />}
-                            />
-                            <Route
-                                path="/signup"
-                                element={<Signup />}
-                            />
-                            <Route
-                                path="/event/:id"
-                                element={<Event />}
-                            />
-                            <Route
-                                path="/createEvent"
-                                element={<CreateEvent />}
-                            />
-                            <Route
-                                path="/userProfile"
-                                element={<UserDashboard />}
-                            />
-                            <Route
-                                path="*"
-                                element={<NotFound />}
-                            />
+                            <Route path="/" element={<Home />} />
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/signup" element={<Signup />} />
+                            <Route path="/createEvent" element={<CreateEvent />} />
+                            <Route path="/userProfile" element={<UserDashboard />} />
+                            <Route path="/event/:id" element={<Event />} />
+                            <Route path="*" element={<NotFound />} />
                         </Routes>
                     </div>
                 </div>

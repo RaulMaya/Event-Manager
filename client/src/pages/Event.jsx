@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_SINGLE_EVENT } from '../utils/queries';
 import { CREATE_COMMENT } from '../utils/mutations';
+import NotFound from '../components/NotFound';
 
 const SingleEvent = () => {
     const { id } = useParams();
@@ -18,22 +19,22 @@ const SingleEvent = () => {
         event.preventDefault();
 
         console.log(Auth.getUser());
-      
-        try {
-          await createComment({
-            variables: {
-              eventId: id,
-              userId: Auth.getUser().data._id,  // use the logged in user's id
-              commentText,
-            },
-          });
 
-          setCommentText('');
-          refetch();
+        try {
+            await createComment({
+                variables: {
+                    eventId: id,
+                    userId: Auth.getUser().data._id,  // use the logged in user's id
+                    commentText,
+                },
+            });
+
+            setCommentText('');
+            refetch();
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
-      };
+    };
 
     useEffect(() => {
         if (mutationError) {
@@ -44,8 +45,10 @@ const SingleEvent = () => {
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
 
-    const event = data.event;
-    
+    const event = data?.event;
+
+    if (!event) return <NotFound />;
+
     return (
         <div className="container mt-4">
             <div className="card">

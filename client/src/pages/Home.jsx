@@ -8,9 +8,7 @@ const Home = () => {
     const { loading, error, data } = useQuery(QUERY_ALL_EVENTS);
     const events = data?.events || [];
     console.log(events)
-    const user = Auth.getUser();
-    console.log(user)
-    const userId = user ? user.id : null;
+
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
@@ -24,7 +22,6 @@ const Home = () => {
                 <EventList
                     events={events}
                     title="All our events..."
-                    userId={userId}
                 />
             )}
             <div style={{ marginBottom: '20px' }}></div>

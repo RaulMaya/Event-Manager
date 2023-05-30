@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { CREATE_EVENT } from '../utils/mutations';
+import Auth from '../utils/auth';
 
 const CreateEventForm = () => {
     const [formData, setFormData] = useState({

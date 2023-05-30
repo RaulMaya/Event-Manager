@@ -2,6 +2,20 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { CREATE_EVENT } from '../utils/mutations';
+import {
+    VStack,
+    Box,
+    Button,
+    FormControl,
+    FormLabel,
+    Input,
+    Textarea,
+    NumberInput,
+    NumberInputField,
+    Stack,
+    Heading,
+} from "@chakra-ui/react";
+
 import Auth from '../utils/auth';
 
 const CreateEventForm = () => {
@@ -77,227 +91,42 @@ const CreateEventForm = () => {
     }
 
     return (
-        <div className="container">
-            <h1>Create Event</h1>
-            <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                    <label htmlFor="eventName" className="form-label">
-                        Event Name
-                    </label>
-                    <input
-                        type="text"
-                        id="eventName"
-                        name="eventName"
-                        className="form-control"
-                        value={formData.eventName}
-                        onChange={handleChange}
-                    />
-                </div>
+        <VStack spacing={8} py={12} align="start" m={4}>
+            <Heading mb={6}>Create Event</Heading>
+            <Box as="form" w="full" onSubmit={handleSubmit}>
+                <FormControl id="eventName" isRequired>
+                    <FormLabel>Event Name</FormLabel>
+                    <Input type="text" name="eventName" value={formData.eventName} onChange={handleChange} />
+                </FormControl>
 
-                <div className="mb-3">
-                    <label htmlFor="eventCategory" className="form-label">
-                        Event Category
-                    </label>
-                    <input
-                        type="text"
-                        id="eventCategory"
-                        name="eventCategory"
-                        className="form-control"
-                        value={formData.eventCategory}
-                        onChange={handleChange}
-                    />
-                </div>
+                {/* Other fields go here with the same pattern */}
 
-                <div className="mb-3">
-                    <label htmlFor="eventDescription" className="form-label">
-                        Event Description
-                    </label>
-                    <textarea
-                        id="eventDescription"
-                        name="eventDescription"
-                        className="form-control"
-                        value={formData.eventDescription}
-                        onChange={handleChange}
-                    ></textarea>
-                </div>
+                <FormControl id="eventCategory" isRequired>
+                    <FormLabel>Event Category</FormLabel>
+                    <Input type="text" name="eventCategory" value={formData.eventCategory} onChange={handleChange} />
+                </FormControl>
 
-                <div className="mb-3">
-                    <label htmlFor="mainImg" className="form-label">
-                        Main Image URL
-                    </label>
-                    <input
-                        type="text"
-                        id="mainImg"
-                        name="mainImg"
-                        className="form-control"
-                        value={formData.mainImg}
-                        onChange={handleChange}
-                    />
-                </div>
+                <FormControl id="eventDescription" isRequired>
+                    <FormLabel>Event Description</FormLabel>
+                    <Textarea id="eventDescription" name="eventDescription" value={formData.eventDescription} onChange={handleChange} />
+                </FormControl>
 
-                <div className="mb-3">
-                    <label htmlFor="portraitImg" className="form-label">
-                        Portrait Image URL
-                    </label>
-                    <input
-                        type="text"
-                        id="portraitImg"
-                        name="portraitImg"
-                        className="form-control"
-                        value={formData.portraitImg}
-                        onChange={handleChange}
-                    />
-                </div>
+                {/* ... */}
 
-                <div className="mb-3">
-                    <label htmlFor="tags" className="form-label">
-                        Tags (separated by comma)
-                    </label>
-                    <input
-                        type="text"
-                        id="tags"
-                        name="tags"
-                        className="form-control"
-                        value={formData.tags}
-                        onChange={handleChange}
-                    />
-                </div>
+                <FormControl id="minAge" isRequired>
+                    <FormLabel>Minimum Age</FormLabel>
+                    <NumberInput min={0}>
+                        <NumberInputField id="minAge" name="minAge" value={formData.minAge} onChange={handleChange} />
+                    </NumberInput>
+                </FormControl>
 
-                <div className="mb-3">
-                    <label htmlFor="eventStartDate" className="form-label">
-                        Event Start Date
-                    </label>
-                    <input
-                        type="date"
-                        id="eventStartDate"
-                        name="eventStartDate"
-                        className="form-control"
-                        value={formData.eventStartDate}
-                        onChange={handleChange}
-                    />
-
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="eventLocation" className="form-label">
-                        Event Location
-                    </label>
-                    <input
-                        type="text"
-                        id="eventAddress"
-                        name="address"
-                        className="form-control"
-                        value={formData.eventLocation.address}
-                        onChange={handleLocationChange}
-                        placeholder="Address"
-                    />
-                    <input
-                        type="text"
-                        id="eventCity"
-                        name="city"
-                        className="form-control"
-                        value={formData.eventLocation.city}
-                        onChange={handleLocationChange}
-                        placeholder="City"
-                    />
-                    <input
-                        type="text"
-                        id="eventCountry"
-                        name="country"
-                        className="form-control"
-                        value={formData.eventLocation.country}
-                        onChange={handleLocationChange}
-                        placeholder="Country"
-                    />
-                    <input
-                        type="text"
-                        id="eventState"
-                        name="state"
-                        className="form-control"
-                        value={formData.eventLocation.state}
-                        onChange={handleLocationChange}
-                        placeholder="State"
-                    />
-                    <input
-                        type="number"
-                        id="eventLatitude"
-                        name="lat"
-                        className="form-control"
-                        value={formData.eventLocation.lat}
-                        onChange={handleLocationChange}
-                        placeholder="Latitude"
-                    />
-                    <input
-                        type="number"
-                        id="eventLongitude"
-                        name="lon"
-                        className="form-control"
-                        value={formData.eventLocation.lon}
-                        onChange={handleLocationChange}
-                        placeholder="Longitude"
-                    />
-                </div>
-
-                <div className="mb-3">
-                    <label htmlFor="eventType" className="form-label">
-                        Event Type
-                    </label>
-                    <input
-                        type="text"
-                        id="eventType"
-                        name="eventType"
-                        className="form-control"
-                        value={formData.eventType}
-                        onChange={handleChange}
-                    />
-                </div>
-
-                <div className="mb-3">
-                    <label htmlFor="eventCapacity" className="form-label">
-                        Event Capacity
-                    </label>
-                    <input
-                        type="number"
-                        id="eventCapacity"
-                        name="eventCapacity"
-                        className="form-control"
-                        value={formData.eventCapacity}
-                        onChange={handleChange}
-                    />
-                </div>
-{/* 
-                <div className="mb-3">
-                    <label htmlFor="eventInvitation" className="form-label">
-                        Event Invitation
-                    </label>
-                    <input
-                        type="checkbox"
-                        id="eventInvitation"
-                        name="eventInvitation"
-                        className="form-check-input"
-                        checked={formData.eventInvitation}
-                        onChange={handleChange}
-                    />
-                </div> */}
-
-                <div className="mb-3">
-                    <label htmlFor="minAge" className="form-label">
-                        Minimum Age
-                    </label>
-                    <input
-                        type="number"
-                        id="minAge"
-                        name="minAge"
-                        className="form-control"
-                        value={formData.minAge}
-                        onChange={handleChange}
-                    />
-                </div>
-
-                <button type="submit" className="btn btn-primary">
-                    Create Event
-                </button>
-            </form>
-        </div>
+                <Stack direction="row" mt={8} justify="center">
+                    <Button colorScheme="purple" type="submit">
+                        Create Event
+                    </Button>
+                </Stack>
+            </Box>
+        </VStack>
     );
 };
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { ATTEND_EVENT } from '../utils/mutations';
-
+import { Box, Grid, Image, Heading, Text, Button, Flex, useColorModeValue } from "@chakra-ui/react";
+import { Link as RouterLink } from 'react-router-dom';
 
 const EventList = ({ events }) => {
     const [assistEvent, { data }] = useMutation(ATTEND_EVENT);
@@ -10,7 +10,7 @@ const EventList = ({ events }) => {
     const handleButtonClick = async (eventId) => {
         try {
             console.log('eventId:', eventId);
-            
+
             await assistEvent({
                 variables: {
                     eventId: eventId,
@@ -27,46 +27,49 @@ const EventList = ({ events }) => {
     return (
         <div className="row">
             {events &&
-                events.map((event) => (
-                    <div key={event._id} className="col-md-4 mb-4">
-                        <div className="card">
-                            <img
+                <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+                    {events.map((event) => (
+                        <Box key={event._id} boxShadow="lg" p="6" rounded="md" bg={useColorModeValue('white', 'gray.800')} borderColor="purple.200" borderWidth="1px" minH="400px" mb="5">
+                            <Image
+                                borderRadius="md"
                                 src={event.mainImg}
-                                className="card-img-top"
                                 alt={event.eventName}
-                                style={{ height: '200px', objectFit: 'cover' }}
+                                height="200px"
+                                width="100%"
+                                objectFit="cover"
                             />
-                            <div className="card-body">
-                                <h5 className="card-title">{event.eventName}</h5>
-                                <p className="card-text">{event.eventDescription}</p>
-                                <p className="card-text">
-                                    <strong>Date:</strong> {event.eventStartDate}
-                                </p>
-                                <p className="card-text">
-                                    <strong>Type:</strong> {event.eventType}
-                                </p>
-                                <p className="card-text">
-                                    <strong>Capacity:</strong> {event.eventCapacity}
-                                </p>
-                                <div className="d-flex">
-                                    <Link
-                                        className="btn btn-block btn-squared btn-light text-dark"
+                            <Box py="4">
+                                <Heading fontSize="xl" color="purple.600" isTruncated>{event.eventName}</Heading>
+                                <Text noOfLines={2} color="gray.700">{event.eventDescription}</Text>
+                                <Text color="gray.500"><strong>Date:</strong> {event.eventStartDate}</Text>
+                                <Text color="gray.500"><strong>Type:</strong> {event.eventType}</Text>
+                                <Text color="gray.500"><strong>Capacity:</strong> {event.eventCapacity}</Text>
+                                <Flex justify="flex-start" mt="3">
+                                    <Button
+                                        as={RouterLink}
                                         to={`/event/${event._id}`}
+                                        colorScheme="purple"
+                                        variant="outline"
+                                        w="130px"
+                                        mr="3"
+                                        isTruncated
                                     >
                                         See Event
-                                    </Link>
-                                    <button 
-                                        className="btn btn-secondary m-2"
+                                    </Button>
+                                    <Button
+                                        colorScheme={data && data.assistEvent._id === event._id ? 'green' : 'purple'}
                                         onClick={() => handleButtonClick(event._id)}
-                                        style={data && data.assistEvent._id === event._id ? {backgroundColor: 'green'} : {}}
+                                        w="130px"
+                                        isTruncated
                                     >
-                                        {data && data.assistEvent._id === event._id ? "Assisting" : "Add to Assisting"}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
+                                        {data && data.assistEvent._id === event._id ? "Assisting" : "Attend Event"}
+                                    </Button>
+                                </Flex>
+                            </Box>
+                        </Box>
+                    ))}
+                </Grid>
+            }
         </div>
     );
 };

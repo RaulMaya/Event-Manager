@@ -18,6 +18,7 @@ import Event from "./pages/Event"
 import CreateEvent from "./pages/CreateEvent"
 import UserDashboard from "./pages/UserDashboard"
 
+import { ChakraProvider } from '@chakra-ui/react';
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -47,22 +48,24 @@ const client = new ApolloClient({
 const App = () => {
     return (
         <ApolloProvider client={client}>
-            <Router>
-                <div className="flex-column justify-flex-start min-100-vh">
-                    <NavBar />
-                    <div className="container">
-                        <Routes>
-                            <Route path="/" element={<Home />} />
-                            <Route path="/login" element={<Login />} />
-                            <Route path="/signup" element={<Signup />} />
-                            <Route path="/createEvent" element={<CreateEvent />} />
-                            <Route path="/userProfile" element={<UserDashboard />} />
-                            <Route path="/event/:id" element={<Event />} />
-                            <Route path="*" element={<NotFound />} />
-                        </Routes>
+            <ChakraProvider>
+                <Router>
+                    <div className="flex-column justify-flex-start min-100-vh">
+                        <NavBar />
+                        <div className="container">
+                            <Routes>
+                                <Route path="/" element={<Home />} />
+                                <Route path="/login" element={<Login />} />
+                                <Route path="/signup" element={<Signup />} />
+                                <Route path="/createEvent" element={<CreateEvent />} />
+                                <Route path="/userProfile" element={<UserDashboard />} />
+                                <Route path="/event/:id" element={<Event />} />
+                                <Route path="*" element={<NotFound />} />
+                            </Routes>
+                        </div>
                     </div>
-                </div>
-            </Router>
+                </Router>
+            </ChakraProvider>
         </ApolloProvider>
     );
 };

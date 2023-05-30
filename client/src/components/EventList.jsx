@@ -1,24 +1,34 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
-import { ATTEND_EVENT } from '../utils/mutations';
+import { ATTEND_EVENT, CANCEL_ATTEND_EVENT } from '../utils/mutations';
 import { QUERY_ME } from '../utils/queries';
 
 const EventList = ({ events }) => {
     const [assistEvent] = useMutation(ATTEND_EVENT);
+    const [cancelAssistEvent] = useMutation(CANCEL_ATTEND_EVENT);
 
     // Fetch current user's data
     const { loading, error, data: userData, refetch } = useQuery(QUERY_ME);
 
-    const handleButtonClick = async (eventId) => {
+    const handleButtonClick = async (eventId, isAttending) => {
         try {
             console.log('eventId:', eventId);
             
-            await assistEvent({
-                variables: {
-                    eventId: eventId,
-                },
-            });
+            // Depending on whether the user is already attending, we either assist or cancel
+            if (isAttending) {
+                await cancelAssistEvent({
+                    variables: {
+                        eventId: eventId,
+                    },
+                });
+            } else {
+                await assistEvent({
+                    variables: {
+                        eventId: eventId,
+                    },
+                });
+            }
 
             // After mutation, refetch the query
             refetch();
@@ -74,10 +84,10 @@ const EventList = ({ events }) => {
                                         </Link>
                                         <button 
                                             className="btn btn-secondary m-2"
-                                            onClick={() => handleButtonClick(event._id)}
+                                            onClick={() => handleButtonClick(event._id, isAttending)}
                                             style={isAttending ? {backgroundColor: 'green'} : {}}
                                         >
-                                            {isAttending ? "Assisting" : "Add to Assisting"}
+                                            {isAttending ? "Cancel Assist" : "Add to Assisting"}
                                         </button>
                                     </div>
                                 </div>

@@ -370,7 +370,7 @@ const resolvers = {
 
         // Remove the user from the event's usersAssisting array
         event.usersAssisting = event.usersAssisting.filter(
-          (authUser) => authUser.toString() !== user._id
+          (user) => user.toString() !== user._id.toString()
         );
         await event.save();
 

@@ -5,9 +5,9 @@ import decode from "jwt-decode";
 class AuthService {
   // get user data from JSON web token by decoding it
   getUser() {
-    console.log(this.getToken())
-    console.log(decode(this.getToken()) )
-    return this.getToken() ? decode(this.getToken()) : null;
+    console.log(this.getToken());
+    console.log(decode(this.getToken()));
+    return this.getToken() ? decode(this.getToken()) : "happy";
   }
 
   // return `true` or `false` if token exists (does not verify if it's expired yet)
@@ -23,9 +23,10 @@ class AuthService {
 
   login(idToken) {
     // Saves user token to localStorage and reloads the application for logged in status to take effect
-    console.log(idToken)
+    console.log(idToken);
     localStorage.setItem("id_token", idToken);
     window.location.assign("/");
+    return idToken;
   }
 
   logout() {

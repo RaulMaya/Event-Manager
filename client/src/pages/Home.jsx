@@ -2,16 +2,15 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { QUERY_ALL_EVENTS } from '../utils/queries';
 import EventList from '../components/EventList';
-import Auth from '../utils/auth'; 
+import Auth from '../utils/auth';
 
 const Home = () => {
     const { loading, error, data } = useQuery(QUERY_ALL_EVENTS);
     const events = data?.events || [];
-
+    console.log(events)
     const user = Auth.getUser();
     console.log(user)
     const userId = user ? user.id : null;
-    console.log(userId)
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;

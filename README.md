@@ -26,12 +26,6 @@ To run React: in your terminal: npm i, npm run build, npm run seed, npm run deve
 
 2.- Enjoy
 ![Home](client/public/img/home-img.png)
-Provide information and sign up to be able to use the app.
-
-
-
-
-
 
 ## Credits
 

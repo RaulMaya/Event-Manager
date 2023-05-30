@@ -148,8 +148,8 @@ export const REMOVE_FRIEND = gql`
 `;
 
 export const CANCEL_EVENT = gql`
-  mutation CancelEvent($eventId: ID!, $userId: ID!) {
-    unconfirmEvent(eventId: $eventId, userId: $userId) {
+  mutation CancelEvent($eventId: ID!) {
+    unconfirmEvent(eventId: $eventId) {
       _id
       eventName
     }

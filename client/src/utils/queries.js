@@ -49,12 +49,19 @@ export const QUERY_ALL_EVENTS = gql`
     events {
       _id
       eventName
+      eventDescription
       mainImg
       createdBy {
         _id
         username
       }
+      eventLocation {
+        city
+        country
+      }
+      eventType
       eventStartDate
+      eventCapacity
       eventInvitation
       minAge
     }
@@ -106,7 +113,7 @@ export const QUERY_SINGLE_EVENT = gql`
 `;
 
 export const QUERY_ALL_COMMENTS = gql`
-  query allComments{
+  query allComments {
     comments {
       _id
       commentText

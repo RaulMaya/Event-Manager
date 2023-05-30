@@ -77,7 +77,25 @@ const resolvers = {
     },
     me: async (parent, args, context) => {
       if (context.user) {
-        return Profile.findOne({ _id: context.user._id });
+        return User.findOne({ _id: context.user._id })
+          .populate("createdEvents")
+          .populate({
+            path: "createdEvents",
+            populate: {
+              path: "comments",
+              populate: {
+                path: "user",
+                model: "User",
+              },
+            },
+          })
+          .populate("assistingEvents")
+          .populate("comments")
+          .populate({
+            path: "comments",
+            populate: "event",
+          })
+          .populate("friends");
       }
       throw new AuthenticationError("You need to be logged in!");
     },

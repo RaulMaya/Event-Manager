@@ -63,7 +63,6 @@ const typeDefs = gql`
     lat: Float
     lon: Float
   }
-  
 
   type Query {
     comments: [Comment]
@@ -93,18 +92,17 @@ const typeDefs = gql`
     deleteUser(id: ID!): User
     createEvent(
       eventName: String!
-      eventCategory: String!
-      eventDescription: String!
-      mainImg: String!
-      portraitImg: String!
-      tags: [String!]!
-      eventStartDate: String!
-      eventLocation: EventLocationInput!
-      eventType: String!
-      eventCapacity: Int!
-      eventInvitation: Boolean!
-      minAge: Int!
-      createdBy: ID!
+      eventCategory: String
+      eventDescription: String
+      mainImg: String
+      portraitImg: String
+      tags: [String]
+      eventStartDate: String
+      eventLocation: EventLocationInput
+      eventType: String
+      eventCapacity: Int
+      eventInvitation: Boolean
+      minAge: Int
     ): Event
     updateEvent(
       id: ID!

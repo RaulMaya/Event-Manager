@@ -1,11 +1,10 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { QUERY_SINGLE_USER } from '../utils/queries';
 import Auth from '../utils/auth';
 
 const UserDashboard = () => {
-    const { id } = useParams();
+    const  id  = Auth.getUser()?.data._id
     console.log(id)
     const { loading, error, data } = useQuery(QUERY_SINGLE_USER, {
         variables: { userId: id },

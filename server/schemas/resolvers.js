@@ -212,51 +212,53 @@ const resolvers = {
       }
     },
 
-    createEvent: async (parent, args) => {
-      const {
-        eventName,
-        eventCategory,
-        eventDescription,
-        mainImg,
-        portraitImg,
-        tags,
-        eventStartDate,
-        eventLocation,
-        eventType,
-        eventCapacity,
-        eventInvitation,
-        minAge,
-        createdBy,
-      } = args;
+    createEvent: async (parent, args, { user }) => {
+      console.log(user)
+      if (user) {
+        const {
+          eventName,
+          eventCategory,
+          eventDescription,
+          mainImg,
+          portraitImg,
+          tags,
+          eventStartDate,
+          eventLocation,
+          eventType,
+          eventCapacity,
+          eventInvitation,
+          minAge
+        } = args;
 
-      const user = await User.findById(createdBy);
-      console.log(user);
-      if (!user) {
-        throw new Error("User not found");
+        const authUser = await User.findById(user._id);
+        if (!authUser) {
+          throw new Error("User not found");
+        }
+
+        const event = await Event.create({
+          eventName,
+          eventCategory,
+          eventDescription,
+          mainImg,
+          portraitImg,
+          tags,
+          eventStartDate,
+          eventLocation,
+          eventType,
+          eventCapacity,
+          eventInvitation,
+          minAge,
+        });
+
+        // Add the created event to the user's createdEvents array
+        authUser.createdEvents.push(event);
+        await authUser.save();
+
+        // Return the created event
+        return event;
+      } else {
+        throw new AuthenticationError("Invalid username/email");
       }
-
-      const event = await Event.create({
-        eventName,
-        eventCategory,
-        eventDescription,
-        mainImg,
-        portraitImg,
-        tags,
-        eventStartDate,
-        eventLocation,
-        eventType,
-        eventCapacity,
-        eventInvitation,
-        minAge,
-        createdBy: user, // Set the createdBy field to the user object
-      });
-
-      // Add the created event to the user's createdEvents array
-      user.createdEvents.push(event);
-      await user.save();
-
-      // Return the created event
-      return event;
     },
 
     updateEvent: async (parent, args) => {

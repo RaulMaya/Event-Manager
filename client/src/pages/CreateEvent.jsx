@@ -33,20 +33,22 @@ const CreateEventForm = () => {
     const navigate = useNavigate(); // Initialize useNavigate
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type } = e.target;
+        const valueType = type === "number" ? parseFloat(value) : value
         setFormData((prevData) => ({
             ...prevData,
-            [name]: value,
+            [name]: valueType,
         }));
     };
 
     const handleLocationChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type } = e.target;
+        const valueType = type === "number" ? parseFloat(value) : value
         setFormData((prevData) => ({
             ...prevData,
             eventLocation: {
                 ...prevData.eventLocation,
-                [name]: value,
+                [name]: valueType,
             },
         }));
     };
@@ -262,7 +264,7 @@ const CreateEventForm = () => {
                         onChange={handleChange}
                     />
                 </div>
-
+{/* 
                 <div className="mb-3">
                     <label htmlFor="eventInvitation" className="form-label">
                         Event Invitation
@@ -275,7 +277,7 @@ const CreateEventForm = () => {
                         checked={formData.eventInvitation}
                         onChange={handleChange}
                     />
-                </div>
+                </div> */}
 
                 <div className="mb-3">
                     <label htmlFor="minAge" className="form-label">

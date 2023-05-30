@@ -9,7 +9,9 @@ const Home = () => {
     const events = data?.events || [];
 
     const user = Auth.getUser();
+    console.log(user)
     const userId = user ? user.id : null;
+    console.log(userId)
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;

@@ -121,7 +121,7 @@ const typeDefs = gql`
       createdBy: ID!
     ): Event
     deleteEvent(id: ID!): Event
-    assistEvent(eventId: ID!, userId: ID!): Event
+    assistEvent(eventId: ID!): Event
     unconfirmEvent(eventId: ID!, userId: ID!): Event
     createComment(eventId: ID!, userId: ID!, commentText: String!): Comment
     deleteComment(id: ID!): Comment

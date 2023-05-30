@@ -213,7 +213,7 @@ const resolvers = {
     },
 
     createEvent: async (parent, args, { user }) => {
-      console.log(user)
+      console.log(user);
       if (user) {
         const {
           eventName,
@@ -227,7 +227,7 @@ const resolvers = {
           eventType,
           eventCapacity,
           eventInvitation,
-          minAge
+          minAge,
         } = args;
 
         const authUser = await User.findById(user._id);
@@ -303,31 +303,33 @@ const resolvers = {
         throw new Error("Failed to delete event");
       }
     },
-    assistEvent: async (parent, { eventId, userId }) => {
+    assistEvent: async (parent, args, { user }) => {
       try {
         // Find the user and event
-        const user = await User.findById(userId);
-        const event = await Event.findById(eventId);
-
-        if (!user || !event) {
+        console.log(args.eventId);
+        const authUser = await User.findById(user._id);
+        const event = await Event.findById(args.eventId);
+        console.log(event, authUser);
+        if (!authUser || !event) {
           throw new Error("User or event not found");
         }
 
         // Add the user to the event's usersAssisting array
-        event.usersAssisting.push(user);
+        event.usersAssisting.push(authUser);
         await event.save();
 
         // Add the event to the user's assistingEvents array
-        user.assistingEvents.push(event);
-        await user.save();
+        authUser.assistingEvents.push(event);
+        await authUser.save();
 
         // Return the updated event
         return event;
       } catch (error) {
+        console.log(error);
         throw new Error("Error attending event");
       }
     },
-    unconfirmEvent: async (_, { eventId, userId }) => {
+    unconfirmEvent: async (parent, { eventId, userId }) => {
       try {
         // Find the user and event
         const user = await User.findById(userId);

@@ -51,8 +51,8 @@ export const ADD_FRIEND = gql`
 `;
 
 export const ATTEND_EVENT = gql`
-  mutation AssistEvent($userId: ID!, $eventId: ID!) {
-    assistEvent(userId: $userId, eventId: $eventId) {
+  mutation AssistEvent($eventId: ID!) {
+    assistEvent(eventId: $eventId) {
       _id
       eventName
     }

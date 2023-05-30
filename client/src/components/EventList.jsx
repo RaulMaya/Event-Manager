@@ -1,25 +1,21 @@
 import React from 'react';
-import Auth from '../utils/auth';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { ATTEND_EVENT } from '../utils/mutations';
 
-console.log(Auth.getUser())
 
 const EventList = ({ events }) => {
     const [assistEvent, { data }] = useMutation(ATTEND_EVENT);
 
-    const handleButtonClick = async (eventId, userId) => {
+    const handleButtonClick = async (eventId) => {
         try {
-            console.log('userId:', userId);
             console.log('eventId:', eventId);
             
             await assistEvent({
                 variables: {
-                    userId: userId,
                     eventId: eventId,
                 },
-                refetchQueries: [] // Opcional: si necesitas refrescar datos después de la mutación, especifica aquí las consultas que deben actualizarse
+                // refetchQueries: [] // Opcional: si necesitas refrescar datos después de la mutación, especifica aquí las consultas que deben actualizarse
             });
         } catch (e) {
             console.error(e);
@@ -61,7 +57,7 @@ const EventList = ({ events }) => {
                                     </Link>
                                     <button 
                                         className="btn btn-secondary m-2"
-                                        onClick={() => handleButtonClick(event._id, Auth.getUser().data._id)}
+                                        onClick={() => handleButtonClick(event._id)}
                                         style={data && data.assistEvent._id === event._id ? {backgroundColor: 'green'} : {}}
                                     >
                                         {data && data.assistEvent._id === event._id ? "Assisting" : "Add to Assisting"}

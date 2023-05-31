@@ -5,9 +5,8 @@ import decode from "jwt-decode";
 class AuthService {
   // get user data from JSON web token by decoding it
   getUser() {
-    console.log(this.getToken());
-    console.log(decode(this.getToken()));
-    return this.getToken() ? decode(this.getToken()) : "happy";
+    const token = this.getToken();
+    return token ? decode(token) : null;
   }
 
   loggedIn() {

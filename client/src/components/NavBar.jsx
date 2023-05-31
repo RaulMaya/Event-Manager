@@ -5,6 +5,7 @@ import {
     ButtonGroup,
     Container,
     Flex,
+    Text,
     HStack,
     IconButton,
     Collapse,
@@ -12,6 +13,8 @@ import {
 } from '@chakra-ui/react';
 import { FiMenu, FiX } from 'react-icons/fi';
 import { Link as RouterLink } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import { QUERY_ME } from '../utils/queries';
 
 import Auth from '../utils/auth';
 
@@ -19,6 +22,8 @@ const NavBar = () => {
     const isDesktop = useBreakpointValue({ base: false, lg: true });
     const [show, setShow] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
+    const { loading, data } = useQuery(QUERY_ME);
+    const user = data?.me;
 
     const handleToggle = () => {
         setIsExpanded(!isExpanded);
@@ -33,8 +38,7 @@ const NavBar = () => {
         Auth.logout();
     };
 
-    const isLoggedIn = Auth.loggedIn();
-
+    const isLoggedIn = !!user;
     useEffect(() => {
         setShow(isDesktop && isExpanded);
     }, [isDesktop, isExpanded]);
@@ -75,9 +79,16 @@ const NavBar = () => {
                             </ButtonGroup>
                             <HStack spacing="3">
                                 {isLoggedIn ? (
-                                    <Button variant="outline" m={2} onClick={logout}>
-                                        Logout
-                                    </Button>
+                                    <>
+                                        <Text size="lg" colorScheme="purple" variant="solid" m={2}>
+                                            Welcome, <Text as='b'>{user?.username && user.username.charAt(0).toUpperCase() + user.username.slice(1)}</Text>
+                                        </Text>
+                                        <RouterLink to="/">
+                                            <Button variant="outline" m={2} w="full" onClick={logout}>
+                                                Logout
+                                            </Button>
+                                        </RouterLink>
+                                    </>
                                 ) : (
                                     <>
                                         <RouterLink to="/login">
@@ -123,11 +134,16 @@ const NavBar = () => {
                                     </Button>
                                 </RouterLink>
                                 {isLoggedIn ? (
-                                    <RouterLink to="/">
-                                        <Button variant="outline" m={2} w="full" onClick={logout}>
-                                            Logout
-                                        </Button>
-                                    </RouterLink>
+                                    <>
+                                        <Text size="lg" colorScheme="purple" variant="solid" m={2}>
+                                            Welcome, <Text as='b'>{user?.username && user.username.charAt(0).toUpperCase() + user.username.slice(1)}</Text>
+                                        </Text>
+                                        <RouterLink to="/">
+                                            <Button variant="outline" m={2} w="full" onClick={logout}>
+                                                Logout
+                                            </Button>
+                                        </RouterLink>
+                                    </>
                                 ) : (
                                     <>
                                         <RouterLink to="/login" onClick={handleMenuClose}>

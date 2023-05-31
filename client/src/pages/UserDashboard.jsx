@@ -1,7 +1,8 @@
 import React from 'react';
 import { Navigate, useParams } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_SINGLE_USER, QUERY_ME } from '../utils/queries';
+import { DELETE_EVENT } from '../utils/mutations';
 import Auth from '../utils/auth';
 import {
     Box,
@@ -22,8 +23,13 @@ import { DeleteIcon } from '@chakra-ui/icons';
 const UserDashboard = () => {
     const { id } = useParams();
 
+
     const { loading, error, data } = useQuery(id ? QUERY_SINGLE_USER : QUERY_ME, {
         variables: { userId: id },
+    });
+
+    const [deleteEvent] = useMutation(DELETE_EVENT, {
+        refetchQueries: [{ query: id ? QUERY_SINGLE_USER : QUERY_ME }],
     });
 
     // Check if data is returning from the `QUERY_ME` query, then the `QUERY_SINGLE_PROFILE` query
@@ -33,6 +39,18 @@ const UserDashboard = () => {
     if (Auth.loggedIn() && Auth.getUser().data._id === id) {
         return <Navigate to="/userProfile" />;
     }
+
+    const handleDeleteEvent = async (eventId) => {
+        try {
+            await deleteEvent({
+                variables: { deleteEventId: eventId },
+            });
+            // Perform any necessary actions after successful deletion
+        } catch (error) {
+            console.error('Error deleting event:', error);
+            // Handle any error states or display error message to the user
+        }
+    };
 
     if (loading) {
         return <p>Loading...</p>;
@@ -82,7 +100,13 @@ const UserDashboard = () => {
                                             Visit Event
                                         </Button>
                                     </Link>
-                                    <Button colorScheme="red" size="sm" leftIcon={<DeleteIcon />} ml={2}>
+                                    <Button
+                                        colorScheme="red"
+                                        size="sm"
+                                        leftIcon={<DeleteIcon />}
+                                        ml={2}
+                                        onClick={() => handleDeleteEvent(event._id)}
+                                    >
                                         Delete
                                     </Button>
                                 </Flex>

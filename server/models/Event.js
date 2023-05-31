@@ -43,7 +43,7 @@ const eventSchema = new Schema(
       },
     ],
     eventStartDate: {
-      type: Date,
+      type: String,
       required: true,
     },
     eventLocation: {
@@ -73,7 +73,7 @@ const eventSchema = new Schema(
       default: false,
     },
     createdAt: {
-      type: Date,
+      type: String,
       default: Date.now,
     },
     createdBy: {

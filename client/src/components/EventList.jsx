@@ -1,4 +1,5 @@
 import React from 'react';
+import { format } from 'date-fns';
 import { useMutation, useQuery } from '@apollo/client';
 import { ATTEND_EVENT, CANCEL_EVENT } from '../utils/mutations';
 import { QUERY_ME } from '../utils/queries';
@@ -80,7 +81,7 @@ const EventList = ({ events }) => {
                                     {event.eventDescription}
                                 </Text>
                                 <Text color="gray.500">
-                                    <strong>Date:</strong> {event.eventStartDate}
+                                    <strong>Date:</strong> {format(new Date(event.eventStartDate), 'MMMM dd, yyyy')}
                                 </Text>
                                 <Text color="gray.500">
                                     <strong>Type:</strong> {event.eventType}

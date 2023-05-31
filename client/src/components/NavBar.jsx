@@ -5,7 +5,6 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
-
 const NavBar = () => {
     const [show, setShow] = useState(false);
     const handleToggle = () => setShow(!show);
@@ -23,7 +22,7 @@ const NavBar = () => {
         >
             <Flex align="center" justify="space-between">
                 <Flex align="center">
-                    <Link as={RouterLink} to="/" mr={2} color="white" _hover={{ color: 'whiteAlpha.800' }}>
+                    <Link as={RouterLink} to="/" mr={2} color="white" _hover={{ color: 'whiteAlpha.800' }} onClick={() => window.reload()}>
                         <Text fontSize="2xl" fontWeight="extrabold" letterSpacing="wide" textTransform="uppercase">
                             PartyMaster
                         </Text>

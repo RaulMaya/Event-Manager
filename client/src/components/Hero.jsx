@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { Container, chakra, Stack, Text, Button, Box } from '@chakra-ui/react';
+import { Container, chakra, Stack, Text, Button, Box, Link } from '@chakra-ui/react';
 // Here we have used react-icons package for the icons
 import { FaGithub } from 'react-icons/fa';
 
 const HeroSection = () => {
     return (
-        <Container p={{ base: 8, sm: 14 }} maxW="container-fluid">
+        <Container p={{ base: 8, sm: 14 }} maxW="container-fluid" boxShadow="0 2px 4px rgba(0, 0, 0, 0.2)" mb={8} >
             <Stack direction="column" spacing={6} alignItems="center">
                 <Box py={2} px={3} bg="purple.500" w="max-content" color="white" rounded="md" fontSize="sm">
                     <Stack direction={{ base: 'column', sm: 'row' }}>
@@ -44,17 +44,29 @@ const HeroSection = () => {
                     >
                         Get Started
                     </Button>
-                    <Button
-                        leftIcon={<FaGithub />}
+                    <Link
+                        href="https://github.com/RaulMaya/PartyMaster"
                         colorScheme="gray"
-                        variant="outline"
-                        rounded="md"
-                        size="lg"
-                        height="3.5rem"
-                        fontSize="1.2rem"
-                    >
-                        Github
-                    </Button>
+                        justifyContent="center"
+                        textDecoration="none"
+                        color="gray.600"
+                        _hover={{ color: 'gray.800' }}
+                        borderColor="gray.600">
+
+
+                        <Button
+                            leftIcon={<FaGithub />}
+                            to="https://github.com/RaulMaya/PartyMaster"
+                            colorScheme="gray"
+                            variant="outline"
+                            rounded="md"
+                            size="lg"
+                            height="3.5rem"
+                            fontSize="1.2rem"
+                        >
+                            Github
+                        </Button>
+                    </Link>
                 </Stack>
             </Stack>
         </Container>

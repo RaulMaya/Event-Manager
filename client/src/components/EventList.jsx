@@ -115,7 +115,6 @@ const EventList = ({ events }) => {
                         </Box>
                     ))}
                 </Grid>
-
             )}
         </div>
     );

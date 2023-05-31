@@ -3,20 +3,15 @@ import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { CREATE_EVENT } from '../utils/mutations';
 import {
-    VStack,
     Box,
     Button,
+    chakra,
     FormControl,
     FormLabel,
     Input,
     Textarea,
-    NumberInput,
-    NumberInputField,
-    Stack,
-    Heading,
+    Grid,
 } from "@chakra-ui/react";
-
-import Auth from '../utils/auth';
 
 const CreateEventForm = () => {
     const [formData, setFormData] = useState({
@@ -91,229 +86,180 @@ const CreateEventForm = () => {
     }
 
     return (
-        <VStack spacing={8} py={12} align="start" m={4}>
-            <Heading mb={6}>Create Event</Heading>
-            <Box as="form" w="full" onSubmit={handleSubmit}>
-                <FormControl id="eventName" isRequired>
+        <Box maxW="container.lg" mx="auto" p={6} borderWidth="1px" rounded="md" shadow="md" bg="white" mt={5} mb={5}>
+            <chakra.h1 textAlign="center" fontSize="2xl" mb={4}>
+                Create Event
+            </chakra.h1>
+            <chakra.form onSubmit={handleSubmit}>
+
+                <FormControl mb={4}>
                     <FormLabel>Event Name</FormLabel>
-                    <Input type="text" name="eventName" value={formData.eventName} onChange={handleChange} />
+                    <Input
+                        type="text"
+                        name="eventName"
+                        value={formData.eventName}
+                        onChange={handleChange}
+                        placeholder="Enter event name"
+                    />
                 </FormControl>
 
-                {/* Other fields go here with the same pattern */}
-
-                <FormControl id="eventCategory" isRequired>
-                    <FormLabel>Event Category</FormLabel>
-                    <Input type="text" name="eventCategory" value={formData.eventCategory} onChange={handleChange} />
-                </FormControl>
-
-                <FormControl id="eventDescription" isRequired>
+                <FormControl mb={4}>
                     <FormLabel>Event Description</FormLabel>
-                    <Textarea id="eventDescription" name="eventDescription" value={formData.eventDescription} onChange={handleChange} />
+                    <Textarea
+                        name="eventDescription"
+                        value={formData.eventDescription}
+                        onChange={handleChange}
+                        placeholder="Enter event description"
+                    />
                 </FormControl>
-
-                {/* ... */}
-
-                <FormControl id="minAge" isRequired>
-                    <FormLabel>Minimum Age</FormLabel>
-                    <NumberInput min={0}>
-                        <NumberInputField id="minAge" name="minAge" value={formData.minAge} onChange={handleChange} />
-                    </NumberInput>
+                <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+                <FormControl mb={4}>
+                    <FormLabel>Event Category</FormLabel>
+                    <Input
+                        type="text"
+                        name="eventCategory"
+                        value={formData.eventCategory}
+                        onChange={handleChange}
+                        placeholder="Enter event category"
+                    />
                 </FormControl>
-
-                <Stack direction="row" mt={8} justify="center">
-                    <Button colorScheme="purple" type="submit">
-                        Create Event
-                    </Button>
-                </Stack>
-            </Box>
-        </VStack>
+                    <FormControl mb={4}>
+                        <FormLabel>Main Image URL</FormLabel>
+                        <Input
+                            type="text"
+                            name="mainImg"
+                            value={formData.mainImg}
+                            onChange={handleChange}
+                            placeholder="Enter main image URL"
+                        />
+                    </FormControl>
+                    <FormControl mb={4}>
+                        <FormLabel>Portrait Image URL</FormLabel>
+                        <Input
+                            type="text"
+                            name="portraitImg"
+                            value={formData.portraitImg}
+                            onChange={handleChange}
+                            placeholder="Enter portrait image URL"
+                        />
+                    </FormControl>
+                    <FormControl mb={4}>
+                        <FormLabel>Tags (separated by comma)</FormLabel>
+                        <Input
+                            type="text"
+                            name="tags"
+                            value={formData.tags}
+                            onChange={handleChange}
+                            placeholder="Enter tags"
+                        />
+                    </FormControl>
+                    <FormControl mb={4}>
+                        <FormLabel>Event Start Date</FormLabel>
+                        <Input
+                            type="date"
+                            name="eventStartDate"
+                            value={formData.eventStartDate}
+                            onChange={handleChange}
+                            placeholder="Enter event start date"
+                        />
+                    </FormControl>
+                    <FormControl mb={4}>
+                        <FormLabel>Event Address</FormLabel>
+                        <Input
+                            type="text"
+                            name="address"
+                            value={formData.eventLocation.address}
+                            onChange={handleLocationChange}
+                            placeholder="Enter event address"
+                        />
+                    </FormControl>
+                    <FormControl mb={4}>
+                        <FormLabel>Event City</FormLabel>
+                        <Input
+                            type="text"
+                            name="city"
+                            value={formData.eventLocation.city}
+                            onChange={handleLocationChange}
+                            placeholder="Enter event city"
+                        />
+                    </FormControl>
+                    <FormControl mb={4}>
+                        <FormLabel>Event Country</FormLabel>
+                        <Input
+                            type="text"
+                            name="country"
+                            value={formData.eventLocation.country}
+                            onChange={handleLocationChange}
+                            placeholder="Enter event country"
+                        />
+                    </FormControl>
+                    <FormControl mb={4}>
+                        <FormLabel>Event State</FormLabel>
+                        <Input
+                            type="text"
+                            name="state"
+                            value={formData.eventLocation.state}
+                            onChange={handleLocationChange}
+                            placeholder="Enter event state"
+                        />
+                    </FormControl>
+                    <FormControl mb={4}>
+                        <FormLabel>Event Latitude</FormLabel>
+                        <Input
+                            type="number"
+                            name="lat"
+                            value={formData.eventLocation.lat}
+                            onChange={handleLocationChange}
+                            placeholder="Enter event latitude"
+                        />
+                    </FormControl>
+                    <FormControl mb={4}>
+                        <FormLabel>Event Longitude</FormLabel>
+                        <Input
+                            type="number"
+                            name="lon"
+                            value={formData.eventLocation.lon}
+                            onChange={handleLocationChange}
+                            placeholder="Enter event longitude"
+                        />
+                    </FormControl>
+                    <FormControl mb={4}>
+                        <FormLabel>Event Type</FormLabel>
+                        <Input
+                            type="text"
+                            name="eventType"
+                            value={formData.eventType}
+                            onChange={handleChange}
+                            placeholder="Enter event type"
+                        />
+                    </FormControl>
+                    <FormControl mb={4}>
+                        <FormLabel>Event Capacity</FormLabel>
+                        <Input
+                            type="number"
+                            name="eventCapacity"
+                            value={formData.eventCapacity}
+                            onChange={handleChange}
+                            placeholder="Enter event capacity"
+                        />
+                    </FormControl>
+                    <FormControl mb={4}>
+                        <FormLabel>Minimum Age</FormLabel>
+                        <Input
+                            type="number"
+                            name="minAge"
+                            value={formData.minAge}
+                            onChange={handleChange}
+                            placeholder="Enter minimum age"
+                        />
+                    </FormControl>
+                </Grid>
+                <Button type="submit" colorScheme="purple" size="lg" w="100%">
+                    Create Event
+                </Button>
+            </chakra.form>
+        </Box>
     );
 };
 
 export default CreateEventForm;
-
-// import React, { useState } from 'react';
-// import { useMutation } from '@apollo/client';
-// import { useNavigate } from 'react-router-dom';
-// import { CREATE_EVENT } from '../utils/mutations';
-
-// const CreateEventForm = () => {
-//     const [formData, setFormData] = useState({
-//         eventName: '',
-//         eventCategory: '',
-//         eventDescription: '',
-//         mainImg: null,
-//         portraitImg: null,
-//         tags: [],
-//         eventStartDate: '',
-//         eventLocation: {
-//             address: '',
-//             city: '',
-//             country: '',
-//             state: '',
-//             lat: 0,
-//             lon: 0,
-//         },
-//         eventType: '',
-//         eventCapacity: 0,
-//         eventInvitation: false,
-//         minAge: 0,
-//         createdBy: '',
-//     });
-
-//     const [createEvent, { loading, error }] = useMutation(CREATE_EVENT);
-
-//     const navigate = useNavigate();
-
-//     const handleChange = (e) => {
-//         const { name, value } = e.target;
-//         setFormData((prevData) => ({
-//             ...prevData,
-//             [name]: value,
-//         }));
-//     };
-
-//     const handleImageUpload = (e) => {
-//         const file = e.target.files[0];
-//         const name = e.target.name;
-
-//         setFormData((prevData) => ({
-//             ...prevData,
-//             [name]: file,
-//         }));
-//     };
-
-//     const handleSubmit = async (e) => {
-//         e.preventDefault();
-
-//         try {
-//             const { data } = await createEvent({
-//                 variables: { ...formData },
-//             });
-
-//             navigate(`/event/${data.createEvent._id}`);
-//         } catch (error) {
-//             console.error('Error creating event:', error);
-//         }
-//     };
-
-//     if (loading) {
-//         return <p>Loading...</p>;
-//     }
-
-//     if (error) {
-//         return <p>Error :(</p>;
-//     }
-
-//     return (
-//         <div className="container">
-//             <h1>Create Event</h1>
-//             <form onSubmit={handleSubmit}>
-//                 <div className="mb-3">
-//                     <label htmlFor="eventName" className="form-label">
-//                         Event Name
-//                     </label>
-//                     <input
-//                         type="text"
-//                         id="eventName"
-//                         name="eventName"
-//                         className="form-control"
-//                         value={formData.eventName}
-//                         onChange={handleChange}
-//                     />
-//                 </div>
-
-//                 <div className="mb-3">
-//                     <label htmlFor="eventCategory" className="form-label">
-//                         Event Category
-//                     </label>
-//                     <input
-//                         type="text"
-//                         id="eventCategory"
-//                         name="eventCategory"
-//                         className="form-control"
-//                         value={formData.eventCategory}
-//                         onChange={handleChange}
-//                     />
-//                 </div>
-
-//                 <div className="mb-3">
-//                     <label htmlFor="eventDescription" className="form-label">
-//                         Event Description
-//                     </label>
-//                     <textarea
-//                         id="eventDescription"
-//                         name="eventDescription"
-//                         className="form-control"
-//                         value={formData.eventDescription}
-//                         onChange={handleChange}
-//                     ></textarea>
-//                 </div>
-
-//                 <div className="mb-3">
-//                     <label htmlFor="mainImg" className="form-label">
-//                         Main Image
-//                     </label>
-//                     <input
-//                         type="file"
-//                         id="mainImg"
-//                         name="mainImg"
-//                         className="form-control"
-//                         accept="image/png, image/jpeg, image/jpg"
-//                         onChange={handleImageUpload}
-//                     />
-//                 </div>
-
-//                 <div className="mb-3">
-//                     <label htmlFor="portraitImg" className="form-label">
-//                         Portrait Image
-//                     </label>
-//                     <input
-//                         type="file"
-//                         id="portraitImg"
-//                         name="portraitImg"
-//                         className="form-control"
-//                         accept="image/png, image/jpeg, image/jpg"
-//                         onChange={handleImageUpload}
-//                     />
-//                 </div>
-
-//                 <div className="mb-3">
-//                     <label htmlFor="tags" className="form-label">
-//                         Tags (separated by comma)
-//                     </label>
-//                     <input
-//                         type="text"
-//                         id="tags"
-//                         name="tags"
-//                         className="form-control"
-//                         value={formData.tags}
-//                         onChange={handleChange}
-//                     />
-//                 </div>
-
-//                 <div className="mb-3">
-//                     <label htmlFor="eventStartDate" className="form-label">
-//                         Event Start Date
-//                     </label>
-//                     <input
-//                         type="date"
-//                         id="eventStartDate"
-//                         name="eventStartDate"
-//                         className="form-control"
-//                         value={formData.eventStartDate}
-//                         onChange={handleChange}
-//                     />
-//                 </div>
-
-//                 {/* Add other form fields as needed */}
-
-//                 <button type="submit" className="btn btn-primary">
-//                     Create Event
-//                 </button>
-//             </form>
-//         </div>
-//     );
-// };
-
-// export default CreateEventForm;

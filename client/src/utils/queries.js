@@ -14,6 +14,8 @@ export const QUERY_ME = gql`
         event {
           _id
           eventName
+          eventDescription
+          mainImg
         }
       }
       friends {
@@ -23,10 +25,14 @@ export const QUERY_ME = gql`
       assistingEvents {
         _id
         eventName
+        eventDescription
+        mainImg
       }
       createdEvents {
         _id
         eventName
+        eventDescription
+        mainImg
       }
     }
   }
@@ -67,10 +73,14 @@ export const QUERY_SINGLE_USER = gql`
       assistingEvents {
         _id
         eventName
+        eventDescription
+        mainImg
       }
       createdEvents {
         _id
         eventName
+        eventDescription
+        mainImg
       }
     }
   }

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Container, chakra, Stack, Text, Button, Box, Link } from '@chakra-ui/react';
 // Here we have used react-icons package for the icons
 import { FaGithub } from 'react-icons/fa';
+import { Link as RouterLink } from 'react-router-dom';
 
 const HeroSection = () => {
     return (
@@ -34,7 +35,7 @@ const HeroSection = () => {
                     w={{ base: '100%', sm: 'auto' }}
                     spacing={5}
                 >
-                    <Link href="/events">
+                    <RouterLink to="/events" mr={2} color="white">
                         <Button
                             to="/events"
                             colorScheme="purple"
@@ -46,7 +47,7 @@ const HeroSection = () => {
                         >
                             Get Started
                         </Button>
-                    </Link>
+                    </RouterLink>
                     <Link
                         href="https://github.com/RaulMaya/PartyMaster"
                         colorScheme="gray"

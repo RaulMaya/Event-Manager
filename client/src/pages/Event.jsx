@@ -169,12 +169,12 @@ const SingleEvent = () => {
                             Comments
                         </Heading>
                         {event.comments.map((comment) => (
-                            <Box key={comment._id} bg="gray.100" p={4} mb={4} borderRadius="md">
-                                <Text>
+                            <Box key={comment._id} bg="gray.100" p={4} mb={4} borderRadius="md" display="flex" alignItems="flex-start">
+                                <Text flex={1}>
                                     <strong>{comment.user.username}:</strong> {comment.commentText}
                                 </Text>
-                                {Auth.loggedIn() && (
-                                    <Stack direction="row" mt={2}>
+                                {Auth.loggedIn() && comment.user._id === Auth.getUser()?.data?._id && (
+                                    <Stack direction="row" ml={2}>
                                         <IconButton
                                             icon={<EditIcon />}
                                             aria-label="Edit Comment"
@@ -194,6 +194,7 @@ const SingleEvent = () => {
                                     </Stack>
                                 )}
                             </Box>
+
                         ))}
                     </Box>
 

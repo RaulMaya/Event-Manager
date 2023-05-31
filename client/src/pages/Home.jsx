@@ -28,7 +28,7 @@ const Home = () => {
                 <Heading as="h1" size="xl" marginRight={4} color="purple.500">
                     Trending Events
                 </Heading>
-                <FiTrendingUp size={24} marginLeft={4} />
+                <FiTrendingUp size={24} ml={4} />
             </Box>
             <Box mb={4}>
                 <EventList events={events} title="All our events..." isAuthenticated={isAuthenticated} showAllEvents={false} />

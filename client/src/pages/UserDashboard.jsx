@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_SINGLE_USER, QUERY_ME } from '../utils/queries';
@@ -16,7 +16,15 @@ import {
     Avatar,
     Image,
     SimpleGrid,
-    Button
+    Button,
+    useDisclosure,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    useToast
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 
@@ -42,6 +50,11 @@ const UserDashboard = () => {
         refetchQueries: [{ query: id ? QUERY_SINGLE_USER : QUERY_ME }],
     });
 
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [eventToDelete, setEventToDelete] = useState(null);
+
+    const toast = useToast();
+
     const handleButtonClick = async (eventId) => {
         const isAttending = eventAtt.some((event) => event._id === eventId);
         try {
@@ -59,7 +72,36 @@ const UserDashboard = () => {
         }
     };
 
-    const user = data?.me || data?.profile || {};
+    const handleDeleteEvent = async (eventId) => {
+        setEventToDelete(eventId);
+        onOpen();
+    };
+
+    const handleDeleteConfirmation = async (eventId) => {
+        try {
+            await deleteEvent({
+                variables: { deleteEventId: eventId },
+            });
+            toast({
+                title: 'Event Deleted',
+                description: 'The event has been deleted successfully.',
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+            });
+            onClose();
+            refetch();
+        } catch (error) {
+            console.error('Error deleting event:', error);
+            toast({
+                title: 'Error',
+                description: 'An error occurred while deleting the event.',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            });
+        }
+    };
 
     useEffect(() => {
         if (!Auth.loggedIn()) {
@@ -75,17 +117,7 @@ const UserDashboard = () => {
         return <p>Error :(</p>;
     }
 
-    const handleDeleteEvent = async (eventId) => {
-        try {
-            await deleteEvent({
-                variables: { deleteEventId: eventId },
-            });
-            // Perform any necessary actions after successful deletion
-        } catch (error) {
-            console.error('Error deleting event:', error);
-            // Handle any error states or display error message to the user
-        }
-    };
+    const user = data?.me || data?.profile || {};
 
     return (
         <Box p={4} mt={10}>
@@ -104,7 +136,7 @@ const UserDashboard = () => {
                     Created Events
                 </Heading>
                 <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
-                    {user.createdEvents.map(event => (
+                    {user.createdEvents.map((event) => (
                         <Flex borderWidth={1} rounded="md" key={event._id} justify="flex-end">
                             <Box flex="1" p={4} display="flex" flexDirection="column">
                                 <Heading size="sm">{event.eventName}</Heading>
@@ -128,13 +160,7 @@ const UserDashboard = () => {
                                     </Button>
                                 </Flex>
                             </Box>
-                            <Box
-                                width="200px"
-                                height="200px"
-                                overflow="hidden"
-                                roundedTopRight="md"
-                                roundedBottomRight="md"
-                            >
+                            <Box width="200px" height="200px" overflow="hidden" roundedTopRight="md" roundedBottomRight="md">
                                 <Image
                                     src={event.mainImg}
                                     alt={event.eventName}
@@ -155,7 +181,7 @@ const UserDashboard = () => {
                     Assisting Events
                 </Heading>
                 <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
-                    {user.assistingEvents.map(event => (
+                    {user.assistingEvents.map((event) => (
                         <Flex borderWidth={1} rounded="md" key={event._id} justify="flex-end">
                             <Box flex="1" p={4}>
                                 <Heading size="sm">{event.eventName}</Heading>
@@ -164,12 +190,7 @@ const UserDashboard = () => {
                                 </Text>
                                 <Flex mt="auto" justifyContent="space-between" alignItems="flex-end">
                                     <Link to={`/event/${event._id}`}>
-                                        <Button
-                                            colorScheme="purple"
-                                            mt={12}
-                                            mr={2}
-                                            size="sm"
-                                        >
+                                        <Button colorScheme="purple" mt={12} mr={2} size="sm">
                                             Visit Event
                                         </Button>
                                     </Link>
@@ -186,13 +207,7 @@ const UserDashboard = () => {
                                     </Button>
                                 </Flex>
                             </Box>
-                            <Box
-                                width="200px"
-                                height="200px"
-                                overflow="hidden"
-                                roundedTopRight="md"
-                                roundedBottomRight="md"
-                            >
+                            <Box width="200px" height="200px" overflow="hidden" roundedTopRight="md" roundedBottomRight="md">
                                 <Image
                                     src={event.mainImg}
                                     alt={event.eventName}
@@ -205,6 +220,23 @@ const UserDashboard = () => {
                     ))}
                 </SimpleGrid>
             </Box>
+
+            {/* Delete Event Modal */}
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Delete Event</ModalHeader>
+                    <ModalBody>Are you sure you want to delete this event?</ModalBody>
+                    <ModalFooter>
+                        <Button colorScheme="gray" mr={3} onClick={onClose}>
+                            Cancel
+                        </Button>
+                        <Button colorScheme="red" onClick={() => handleDeleteConfirmation(eventToDelete)}>
+                            Delete
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </Box>
     );
 };

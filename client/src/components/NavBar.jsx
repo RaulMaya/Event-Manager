@@ -44,7 +44,7 @@ const NavBar = () => {
             <Container maxW="container.maxW" py={{ base: '4', lg: '5' }}>
                 <HStack spacing="10" justify="space-between" align="center" width="full">
                     <Flex align="center">
-                        <RouterLink to="/" mr={2} color="white" onClick={() => window.reload()}>
+                        <RouterLink to="/" mr={2} color="white">
                             <Box fontSize="2xl" fontWeight="extrabold" _hover={{ color: 'whiteAlpha.800' }} letterSpacing="wide" textTransform="uppercase">
                                 PartyMaster
                             </Box>
@@ -123,9 +123,11 @@ const NavBar = () => {
                                     </Button>
                                 </RouterLink>
                                 {isLoggedIn ? (
-                                    <Button variant="outline" m={2} w="full" onClick={logout}>
-                                        Logout
-                                    </Button>
+                                    <RouterLink to="/">
+                                        <Button variant="outline" m={2} w="full" onClick={logout}>
+                                            Logout
+                                        </Button>
+                                    </RouterLink>
                                 ) : (
                                     <>
                                         <RouterLink to="/login" onClick={handleMenuClose}>

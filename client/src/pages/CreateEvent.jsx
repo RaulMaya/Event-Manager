@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { CREATE_EVENT } from '../utils/mutations';
+import Auth from '../utils/auth';
 import {
     Box,
     Button,
@@ -129,6 +130,12 @@ const CreateEventForm = () => {
             console.error('Error creating event:', error);
         }
     };
+
+    useEffect(() => {
+        if (!Auth.loggedIn()) {
+            navigate('/signup');
+        }
+    }, [navigate]);
 
     if (loading) {
         return <p>Loading...</p>;

@@ -4,7 +4,7 @@
   "description": "Event Management Platform: Users create, discover, and manage events based on location. Register, log in, create profiles, specify event details, set visibility preferences, browse events, RSVP, and communicate with organizers and attendees.",
   "main": "index.js",
   "scripts": {
-    "start": "node server/server.js",
+    "start": "npm run develop",
     "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
     "install": "cd server && npm i && cd ../client && npm i",
     "seed": "cd server && npm run seed",

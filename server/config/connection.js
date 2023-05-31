@@ -1,5 +1,7 @@
-const mongoose = require('mongoose');
+require("dotenv").config();
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/partymaster');
+const mongoose = require("mongoose");
+
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/partymaster");
 
 module.exports = mongoose.connection;

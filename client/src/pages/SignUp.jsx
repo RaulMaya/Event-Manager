@@ -15,6 +15,11 @@ import {
   Heading,
   Text,
   Link,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  CloseButton,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
@@ -29,6 +34,8 @@ const SignUp = () => {
     profilePic: '',
     password: '',
   });
+
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const [createUser, { loading, error, data }] = useMutation(CREATE_USER);
 
@@ -47,10 +54,10 @@ const SignUp = () => {
         variables: { ...formData },
       });
 
-      Auth.login(data.createUser.token); // Handle success or redirect to a new page
+      Auth.login(data.createUser.token);
     } catch (error) {
       console.error(error);
-      // Handle error or display error message to the user
+      setErrorMessage(error.message);
     }
   };
 
@@ -77,6 +84,14 @@ const SignUp = () => {
         </Stack>
         <Box rounded={'lg'} bg={formBgColor} boxShadow={'lg'} p={8}>
           <Stack spacing={4}>
+            {errorMessage && (
+              <Alert status="error">
+                <AlertIcon />
+                <AlertTitle mr={2}>An error occurred!</AlertTitle>
+                <AlertDescription>{errorMessage}</AlertDescription>
+                <CloseButton position="absolute" right="8px" top="8px" onClick={() => setErrorMessage(null)} />
+              </Alert>
+            )}
             {data ? (
               <Text>
                 Success! You may now head{' '}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import { CREATE_EVENT } from '../utils/mutations';
 import {
     Box,
@@ -11,6 +11,7 @@ import {
     Input,
     Textarea,
     Grid,
+    useToast
 } from "@chakra-ui/react";
 
 const CreateEventForm = () => {
@@ -38,8 +39,8 @@ const CreateEventForm = () => {
     });
 
     const [createEvent, { loading, error }] = useMutation(CREATE_EVENT);
-
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate();
+    const toast = useToast();
 
     const handleChange = (e) => {
         const { name, value, type } = e.target;
@@ -64,25 +65,35 @@ const CreateEventForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         try {
             const { data } = await createEvent({
                 variables: { ...formData },
             });
-            console.log(data)
-            // Redirect to the created event page or any other desired page
-            navigate(`/event/${data.createEvent._id}`); // Use navigate function
+    
+            toast({
+                title: "Event creation successful",
+                description: `The event "${data.createEvent.eventName}" was created successfully`,
+                status: "success",
+                duration: 9000,
+                isClosable: true,
+            });
+    
+            navigate(`/event/${data.createEvent._id}`);
         } catch (error) {
             console.error('Error creating event:', error);
+            toast({
+                title: "Error creating event",
+                description: `${error}`,
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+            });
         }
     };
 
     if (loading) {
         return <p>Loading...</p>;
-    }
-
-    if (error) {
-        return <p>Error :(</p>;
     }
 
     return (

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import { CREATE_EVENT } from '../utils/mutations';
-import Auth from '../utils/auth';
 import {
     Box,
     Button,
@@ -52,57 +51,9 @@ const CreateEventForm = () => {
         }));
     };
 
-    const toast = useToast();
-
     const handleLocationChange = (e) => {
-        const { name, value } = e.target;
-        let valueType = value;
-
-        if (["lon", "lat", "eventCapacity", "minAge"].includes(name)) {
-            if (value.trim() === "") {
-                valueType = "";
-            } else {
-                if (!/^-?\d*\.?\d+$/.test(value) && value !== "-") {
-                    toast({
-                        title: "Invalid Value",
-                        description: "Please enter a valid number.",
-                        status: "error",
-                        duration: 5000,
-                        isClosable: true,
-                    });
-                    return;
-                }
-
-                const parsedValue = parseFloat(value);
-
-                if (name === "lat") {
-                    if (parsedValue < -90 || parsedValue > 90) {
-                        toast({
-                            title: "Invalid Latitude",
-                            description: "Latitude value must be between -90 and 90.",
-                            status: "error",
-                            duration: 5000,
-                            isClosable: true,
-                        });
-                        return;
-                    }
-                } else if (name === "lon") {
-                    if (parsedValue < -180 || parsedValue > 180) {
-                        toast({
-                            title: "Invalid Longitude",
-                            description: "Longitude value must be between -180 and 180.",
-                            status: "error",
-                            duration: 5000,
-                            isClosable: true,
-                        });
-                        return;
-                    }
-                }
-
-                valueType = parsedValue.toString();
-            }
-        }
-
+        const { name, value, type } = e.target;
+        const valueType = type === "number" ? parseFloat(value) : value
         setFormData((prevData) => ({
             ...prevData,
             eventLocation: {
@@ -111,10 +62,6 @@ const CreateEventForm = () => {
             },
         }));
     };
-
-
-
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -144,12 +91,6 @@ const CreateEventForm = () => {
             });
         }
     };
-
-    useEffect(() => {
-        if (!Auth.loggedIn()) {
-            navigate('/signup');
-        }
-    }, [navigate]);
 
     if (loading) {
         return <p>Loading...</p>;
@@ -183,16 +124,16 @@ const CreateEventForm = () => {
                     />
                 </FormControl>
                 <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-                    <FormControl mb={4}>
-                        <FormLabel>Event Category</FormLabel>
-                        <Input
-                            type="text"
-                            name="eventCategory"
-                            value={formData.eventCategory}
-                            onChange={handleChange}
-                            placeholder="Enter event category"
-                        />
-                    </FormControl>
+                <FormControl mb={4}>
+                    <FormLabel>Event Category</FormLabel>
+                    <Input
+                        type="text"
+                        name="eventCategory"
+                        value={formData.eventCategory}
+                        onChange={handleChange}
+                        placeholder="Enter event category"
+                    />
+                </FormControl>
                     <FormControl mb={4}>
                         <FormLabel>Main Image URL</FormLabel>
                         <Input
@@ -276,29 +217,21 @@ const CreateEventForm = () => {
                     <FormControl mb={4}>
                         <FormLabel>Event Latitude</FormLabel>
                         <Input
+                            type="number"
                             name="lat"
                             value={formData.eventLocation.lat}
                             onChange={handleLocationChange}
-                            type="number"
-                            pattern="-?[0-9]*\.?[0-9]+"
                             placeholder="Enter event latitude"
-                            isInvalid={
-                                formData.eventLocation.lat < -90 || formData.eventLocation.lat > 90
-                            }
                         />
                     </FormControl>
                     <FormControl mb={4}>
                         <FormLabel>Event Longitude</FormLabel>
                         <Input
+                            type="number"
                             name="lon"
                             value={formData.eventLocation.lon}
                             onChange={handleLocationChange}
-                            type="number"
-                            pattern="-?[0-9]*\.?[0-9]+"
                             placeholder="Enter event longitude"
-                            isInvalid={
-                                formData.eventLocation.lon < -180 || formData.eventLocation.lon > 180
-                            }
                         />
                     </FormControl>
                     <FormControl mb={4}>

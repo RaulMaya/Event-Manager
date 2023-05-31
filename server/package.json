@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Event Management Platform: Users create, discover, and manage events based on location. Register, log in, create profiles, specify event details, set visibility preferences, browse events, RSVP, and communicate with organizers and attendees.",
   "main": "server.js",
+  "engines": {
+    "node": "v18.13.0"
+  },
   "scripts": {
     "start": "node server.js",
     "watch": "nodemon",

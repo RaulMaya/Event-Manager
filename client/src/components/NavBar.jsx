@@ -58,16 +58,20 @@ const NavBar = () => {
                                         Events
                                     </Button>
                                 </RouterLink>
-                                <RouterLink to="/createEvent">
-                                    <Button size="lg" colorScheme="purple" variant="solid" m={2}>
-                                        Create Event
-                                    </Button>
-                                </RouterLink>
-                                <RouterLink to="/userProfile">
-                                    <Button size="lg" colorScheme="purple" variant="solid" m={2}>
-                                        User Profile
-                                    </Button>
-                                </RouterLink>
+                                {isLoggedIn && (
+                                    <>
+                                        <RouterLink to="/createEvent">
+                                            <Button size="lg" colorScheme="purple" variant="solid" m={2}>
+                                                Create Event
+                                            </Button>
+                                        </RouterLink>
+                                        <RouterLink to="/userProfile">
+                                            <Button size="lg" colorScheme="purple" variant="solid" m={2}>
+                                                User Profile
+                                            </Button>
+                                        </RouterLink>
+                                    </>
+                                )}
                             </ButtonGroup>
                             <HStack spacing="3">
                                 {isLoggedIn ? (

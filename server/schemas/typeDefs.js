@@ -60,8 +60,8 @@ const typeDefs = gql`
     city: String
     country: String
     state: String
-    lat: Float
-    lon: Float
+    lat: String
+    lon: String
   }
 
   type Query {

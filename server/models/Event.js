@@ -51,8 +51,8 @@ const eventSchema = new Schema(
       city: String,
       country: String,
       state: String,
-      lat: Number,
-      lon: Number,
+      lat: String,
+      lon: String,
     },
     eventType: {
       type: String,

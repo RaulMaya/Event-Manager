@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/partymaster');
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/partymaster");
 
 module.exports = mongoose.connection;

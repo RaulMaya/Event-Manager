@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import './leafletStyles.css';
 import { Box } from '@chakra-ui/react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -16,7 +17,7 @@ let DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-const LeafletMap = ({ latitude, longitude }) => {
+const LeafletMap = ({ latitude, longitude, name }) => {
     const mapRef = useRef(null);
 
     useEffect(() => {
@@ -28,12 +29,16 @@ const LeafletMap = ({ latitude, longitude }) => {
             }).setView([latitude, longitude], 13);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-            L.marker([latitude, longitude]).addTo(map);
+
+            const marker = L.marker([latitude, longitude]).addTo(map);
+
+            // Add a tooltip to the marker
+            marker.bindTooltip(name, { permanent: false, direction: 'top' });
         }
     }, [latitude, longitude]);
 
     return (
-        <Box height="400px" maxWidth="600px" margin="0 auto">
+        <Box height="600px" maxWidth="1000px" margin="0 auto">
             <div style={{ height: '100%' }} ref={mapRef}></div>
         </Box>
     );

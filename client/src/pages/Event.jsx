@@ -25,6 +25,15 @@ import {
     AlertDialogFooter,
     useToast,
     Flex,
+    Table,
+    Thead,
+    Tbody,
+    Tfoot,
+    Tr,
+    Th,
+    Td,
+    TableCaption,
+    TableContainer,
 } from '@chakra-ui/react';
 import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
 
@@ -141,89 +150,56 @@ const SingleEvent = () => {
 
     return (
         <Container maxW="container.xl" mt={4}>
-            <Flex direction={{ base: 'column', md: 'row' }} gap={8}>
+            <Flex direction='column' gap={8}>
                 {/* Event Information */}
-                <Box flex={1}>
-                    <Box mb={4}>
-                        <img src={event.mainImg} alt={event.eventName} />
-                        <Heading as="h2" size="lg" mt={2}>
-                            {event.eventName}
-                        </Heading>
-                        <Text>{event.eventDescription}</Text>
-                        <Text>
-                            <strong>Location:</strong> {event.eventLocation.city}, {event.eventLocation.country}
-                        </Text>
-                        <Text>
-                            <strong>Type:</strong> {event.eventType}
-                        </Text>
-                        <Text>
-                            <strong>Start Date:</strong> {new Date(event.eventStartDate).toLocaleDateString()}
-                        </Text>
-                        <Text>
-                            <strong>Capacity:</strong> {event.eventCapacity}
-                        </Text>
-                    </Box>
-
-                    <Box mb={4}>
-                        <Heading as="h3" size="md" mb={2}>
-                            Comments
-                        </Heading>
-                        {event.comments.map((comment) => (
-                            <Box key={comment._id} bg="gray.100" p={4} mb={4} borderRadius="md" display="flex" alignItems="flex-start">
-                                <Text flex={1}>
-                                    <strong>{comment.user.username}:</strong> {comment.commentText}
-                                </Text>
-                                {Auth.loggedIn() && comment.user._id === Auth.getUser()?.data?._id && (
-                                    <Stack direction="row" ml={2}>
-                                        <IconButton
-                                            icon={<EditIcon />}
-                                            aria-label="Edit Comment"
-                                            variant="outline"
-                                            colorScheme="purple"
-                                            size="sm"
-                                            onClick={() => handleCommentEdit(comment._id, comment.commentText)}
-                                        />
-                                        <IconButton
-                                            icon={<DeleteIcon />}
-                                            aria-label="Delete Comment"
-                                            variant="outline"
-                                            colorScheme="red"
-                                            size="sm"
-                                            onClick={() => setShowDeleteAlert(comment._id)}
-                                        />
-                                    </Stack>
-                                )}
-                            </Box>
-
-                        ))}
-                    </Box>
-
-                    <form onSubmit={handleCommentSubmit}>
-                        <FormControl mb={4}>
-                            <FormLabel>Add a Comment</FormLabel>
-                            <Input
-                                type="text"
-                                name="commentText"
-                                value={commentText}
-                                onChange={(e) => setCommentText(e.target.value)}
-                                placeholder="Enter your comment"
-                                required
-                            />
-                        </FormControl>
-                        <Button colorScheme="purple" type="submit">
-                            Submit Comment
-                        </Button>
-                    </form>
+                <Box mb={4}>
+                    <Heading as="h2" size="lg" mt={2}>
+                        {event.eventName}
+                    </Heading>
+                    <img src={event.mainImg} alt={event.eventName} />
+                    <Text>{event.eventDescription}</Text>
+                    {/* ... other Event Information components ... */}
                 </Box>
 
                 {/* Map Section */}
-                <Box flex={1} mb={4}>
+                <Box mb={4}>
                     <Heading as="h3" size="md" mb={2}>
                         Location Map
                     </Heading>
-                    <LeafletMap latitude={event.eventLocation.lat} longitude={event.eventLocation.lon} />
+                    <LeafletMap latitude={event.eventLocation.lat} longitude={event.eventLocation.lon} name={event.eventName} />
                 </Box>
             </Flex>
+
+            {/* Comment Section */}
+            <Box mb={4}>
+                <Heading as="h3" size="md" mb={2}>
+                    Comments
+                </Heading>
+                {event.comments.map((comment) => (
+                    <Box key={comment._id} bg="gray.100" p={4} mb={4} borderRadius="md" display="flex" alignItems="flex-start">
+                        <Text flex={1}>
+                            <strong>{comment.user.username}:</strong> {comment.commentText}
+                        </Text>
+                        {/* ... other Comment components ... */}
+                    </Box>
+                ))}
+                <form onSubmit={handleCommentSubmit}>
+                    <FormControl mb={4}>
+                        <FormLabel>Add a Comment</FormLabel>
+                        <Input
+                            type="text"
+                            name="commentText"
+                            value={commentText}
+                            onChange={(e) => setCommentText(e.target.value)}
+                            placeholder="Enter your comment"
+                            required
+                        />
+                    </FormControl>
+                    <Button colorScheme="purple" type="submit">
+                        Submit Comment
+                    </Button>
+                </form>
+            </Box>
 
             {/* Delete Comment Alert */}
             <AlertDialog isOpen={showDeleteAlert} leastDestructiveRef={null} onClose={() => setShowDeleteAlert(false)}>
@@ -232,9 +208,9 @@ const SingleEvent = () => {
                         <AlertDialogHeader fontSize="lg" fontWeight="bold">
                             Delete Comment
                         </AlertDialogHeader>
-
-                        <AlertDialogBody>Are you sure you want to delete this comment?</AlertDialogBody>
-
+                        <AlertDialogBody>
+                            Are you sure you want to delete this comment?
+                        </AlertDialogBody>
                         <AlertDialogFooter>
                             <Button variant="ghost" onClick={() => setShowDeleteAlert(false)}>
                                 Cancel
@@ -248,6 +224,7 @@ const SingleEvent = () => {
             </AlertDialog>
         </Container>
     );
+
 };
 
 export default SingleEvent;

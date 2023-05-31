@@ -3,10 +3,11 @@ import { format } from 'date-fns';
 import { useMutation, useQuery } from '@apollo/client';
 import { ATTEND_EVENT, CANCEL_EVENT } from '../utils/mutations';
 import { QUERY_ME } from '../utils/queries';
-import { Box, Grid, Image, Heading, Text, Button, Flex, useColorModeValue } from "@chakra-ui/react";
+import { Box, Grid, Image, Heading, Text, Button, Flex, useColorModeValue, useBreakpointValue } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
-const EventList = ({ events }) => {
+const EventList = ({ events, isAuthenticated, showAllEvents }) => {
+    const limitedEvents = showAllEvents ? events : events.slice(0, 3);
     const { loading, error, data, client } = useQuery(QUERY_ME);
     const eventAtt = data?.me?.assistingEvents || [];
 
@@ -46,11 +47,13 @@ const EventList = ({ events }) => {
         }
     };
 
+    const gridColumns = useBreakpointValue({ base: 1, md: 2, lg: 3 });
+
     return (
         <div className="row">
             {events && (
-                <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-                    {events.map((event) => (
+                <Grid templateColumns={`repeat(${gridColumns}, 1fr)`} gap={6}>
+                    {limitedEvents.map((event) => (
                         <Box
                             key={event._id}
                             boxShadow="lg"
@@ -90,6 +93,7 @@ const EventList = ({ events }) => {
                                     <strong>Capacity:</strong> {event.eventCapacity}
                                 </Text>
                             </Box>
+
                             <Flex justify="flex-start" mt="3">
                                 <Button
                                     as={RouterLink}
@@ -102,16 +106,16 @@ const EventList = ({ events }) => {
                                 >
                                     See Event
                                 </Button>
-                                <Button
-                                    colorScheme={
-                                        eventAtt.some((eventAtt) => eventAtt._id === event._id) ? 'green' : 'purple'
-                                    }
-                                    onClick={() => handleButtonClick(event._id)}
-                                    w="130px"
-                                    isTruncated
-                                >
-                                    {eventAtt.some((eventAtt) => eventAtt._id === event._id) ? 'Assisting' : 'Attend Event'}
-                                </Button>
+                                {isAuthenticated && (
+                                    <Button
+                                        colorScheme={eventAtt.some((eventAtt) => eventAtt._id === event._id) ? 'green' : 'purple'}
+                                        onClick={() => handleButtonClick(event._id)}
+                                        w="130px"
+                                        isTruncated
+                                    >
+                                        {eventAtt.some((eventAtt) => eventAtt._id === event._id) ? 'Assisting' : 'Attend Event'}
+                                    </Button>
+                                )}
                             </Flex>
                         </Box>
                     ))}

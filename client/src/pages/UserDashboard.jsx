@@ -1,8 +1,8 @@
-import React from 'react';
-import { Navigate, useParams } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_SINGLE_USER, QUERY_ME } from '../utils/queries';
-import { DELETE_EVENT } from '../utils/mutations';
+import { DELETE_EVENT, ATTEND_EVENT, CANCEL_EVENT } from '../utils/mutations';
 import Auth from '../utils/auth';
 import {
     Box,
@@ -22,22 +22,57 @@ import { DeleteIcon } from '@chakra-ui/icons';
 
 const UserDashboard = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
 
-
-    const { loading, error, data } = useQuery(id ? QUERY_SINGLE_USER : QUERY_ME, {
+    const { loading, error, data, refetch } = useQuery(id ? QUERY_SINGLE_USER : QUERY_ME, {
         variables: { userId: id },
+    });
+
+    const eventAtt = data?.me?.assistingEvents || [];
+
+    const [attendEvent] = useMutation(ATTEND_EVENT, {
+        refetchQueries: [{ query: id ? QUERY_SINGLE_USER : QUERY_ME }],
+    });
+
+    const [cancelEvent] = useMutation(CANCEL_EVENT, {
+        refetchQueries: [{ query: id ? QUERY_SINGLE_USER : QUERY_ME }],
     });
 
     const [deleteEvent] = useMutation(DELETE_EVENT, {
         refetchQueries: [{ query: id ? QUERY_SINGLE_USER : QUERY_ME }],
     });
 
-    // Check if data is returning from the `QUERY_ME` query, then the `QUERY_SINGLE_PROFILE` query
+    const handleButtonClick = async (eventId) => {
+        const isAttending = eventAtt.some((event) => event._id === eventId);
+        try {
+            if (isAttending) {
+                await cancelEvent({ variables: { eventId } });
+                const updatedEventAtt = eventAtt.filter((event) => event._id !== eventId);
+                refetch();
+            } else {
+                await attendEvent({ variables: { eventId } });
+                const updatedEventAtt = [...eventAtt, { _id: eventId }];
+                refetch();
+            }
+        } catch (error) {
+            console.error('Error updating attendance:', error);
+        }
+    };
+
     const user = data?.me || data?.profile || {};
 
-    // Use React Router's `<Navigate />` component to redirect to personal profile page if username is yours
-    if (Auth.loggedIn() && Auth.getUser().data._id === id) {
-        return <Navigate to="/userProfile" />;
+    useEffect(() => {
+        if (!Auth.loggedIn()) {
+            navigate('/signup');
+        }
+    }, [navigate]);
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
+    if (error) {
+        return <p>Error :(</p>;
     }
 
     const handleDeleteEvent = async (eventId) => {
@@ -51,24 +86,6 @@ const UserDashboard = () => {
             // Handle any error states or display error message to the user
         }
     };
-
-    if (loading) {
-        return <p>Loading...</p>;
-    }
-
-    if (error) {
-        return <p>Error :(</p>;
-    }
-
-    if (!user?.username) {
-        return (
-            <Box p={4}>
-                <Text>
-                    You need to be logged in to see your profile page. Use the navigation links above to sign up or log in!
-                </Text>
-            </Box>
-        );
-    }
 
     return (
         <Box p={4} mt={10}>
@@ -145,17 +162,29 @@ const UserDashboard = () => {
                                 <Text fontSize="sm" mt={2}>
                                     {event.eventDescription}
                                 </Text>
-                                <Link to={`/event/${event._id}`}>
+                                <Flex mt="auto" justifyContent="space-between" alignItems="flex-end">
+                                    <Link to={`/event/${event._id}`}>
+                                        <Button
+                                            colorScheme="purple"
+                                            mt={12}
+                                            mr={2}
+                                            size="sm"
+                                        >
+                                            Visit Event
+                                        </Button>
+                                    </Link>
                                     <Button
-                                        colorScheme="purple"
-                                        mt={12}
-                                        ml={1}
+                                        colorScheme={
+                                            eventAtt.some((eventAtt) => eventAtt._id === event._id) ? 'green' : 'purple'
+                                        }
+                                        onClick={() => handleButtonClick(event._id)}
+                                        ml={2}
                                         size="sm"
+                                        isTruncated
                                     >
-                                        Visit Event
+                                        {eventAtt.some((eventAtt) => eventAtt._id === event._id) ? 'Assisting' : 'Attend Event'}
                                     </Button>
-                                </Link>
-
+                                </Flex>
                             </Box>
                             <Box
                                 width="200px"

@@ -34,16 +34,19 @@ const HeroSection = () => {
                     w={{ base: '100%', sm: 'auto' }}
                     spacing={5}
                 >
-                    <Button
-                        colorScheme="purple"
-                        variant="outline"
-                        rounded="md"
-                        size="lg"
-                        height="3.5rem"
-                        fontSize="1.2rem"
-                    >
-                        Get Started
-                    </Button>
+                    <Link href="/events">
+                        <Button
+                            to="/events"
+                            colorScheme="purple"
+                            variant="outline"
+                            rounded="md"
+                            size="lg"
+                            height="3.5rem"
+                            fontSize="1.2rem"
+                        >
+                            Get Started
+                        </Button>
+                    </Link>
                     <Link
                         href="https://github.com/RaulMaya/PartyMaster"
                         colorScheme="gray"

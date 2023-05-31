@@ -15,6 +15,7 @@ import Home from "./pages/Home";
 import Signup from './pages/SignUp';
 import Login from './pages/Login';
 import Event from "./pages/Event"
+import Events from "./pages/Events"
 import CreateEvent from "./pages/CreateEvent"
 import UserDashboard from "./pages/UserDashboard"
 
@@ -59,6 +60,7 @@ const App = () => {
                                 <Route path="/signup" element={<Signup />} />
                                 <Route path="/createEvent" element={<CreateEvent />} />
                                 <Route path="/userProfile" element={<UserDashboard />} />
+                                <Route path="/events" element={<Events />} />
                                 <Route path="/event/:id" element={<Event />} />
                                 <Route path="*" element={<NotFound />} />
                             </Routes>

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_SINGLE_USER, QUERY_ME } from '../utils/queries';
 import { DELETE_EVENT, ATTEND_EVENT, CANCEL_EVENT } from '../utils/mutations';
+import { Link } from 'react-router-dom';
 import Auth from '../utils/auth';
 import {
     Box,
@@ -12,7 +13,6 @@ import {
     Divider,
     VStack,
     HStack,
-    Link,
     Avatar,
     Image,
     SimpleGrid,

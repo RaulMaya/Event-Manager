@@ -19,12 +19,12 @@ app.use(express.json());
 
 // Tell our application where is running
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../client/build")));
+  app.use(express.static(path.join(__dirname, "../client/dist")));
 }
 
 // Creating a file the is sending a file
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+  res.sendFile(path.join(__dirname, "../client/dist/index.html"));
 });
 
 // Create a new instance of an Apollo server with the GraphQL schema

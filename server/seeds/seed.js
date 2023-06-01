@@ -16,19 +16,21 @@ const seedData = async () => {
     await Comment.deleteMany({});
     // Create users
     const user1 = await User.create({
-      username: "johndoe",
-      email: "john@example.com",
+      username: "johncena",
+      email: "johncena@example.com",
       password: "password#123",
       dateOfBirth: "1990-05-15",
-      profilePic: "john.jpg",
+      profilePic:
+        "https://pbs.twimg.com/profile_images/839539770384662528/2DkQOk3r_400x400.jpg",
     });
 
     const user2 = await User.create({
-      username: "janesmith",
-      email: "jane@example.com",
+      username: "anadearmas",
+      email: "anadearmas@example.com",
       password: "password#456",
       dateOfBirth: "1992-09-20",
-      profilePic: "jane.jpg",
+      profilePic:
+        "https://www.themoviedb.org/t/p/original/14uxt0jH28J9zn4vNQNTae3Bmr7.jpg",
     });
 
     const user3 = await User.create({
@@ -36,7 +38,8 @@ const seedData = async () => {
       email: "tony@example.com",
       password: "password#789",
       dateOfBirth: "1970-10-05",
-      profilePic: "tony.jpg",
+      profilePic:
+        "https://scontent.ftam1-1.fna.fbcdn.net/v/t1.6435-9/83323529_10158011544627290_2299282377949577216_n.jpg?_nc_cat=1&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5YNpmEYWwCMAX8N5d6B&_nc_ht=scontent.ftam1-1.fna&oh=00_AfBtV6D_XqhPvScxeUOaWDz5DKV9dNTkYZG-Fy1yIoUikw&oe=649F4CD7",
     });
 
     const event1 = await Event.create({
@@ -60,7 +63,7 @@ const seedData = async () => {
       eventInvitation: true,
       minAge: 18,
       createdBy: user3._id,
-      usersAssisting: [user1._id, user2._id],
+      usersAssisting: [],
     });
 
     const event2 = await Event.create({
@@ -84,7 +87,7 @@ const seedData = async () => {
       eventInvitation: false,
       minAge: 16,
       createdBy: user1._id,
-      usersAssisting: [user2._id],
+      usersAssisting: [],
     });
 
     const event3 = await Event.create({
@@ -108,7 +111,7 @@ const seedData = async () => {
       eventInvitation: true,
       minAge: 16,
       createdBy: user2._id,
-      usersAssisting: [user1._id],
+      usersAssisting: [],
     });
 
     const event4 = await Event.create({
@@ -132,7 +135,7 @@ const seedData = async () => {
       eventInvitation: true,
       minAge: 16,
       createdBy: user1._id,
-      usersAssisting: [user2._id, user3._id],
+      usersAssisting: [],
     });
     // Create comments
     const comment1 = await Comment.create({

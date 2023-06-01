@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_SINGLE_USER, QUERY_ME } from '../utils/queries';
-import { DELETE_EVENT, ATTEND_EVENT, CANCEL_EVENT } from '../utils/mutations';
+import { DELETE_EVENT, ATTEND_EVENT, CANCEL_EVENT, UPDATE_EVENT } from '../utils/mutations';
 import { Link } from 'react-router-dom';
 import Auth from '../utils/auth';
 import {
@@ -11,14 +11,17 @@ import {
     Heading,
     Text,
     Divider,
+    Input,
     VStack,
-    HStack,
+    FormControl,
+    FormLabel,
     Avatar,
     Image,
     SimpleGrid,
     Button,
     useDisclosure,
     Modal,
+    ModalCloseButton,
     ModalOverlay,
     ModalContent,
     ModalHeader,
@@ -51,7 +54,34 @@ const UserDashboard = () => {
         refetchQueries: [{ query: id ? QUERY_SINGLE_USER : QUERY_ME }],
     });
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [updateEvent] = useMutation(UPDATE_EVENT);  // Define the updateEvent mutation function
+    const [formData, setFormData] = useState({
+        eventName: "",
+        eventCategory: "",
+        eventDescription: "",
+        // ... Initialize other fields here with default values
+    });
+    const [eventToUpdate, setEventToUpdate] = useState(null)
+
+    const handleUpdateEvent = (event) => {
+        setEventToUpdate(event._id);
+        setFormData({
+            eventName: event.eventName,
+            eventCategory: event.eventCategory,
+            eventDescription: event.eventDescription,
+            // ... other fields here
+        });
+        onOpenUpdate();
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    }
+
+    const { isOpen: isUpdateOpen, onOpen: onOpenUpdate, onClose: onCloseUpdate } = useDisclosure();
+    const { isOpen: isDeleteOpen, onOpen: onOpenDelete, onClose: onCloseDelete } = useDisclosure();
+
     const [eventToDelete, setEventToDelete] = useState(null);
 
     const toast = useToast();
@@ -75,7 +105,32 @@ const UserDashboard = () => {
 
     const handleDeleteEvent = async (eventId) => {
         setEventToDelete(eventId);
-        onOpen();
+        onOpenDelete();
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await updateEvent({ variables: { ...formData, updateEventId: eventToUpdate } });
+            toast({
+                title: 'Event Updated',
+                description: 'The event has been updated successfully.',
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+            });
+            onCloseUpdate();
+            refetch();
+        } catch (error) {
+            console.error('Error updating event:', error);
+            toast({
+                title: 'Error',
+                description: 'An error occurred while updating the event.',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            });
+        }
     };
 
     const handleDeleteConfirmation = async (eventId) => {
@@ -90,7 +145,7 @@ const UserDashboard = () => {
                 duration: 5000,
                 isClosable: true,
             });
-            onClose();
+            onCloseDelete();
             refetch();
         } catch (error) {
             console.error('Error deleting event:', error);
@@ -123,7 +178,7 @@ const UserDashboard = () => {
     return (
         <Box p={4} mt={10}>
             <Flex align="center" mb={6}>
-                <Avatar size="lg" name={user.username} src="https://via.placeholder.com/150" mr={4} />
+                <Avatar size="lg" name={user.username} src={user.profilePic} mr={4} />
                 <VStack align="start" spacing={1}>
                     <Heading size="lg">{user.username}</Heading>
                     <Text fontSize="sm">{user.email}</Text>
@@ -144,6 +199,11 @@ const UserDashboard = () => {
                                 <Text fontSize="sm" mt={2}>
                                     {event.eventDescription}
                                 </Text>
+                                <Flex mt="auto" justifyContent="space-between" alignItems="flex-end">
+                                    <Button colorScheme="green" size="sm" mr={2} onClick={() => handleUpdateEvent(event)}>
+                                        Edit Event
+                                    </Button>
+                                </Flex>
                                 <Flex mt="auto" justifyContent="space-between" alignItems="flex-end">
                                     <RouterLink to={`/event/${event._id}`}>
                                         <Button colorScheme="purple" size="sm" mr={2}>
@@ -221,15 +281,39 @@ const UserDashboard = () => {
                     ))}
                 </SimpleGrid>
             </Box>
+            {/* Update Event Modal */}
+            <Modal isOpen={isUpdateOpen} onClose={onCloseUpdate}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Edit Event</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <form onSubmit={handleSubmit}>
+                            <FormControl>
+                                <FormLabel>Event Name</FormLabel>
+                                <Input type="text" name="eventName" value={formData?.eventName || ''} onChange={handleChange} />
+                            </FormControl>
+                            {/* Add other form controls here */}
+                        </form>
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+                            Save
+                        </Button>
+                        <Button onClick={onCloseUpdate}>Cancel</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
 
             {/* Delete Event Modal */}
-            <Modal isOpen={isOpen} onClose={onClose}>
+            <Modal isOpen={isDeleteOpen} onClose={onCloseDelete}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Delete Event</ModalHeader>
                     <ModalBody>Are you sure you want to delete this event?</ModalBody>
                     <ModalFooter>
-                        <Button colorScheme="gray" mr={3} onClick={onClose}>
+                        <Button colorScheme="gray" mr={3} onClick={onCloseDelete}>
                             Cancel
                         </Button>
                         <Button colorScheme="red" onClick={() => handleDeleteConfirmation(eventToDelete)}>

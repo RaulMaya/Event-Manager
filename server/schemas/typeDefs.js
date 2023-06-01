@@ -119,7 +119,6 @@ const typeDefs = gql`
       eventCapacity: Int!
       eventInvitation: Boolean!
       minAge: Int!
-      createdBy: ID!
     ): Event
     deleteEvent(id: ID!): Event
     assistEvent(eventId: ID!): Event

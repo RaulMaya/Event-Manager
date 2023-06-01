@@ -73,7 +73,7 @@ const resolvers = {
         .populate({
           path: "comments",
           populate: "event",
-        })//s
+        }) //s
         .populate("friends");
     },
     me: async (parent, args, context) => {
@@ -273,6 +273,7 @@ const resolvers = {
           eventCapacity,
           eventInvitation,
           minAge,
+          createdBy: authUser._id,
         });
 
         // Add the created event to the user's createdEvents array

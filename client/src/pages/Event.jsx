@@ -52,7 +52,7 @@ const SingleEvent = () => {
     const [deleteComment, { error: deleteCommentError }] = useMutation(DELETE_COMMENT);
 
     const toast = useToast();
-
+    console.log(data)
     const handleCommentSubmit = async (event) => {
         event.preventDefault();
 
@@ -155,7 +155,7 @@ const SingleEvent = () => {
                 {/* Event Information */}
                 <Box flex={1} mb={4}>
                     <img src={event.mainImg} alt={event.eventName} />
-                    <Text>{event.eventDescription}</Text>
+                    <Text fontSize='2xl' mt={5}>{event.eventDescription}</Text>
                     <TableContainer>
                         <Table variant='striped' colorScheme='purple'>
                             <TableCaption>All your event details</TableCaption>

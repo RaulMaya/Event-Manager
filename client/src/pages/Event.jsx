@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Auth from '../utils/auth';
+import { format } from 'date-fns';
 import { useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_SINGLE_EVENT } from '../utils/queries';
@@ -149,30 +150,60 @@ const SingleEvent = () => {
     if (!event) return <NotFound />;
 
     return (
-        <Container maxW="container.xl" mt={4}>
-            <Flex direction='column' gap={8}>
+        <Container maxW="container.xl" mt={10}>
+            <Flex direction={{ base: 'column', md: 'row' }} gap={8}>
                 {/* Event Information */}
-                <Box mb={4}>
-                    <Heading as="h2" size="lg" mt={2}>
-                        {event.eventName}
-                    </Heading>
+                <Box flex={1} mb={4}>
                     <img src={event.mainImg} alt={event.eventName} />
                     <Text>{event.eventDescription}</Text>
-                    {/* ... other Event Information components ... */}
+                    <TableContainer>
+                        <Table variant='striped' colorScheme='purple'>
+                            <TableCaption>All your event details</TableCaption>
+                            <Thead>
+
+                            </Thead>
+                            <Tbody>
+                                <Tr>
+                                    <Td><strong>Event Name</strong>:</Td>
+                                    <Td>{event.eventName}</Td>
+                                    <Td><strong>Event Capacity</strong>:</Td>
+                                    <Td >{event.eventCapacity}</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td><strong>Event Start Date</strong>:</Td>
+                                    <Td>{format(new Date(event.eventStartDate), 'MMMM dd, yyyy')}</Td>
+                                    <Td ><strong>Event Type</strong>:</Td>
+                                    <Td >{event.eventType}</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td><strong>Minimum Age</strong>:</Td>
+                                    <Td >{event.minAge}</Td>
+                                    <Td ><strong>Created By</strong>:</Td>
+                                    <Td >{event.createdBy.username}</Td>
+                                </Tr>
+                                <Tr>
+                                    <Td><strong>Address</strong>:</Td>
+                                    <Td>{event.eventLocation.address}</Td>
+                                    <Td><strong>City, Country</strong>:</Td>
+                                    <Td>{event.eventLocation.city}, {event.eventLocation.country}</Td>
+                                </Tr>
+                            </Tbody>
+                            <Tfoot>
+
+                            </Tfoot>
+                        </Table>
+                    </TableContainer>
                 </Box>
 
                 {/* Map Section */}
-                <Box mb={4}>
-                    <Heading as="h3" size="md" mb={2}>
-                        Location Map
-                    </Heading>
+                <Box flex={1} mb={4}>
                     <LeafletMap latitude={event.eventLocation.lat} longitude={event.eventLocation.lon} name={event.eventName} />
                 </Box>
             </Flex>
 
             {/* Comment Section */}
-            <Box mb={4}>
-                <Heading as="h3" size="md" mb={2}>
+            <Box mb={10}>
+                <Heading size="lg" mb={10} mt={10}>
                     Comments
                 </Heading>
                 {event.comments.map((comment) => (
@@ -180,25 +211,46 @@ const SingleEvent = () => {
                         <Text flex={1}>
                             <strong>{comment.user.username}:</strong> {comment.commentText}
                         </Text>
-                        {/* ... other Comment components ... */}
+                        {Auth.loggedIn() && comment.user._id === Auth.getUser()?.data?._id && (
+                            <Stack direction="row" ml={2}>
+                                <IconButton
+                                    icon={<EditIcon />}
+                                    aria-label="Edit Comment"
+                                    variant="outline"
+                                    colorScheme="purple"
+                                    size="sm"
+                                    onClick={() => handleCommentEdit(comment._id, comment.commentText)}
+                                />
+                                <IconButton
+                                    icon={<DeleteIcon />}
+                                    aria-label="Delete Comment"
+                                    variant="outline"
+                                    colorScheme="red"
+                                    size="sm"
+                                    onClick={() => setShowDeleteAlert(comment._id)}
+                                />
+                            </Stack>
+                        )}
                     </Box>
                 ))}
-                <form onSubmit={handleCommentSubmit}>
-                    <FormControl mb={4}>
-                        <FormLabel>Add a Comment</FormLabel>
-                        <Input
-                            type="text"
-                            name="commentText"
-                            value={commentText}
-                            onChange={(e) => setCommentText(e.target.value)}
-                            placeholder="Enter your comment"
-                            required
-                        />
-                    </FormControl>
-                    <Button colorScheme="purple" type="submit">
-                        Submit Comment
-                    </Button>
-                </form>
+                {Auth.loggedIn() && (
+                    <form onSubmit={handleCommentSubmit}>
+                        <FormControl mb={4}>
+                            <FormLabel>Add a Comment</FormLabel>
+                            <Input
+                                type="text"
+                                name="commentText"
+                                value={commentText}
+                                onChange={(e) => setCommentText(e.target.value)}
+                                placeholder="Enter your comment"
+                                required
+                            />
+                        </FormControl>
+                        <Button colorScheme="purple" type="submit">
+                            Submit Comment
+                        </Button>
+                    </form>
+                )}
             </Box>
 
             {/* Delete Comment Alert */}

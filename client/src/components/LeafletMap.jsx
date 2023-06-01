@@ -38,7 +38,7 @@ const LeafletMap = ({ latitude, longitude, name }) => {
     }, [latitude, longitude]);
 
     return (
-        <Box height="600px" maxWidth="1000px" margin="0 auto">
+        <Box height="700px" maxWidth="1000px" margin="0 auto">
             <div style={{ height: '100%' }} ref={mapRef}></div>
         </Box>
     );

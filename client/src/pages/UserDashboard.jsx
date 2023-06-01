@@ -27,6 +27,7 @@ import {
     useToast
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
+import { Link as RouterLink } from 'react-router-dom';
 
 const UserDashboard = () => {
     const { id } = useParams();
@@ -144,11 +145,11 @@ const UserDashboard = () => {
                                     {event.eventDescription}
                                 </Text>
                                 <Flex mt="auto" justifyContent="space-between" alignItems="flex-end">
-                                    <Link to={`/event/${event._id}`}>
+                                    <RouterLink to={`/event/${event._id}`}>
                                         <Button colorScheme="purple" size="sm" mr={2}>
                                             Visit Event
                                         </Button>
-                                    </Link>
+                                    </RouterLink>
                                     <Button
                                         colorScheme="red"
                                         size="sm"

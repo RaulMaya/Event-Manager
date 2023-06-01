@@ -112,24 +112,47 @@ const CreateEventForm = () => {
         }));
     };
 
-
-
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
+        let modifiedData = {...formData};
+        modifiedData.tags = formData.tags.split(",").map(tag => tag.trim());
+    
         try {
             const { data } = await createEvent({
-                variables: { ...formData },
+                variables: { ...modifiedData },
             });
             console.log(data)
-            // Redirect to the created event page or any other desired page
-            navigate(`/event/${data.createEvent._id}`); // Use navigate function
+            navigate(`/event/${data.createEvent._id}`);
         } catch (error) {
             console.error('Error creating event:', error);
+        
+            // For network error
+            if (error.networkError) {
+                toast({
+                    title: "Network error",
+                    description: error.networkError.message || "Something went wrong with the request",
+                    status: "error",
+                    duration: 9000,
+                    isClosable: true,
+                });
+            }
+        
+            // For GraphQL errors
+            if (error.graphQLErrors) {
+                error.graphQLErrors.map(({ message }) => {
+                    toast({
+                        title: "GraphQL error",
+                        description: message,
+                        status: "error",
+                        duration: 9000,
+                        isClosable: true,
+                    });
+                });
+            }    
         }
     };
+    
 
     useEffect(() => {
         if (!Auth.loggedIn()) {
@@ -139,10 +162,6 @@ const CreateEventForm = () => {
 
     if (loading) {
         return <p>Loading...</p>;
-    }
-
-    if (error) {
-        return <p>Error :(</p>;
     }
 
     return (

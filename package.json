@@ -10,7 +10,7 @@
     "seed": "cd server && npm run seed",
     "build": "cd client && npm run build",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
-},
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/RaulMaya/Event-Manager.git"

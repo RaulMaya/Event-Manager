@@ -73,7 +73,7 @@ const resolvers = {
         .populate({
           path: "comments",
           populate: "event",
-        })
+        })//s
         .populate("friends");
     },
     me: async (parent, args, context) => {

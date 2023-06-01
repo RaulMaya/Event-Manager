@@ -112,47 +112,31 @@ const CreateEventForm = () => {
         }));
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-    
-        let modifiedData = {...formData};
-        modifiedData.tags = formData.tags.split(",").map(tag => tag.trim());
-    
-        try {
-            const { data } = await createEvent({
-                variables: { ...modifiedData },
-            });
-            console.log(data)
-            navigate(`/event/${data.createEvent._id}`);
-        } catch (error) {
-            console.error('Error creating event:', error);
-        
-            // For network error
-            if (error.networkError) {
-                toast({
-                    title: "Network error",
-                    description: error.networkError.message || "Something went wrong with the request",
-                    status: "error",
-                    duration: 9000,
-                    isClosable: true,
-                });
-            }
-        
-            // For GraphQL errors
-            if (error.graphQLErrors) {
-                error.graphQLErrors.map(({ message }) => {
-                    toast({
-                        title: "GraphQL error",
-                        description: message,
-                        status: "error",
-                        duration: 9000,
-                        isClosable: true,
-                    });
-                });
-            }    
-        }
-    };
-    
+
+const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+        const { data } = await createEvent({
+            variables: { ...formData },
+        });
+        console.log(data)
+        // Redirect to the created event page or any other desired page
+        navigate(`/event/${data.createEvent._id}`); // Use navigate function
+    } catch (error) {
+        console.error('Error creating event:', error);
+
+        // Show error in a toast pop up
+        toast({
+            title: "An error occurred.",
+            description: `Error: ${error.message}`,
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+        });
+    }
+};
+
 
     useEffect(() => {
         if (!Auth.loggedIn()) {

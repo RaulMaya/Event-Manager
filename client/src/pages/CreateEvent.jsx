@@ -113,23 +113,30 @@ const CreateEventForm = () => {
     };
 
 
+const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    try {
+        const { data } = await createEvent({
+            variables: { ...formData },
+        });
+        console.log(data)
+        // Redirect to the created event page or any other desired page
+        navigate(`/event/${data.createEvent._id}`); // Use navigate function
+    } catch (error) {
+        console.error('Error creating event:', error);
 
+        // Show error in a toast pop up
+        toast({
+            title: "An error occurred.",
+            description: `Error: ${error.message}`,
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+        });
+    }
+};
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            const { data } = await createEvent({
-                variables: { ...formData },
-            });
-            console.log(data)
-            // Redirect to the created event page or any other desired page
-            navigate(`/event/${data.createEvent._id}`); // Use navigate function
-        } catch (error) {
-            console.error('Error creating event:', error);
-        }
-    };
 
     useEffect(() => {
         if (!Auth.loggedIn()) {
@@ -139,10 +146,6 @@ const CreateEventForm = () => {
 
     if (loading) {
         return <p>Loading...</p>;
-    }
-
-    if (error) {
-        return <p>Error :(</p>;
     }
 
     return (

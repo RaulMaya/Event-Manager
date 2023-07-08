@@ -15,6 +15,7 @@ import {
     Heading,
     Text,
     useColorModeValue,
+    Spinner
 } from '@chakra-ui/react';
 
 import Auth from '../utils/auth';
@@ -59,6 +60,15 @@ const LoginForm = () => {
     const headingColor = useColorModeValue('purple.600', 'purple.400');
     const buttonColor = useColorModeValue('white', 'purple.600');
     const buttonHoverColor = useColorModeValue('purple.500', 'purple.700');
+
+    
+    if (loading) {
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <Spinner color="purple.500" />
+            </Box>
+        );
+    }
 
     return (
         <Flex

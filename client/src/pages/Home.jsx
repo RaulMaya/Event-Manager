@@ -18,7 +18,11 @@ const Home = () => {
     const isAuthenticated = AuthService.loggedIn();
 
     if (loading) {
-        return <Spinner />;
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <Spinner color="purple.500" />
+            </Box>
+        );
     }
 
     if (error) {
@@ -80,7 +84,7 @@ const Home = () => {
             <Box mb={4}>
                 <EventList events={events} title="All our events..." isAuthenticated={isAuthenticated} showAllEvents={false} />
             </Box>
-            <Flex bg="purple.500"  justify='center' align='center' direction='row' wrap='wrap'>
+            <Flex bg="purple.500" justify='center' align='center' direction='row' wrap='wrap'>
                 {developers.map((developer, index) => (
                     <DeveloperCard key={index} developer={developer} />
                 ))}

@@ -21,6 +21,7 @@ import {
   AlertDescription,
   CloseButton,
   useColorModeValue,
+  Spinner
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 
@@ -70,6 +71,14 @@ const SignUp = () => {
   const buttonHoverColor = useColorModeValue('purple.500', 'violet.700');
 
   const [showPassword, setShowPassword] = useState(false);
+  
+  if (loading) {
+    return (
+        <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+            <Spinner color="purple.500" />
+        </Box>
+    );
+}
 
   return (
     <Flex minH={'100vh'} align={'center'} justify={'center'} bg={bgColor}>

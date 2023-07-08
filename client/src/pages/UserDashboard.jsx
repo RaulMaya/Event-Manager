@@ -27,7 +27,8 @@ import {
     ModalHeader,
     ModalBody,
     ModalFooter,
-    useToast
+    useToast,
+    Spinner
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 import { Link as RouterLink } from 'react-router-dom';
@@ -61,10 +62,13 @@ const UserDashboard = () => {
         eventDescription: "",
         // ... Initialize other fields here with default values
     });
+    
     const [eventToUpdate, setEventToUpdate] = useState(null)
 
     const handleUpdateEvent = (event) => {
         setEventToUpdate(event._id);
+        console.log(event.id)
+        console.log(eventToUpdate)
         setFormData({
             eventName: event.eventName,
             eventCategory: event.eventCategory,
@@ -76,6 +80,7 @@ const UserDashboard = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        console.log(name,value)
         setFormData(prev => ({ ...prev, [name]: value }));
     }
 
@@ -166,7 +171,11 @@ const UserDashboard = () => {
     }, [navigate]);
 
     if (loading) {
-        return <p>Loading...</p>;
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <Spinner color="purple.500" />
+            </Box>
+        );
     }
 
     if (error) {

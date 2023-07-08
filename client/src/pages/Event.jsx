@@ -31,7 +31,7 @@ import {
     Tbody,
     Tfoot,
     Tr,
-    Th,
+    Spinner,
     Td,
     TableCaption,
     TableContainer,
@@ -142,7 +142,14 @@ const SingleEvent = () => {
         }
     }, [createCommentError, updateCommentError, deleteCommentError]);
 
-    if (loading) return <p>Loading...</p>;
+
+    if (loading) {
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <Spinner color="purple.500" />
+            </Box>
+        );
+    }
     if (error) return <p>Error :(</p>;
 
     const event = data?.event;

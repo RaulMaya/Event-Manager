@@ -23,7 +23,8 @@ import { ChakraProvider } from '@chakra-ui/react';
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
-    uri: process.env.REACT_APP_GRAPHQL_SERVER_URL,
+    uri: "http://localhost:3001/graphql",
+    // uri: process.env.REACT_APP_GRAPHQL_SERVER_URL,
 });
 
 // Construct request middleware that will attach the JWT token to every request as an `authorization` header

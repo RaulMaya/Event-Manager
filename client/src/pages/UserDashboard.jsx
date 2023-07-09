@@ -5,6 +5,7 @@ import { QUERY_SINGLE_USER, QUERY_ME } from '../utils/queries';
 import { DELETE_EVENT, ATTEND_EVENT, CANCEL_EVENT, UPDATE_EVENT } from '../utils/mutations';
 import { Link } from 'react-router-dom';
 import Auth from '../utils/auth';
+import FormFields from '../components/FormsFields';
 import {
     Box,
     Flex,
@@ -28,7 +29,8 @@ import {
     ModalBody,
     ModalFooter,
     useToast,
-    Spinner
+    Spinner,
+    Grid
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 import { Link as RouterLink } from 'react-router-dom';
@@ -199,6 +201,65 @@ const UserDashboard = () => {
         }
     }, [navigate]);
 
+    const handleLocationChange = (e) => {
+        const { name, value } = e.target;
+        let valueType = value;
+
+        if (["lon", "lat", "eventCapacity", "minAge"].includes(name)) {
+            if (value.trim() === "") {
+                valueType = "";
+            } else {
+                if (!/^-?\d*\.?\d+$/.test(value) && value !== "-") {
+                    toast({
+                        title: "Invalid Value",
+                        description: "Please enter a valid number.",
+                        status: "error",
+                        duration: 5000,
+                        isClosable: true,
+                    });
+                    return;
+                }
+
+                const parsedValue = parseFloat(value);
+
+                if (name === "lat") {
+                    if (parsedValue < -90 || parsedValue > 90) {
+                        toast({
+                            title: "Invalid Latitude",
+                            description: "Latitude value must be between -90 and 90.",
+                            status: "error",
+                            duration: 5000,
+                            isClosable: true,
+                        });
+                        return;
+                    }
+                } else if (name === "lon") {
+                    if (parsedValue < -180 || parsedValue > 180) {
+                        toast({
+                            title: "Invalid Longitude",
+                            description: "Longitude value must be between -180 and 180.",
+                            status: "error",
+                            duration: 5000,
+                            isClosable: true,
+                        });
+                        return;
+                    }
+                }
+
+                valueType = parsedValue.toString();
+            }
+        }
+
+        setFormData((prevData) => ({
+            ...prevData,
+            eventLocation: {
+                ...prevData.eventLocation,
+                [name]: valueType,
+            },
+        }));
+    };
+
+
     if (loading) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
@@ -322,21 +383,35 @@ const UserDashboard = () => {
             {/* Update Event Modal */}
             <Modal isOpen={isUpdateOpen} onClose={onCloseUpdate}>
                 <ModalOverlay />
-                <ModalContent>
+                <ModalContent maxW="50%">
                     <ModalHeader>Edit Event</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <form onSubmit={handleSubmit}>
                             <FormControl>
-                                <FormLabel>Event Name</FormLabel>
-                                <Input type="text" name="eventName" value={formData?.eventName || ''} onChange={handleChange} />
+                                <FormFields name={"eventName"} text={"Event Name"} val={formData?.eventName || ''} handler={handleChange} type={"input"} />
+                                <FormFields name={"eventDescription"} text={"Event Description"} val={formData?.eventDescription || ''} handler={handleChange} type={"textarea"} />
+                                <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+                                    <FormFields name={"eventCategory"} text={"Event Category"} val={formData?.eventCategory || ''} handler={handleChange} type={"input"} />
+                                    <FormFields name={"mainImg"} text={"Main Image URL"} val={formData?.mainImg || ''} handler={handleChange} type={"input"} />
+                                    <FormFields name={"portraitImg"} text={"Portrait Image URL"} val={formData?.portraitImg || ''} handler={handleChange} type={"input"} />
+                                    <FormFields name={"tags"} text={"Tags"} val={formData?.tags || ''} handler={handleChange} type={"input"} />
+                                    <FormFields name={"eventStartDate"} text={"Event Start Date"} val={formData?.eventStartDate || ''} handler={handleChange} type={"date"} />
+                                    <FormFields name={"address"} text={"Event Address"} val={formData?.eventLocation.address || ''} handler={handleLocationChange} type={"input"} />
+                                    <FormFields name={"city"} text={"Event City"} val={formData?.eventLocation.city || ''} handler={handleLocationChange} type={"input"} />
+                                    <FormFields name={"country"} text={"Event Country"} val={formData?.eventLocation.country || ''} handler={handleLocationChange} type={"input"} />
+                                    <FormFields name={"lat"} text={"Event Latitude"} val={formData?.eventLocation.lat || ''} handler={handleLocationChange} type={"coords"} />
+                                    <FormFields name={"lon"} text={"Event Longitude"} val={formData?.eventLocation.lon || ''} handler={handleLocationChange} type={"coords"} />
+                                    <FormFields name={"eventCapacity"} text={"Event Capacity"} val={formData?.eventCapacity || ''} handler={handleChange} type={"nums"} />
+                                    <FormFields name={"minAge"} text={"Minimum Age"} val={formData?.minAge || ''} handler={handleChange} type={"nums"} />
+                                </Grid>
                             </FormControl>
                             {/* Add other form controls here */}
                         </form>
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+                        <Button colorScheme="purple" mr={3} onClick={handleSubmit}>
                             Save
                         </Button>
                         <Button onClick={onCloseUpdate}>Cancel</Button>

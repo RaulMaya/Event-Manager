@@ -3,13 +3,10 @@ import { useQuery } from '@apollo/client';
 import { QUERY_ALL_EVENTS } from '../utils/queries';
 import EventList from '../components/EventList';
 import { Box, Heading, Spinner, Alert, Button } from '@chakra-ui/react';
-import AuthService from '../utils/auth';
 
-const Events = () => {
+const Events = ({ isAuthenticated }) => {
     const { loading, error, data, refetch } = useQuery(QUERY_ALL_EVENTS);
     const events = data?.events || [];
-
-    const isAuthenticated = AuthService.loggedIn();
 
     const handleRefetch = async () => {
         try {

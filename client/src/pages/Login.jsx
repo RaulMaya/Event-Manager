@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { LOGIN } from '../utils/mutations';
 import { Link as RouterLink } from 'react-router-dom';
@@ -8,7 +9,6 @@ import {
     FormControl,
     FormLabel,
     Input,
-    Checkbox,
     Stack,
     Link,
     Button,
@@ -20,7 +20,10 @@ import {
 
 import Auth from '../utils/auth';
 
-const LoginForm = () => {
+const LoginForm = ({ isAuthenticated }) => {
+    if (isAuthenticated) {
+        return <Navigate to="/" />; // or wherever you want to redirect
+    }
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -61,7 +64,7 @@ const LoginForm = () => {
     const buttonColor = useColorModeValue('white', 'purple.600');
     const buttonHoverColor = useColorModeValue('purple.500', 'purple.700');
 
-    
+
     if (loading) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
@@ -134,7 +137,7 @@ const LoginForm = () => {
                                         align={'start'}
                                         justify={'space-between'}
                                     >
-                                        <Checkbox color={headingColor}>Remember me</Checkbox>
+
                                         <Link as={RouterLink} color={headingColor} to={'/'}>
                                             Forgot password?
                                         </Link>

@@ -18,6 +18,7 @@ import Event from "./pages/Event"
 import Events from "./pages/Events"
 import CreateEvent from "./pages/CreateEvent"
 import UserDashboard from "./pages/UserDashboard"
+import AuthService from './utils/auth';
 
 import { ChakraProvider } from '@chakra-ui/react';
 
@@ -48,6 +49,8 @@ const client = new ApolloClient({
 
 
 const App = () => {
+    const isAuthenticated = AuthService.loggedIn();
+    console.log(isAuthenticated)
     return (
         <ApolloProvider client={client}>
             <ChakraProvider>
@@ -56,12 +59,12 @@ const App = () => {
                         <NavBar />
                         <div className="container">
                             <Routes>
-                                <Route path="/" element={<Home />} />
-                                <Route path="/login" element={<Login />} />
-                                <Route path="/signup" element={<Signup />} />
+                                <Route path="/" element={<Home isLoggedIn={isAuthenticated} />}  />
+                                <Route path="/login" element={<Login isAuthenticated={isAuthenticated} />} />
+                                <Route path="/signup" element={<Signup isAuthenticated={isAuthenticated} />} />
                                 <Route path="/createEvent" element={<CreateEvent />} />
                                 <Route path="/userProfile" element={<UserDashboard />} />
-                                <Route path="/events" element={<Events />} />
+                                <Route path="/events" element={<Events />}/>
                                 <Route path="/event/:id" element={<Event />} />
                                 <Route path="*" element={<NotFound />} />
                             </Routes>

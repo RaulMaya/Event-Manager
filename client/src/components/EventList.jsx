@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import { useMutation, useQuery } from '@apollo/client';
 import { ATTEND_EVENT, CANCEL_EVENT } from '../utils/mutations';
 import { QUERY_ME } from '../utils/queries';
-import { Box, Grid, Image, Heading, Text, Button, Flex, useColorModeValue, useBreakpointValue, Spinner, Alert } from '@chakra-ui/react';
+import { Box, Grid, Image, Heading, Text, Button, Flex, useBreakpointValue, Spinner, Alert } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 
 const EventList = ({ events, isAuthenticated, showAllEvents }) => {
@@ -60,7 +60,9 @@ const EventList = ({ events, isAuthenticated, showAllEvents }) => {
     if (error) {
         return <Alert status="error">{error.message} :(</Alert>;
     }
-
+    console.log(events)
+    console.log(limitedEvents)
+    console.log(isAuthenticated)
     return (
         <div className="row">
             {events && (
@@ -71,7 +73,7 @@ const EventList = ({ events, isAuthenticated, showAllEvents }) => {
                             boxShadow="lg"
                             p="6"
                             rounded="md"
-                            bg={useColorModeValue('white', 'gray.800')}
+                            bg={'white'}
                             borderColor="purple.200"
                             borderWidth="1px"
                             minH="400px"

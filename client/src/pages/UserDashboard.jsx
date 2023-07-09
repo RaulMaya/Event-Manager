@@ -269,7 +269,7 @@ const UserDashboard = () => {
     }
 
     if (error) {
-        return <p>Error :(</p>;
+        return <Alert status="error">{error.message} :(</Alert>;
     }
 
     const user = data?.me || data?.profile || {};

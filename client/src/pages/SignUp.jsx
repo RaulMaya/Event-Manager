@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { CREATE_USER } from '../utils/mutations';
 import {
@@ -27,7 +27,10 @@ import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 
 import Auth from '../utils/auth';
 
-const SignUp = () => {
+const SignUp = ({ isAuthenticated }) => {
+  if (isAuthenticated) {
+    return <Navigate to="/" />; // or wherever you want to redirect
+}
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -71,14 +74,14 @@ const SignUp = () => {
   const buttonHoverColor = useColorModeValue('purple.500', 'violet.700');
 
   const [showPassword, setShowPassword] = useState(false);
-  
+
   if (loading) {
     return (
-        <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-            <Spinner color="purple.500" />
-        </Box>
+      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+        <Spinner color="purple.500" />
+      </Box>
     );
-}
+  }
 
   return (
     <Flex minH={'100vh'} align={'center'} justify={'center'} bg={bgColor}>

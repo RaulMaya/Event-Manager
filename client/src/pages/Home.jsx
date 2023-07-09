@@ -5,17 +5,17 @@ import { useQuery } from '@apollo/client';
 import { Box, Heading, Spinner, Alert, Flex } from '@chakra-ui/react';
 
 import { QUERY_ALL_EVENTS } from '../utils/queries';
-import AuthService from '../utils/auth';
 
 import EventList from '../components/EventList';
 import HeroSection from '../components/Hero';
 import DeveloperCard from '../components/DevTeam';
 
-const Home = () => {
+const Home = ({ isLoggedIn }) => {
     const { loading, error, data } = useQuery(QUERY_ALL_EVENTS);
     const events = data?.events || [];
 
-    const isAuthenticated = AuthService.loggedIn();
+    console.log(isLoggedIn)
+
 
     if (loading) {
         return (
@@ -82,7 +82,7 @@ const Home = () => {
                 <FiTrendingUp size={24} ml={4} />
             </Box>
             <Box mb={4}>
-                <EventList events={events} title="All our events..." isAuthenticated={isAuthenticated} showAllEvents={false} />
+                <EventList events={events} title="All our events..." isAuthenticated={isLoggedIn} showAllEvents={false} />
             </Box>
             <Flex bg="purple.500" justify='center' align='center' direction='row' wrap='wrap'>
                 {developers.map((developer, index) => (

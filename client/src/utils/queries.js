@@ -32,7 +32,20 @@ export const QUERY_ME = gql`
         _id
         eventName
         eventDescription
+        eventCategory
         mainImg
+        portraitImg
+        tags
+        eventStartDate
+        eventLocation {
+          address
+          city
+          country
+          lat
+          lon
+        }
+        eventCapacity
+        minAge
       }
     }
   }
@@ -80,6 +93,7 @@ export const QUERY_SINGLE_USER = gql`
         _id
         eventName
         eventDescription
+        eventCategory
         mainImg
       }
     }
@@ -92,6 +106,7 @@ export const QUERY_ALL_EVENTS = gql`
       _id
       eventName
       eventDescription
+      eventCategory
       mainImg
       createdBy {
         _id
@@ -119,6 +134,7 @@ export const QUERY_SINGLE_EVENT = gql`
       _id
       eventName
       eventDescription
+      eventCategory
       eventCapacity
       mainImg
       portraitImg

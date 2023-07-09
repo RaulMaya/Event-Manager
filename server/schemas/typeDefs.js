@@ -31,6 +31,7 @@ const typeDefs = gql`
     _id: ID
     eventName: String
     eventDescription: String
+    eventCategory: String
     mainImg: String
     portraitImg: String
     tags: [String!]!
@@ -49,7 +50,6 @@ const typeDefs = gql`
     address: String
     city: String
     country: String
-    state: String
     lat: Float
     lon: Float
   }
@@ -58,7 +58,6 @@ const typeDefs = gql`
     address: String
     city: String
     country: String
-    state: String
     lat: String
     lon: String
   }
@@ -114,7 +113,6 @@ const typeDefs = gql`
       eventStartDate: String!
       eventLocation: EventLocationInput!
       eventCapacity: Int!
-      eventInvitation: Boolean!
       minAge: Int!
     ): Event
     deleteEvent(id: ID!): Event

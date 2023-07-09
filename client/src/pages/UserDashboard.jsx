@@ -55,18 +55,33 @@ const UserDashboard = () => {
         refetchQueries: [{ query: id ? QUERY_SINGLE_USER : QUERY_ME }],
     });
 
-    const [updateEvent] = useMutation(UPDATE_EVENT); // Define the updateEvent mutation function
-    
+    const [updateEvent] = useMutation(UPDATE_EVENT, {
+        refetchQueries: [{ query: id ? QUERY_SINGLE_USER : QUERY_ME }],
+    }); // Define the updateEvent mutation function
+
     const [formData, setFormData] = useState({
         eventName: "",
         eventCategory: "",
         eventDescription: "",
+        mainImg: "",
+        portraitImg: "",
+        tags: "",
+        eventStartDate: "",
+        eventLocation: {
+            address: "",
+            city: "",
+            country: "",
+            lat: "",
+            lon: "",
+        },
+        eventCapacity: "",
+        minAge: "",
         // ... Initialize other fields here with default values
     });
-    
+
     const handleUpdateEvent = (event) => {
         setEventToUpdate(event._id);
-        console.log(event._id)
+        console.log(event)
         console.log(event.eventName)
         console.log(event.eventCategory)
         console.log(event.eventDescription)
@@ -74,14 +89,26 @@ const UserDashboard = () => {
             eventName: event.eventName,
             eventCategory: event.eventCategory,
             eventDescription: event.eventDescription,
-            // ... other fields here
+            mainImg: event.mainImg,
+            portraitImg: event.portraitImg,
+            tags: event.tags,
+            eventStartDate: event.eventStartDate,
+            eventLocation: {
+                address: event.eventLocation.address,
+                city: event.eventLocation.city,
+                country: event.eventLocation.country,
+                lat: String(event.eventLocation.lat),
+                lon: String(event.eventLocation.lon),
+            },
+            eventCapacity: event.eventCapacity,
+            minAge: event.minAge
         });
         onOpenUpdate();
     };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        console.log(name,value)
+        console.log(name, value)
         setFormData(prev => ({ ...prev, [name]: value }));
     }
 

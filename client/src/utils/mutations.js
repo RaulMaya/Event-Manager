@@ -183,7 +183,6 @@ export const UPDATE_EVENT = gql`
     $eventStartDate: String!
     $eventLocation: EventLocationInput!
     $eventCapacity: Int!
-    $eventInvitation: Boolean!
     $minAge: Int!
   ) {
     updateEvent(
@@ -197,7 +196,6 @@ export const UPDATE_EVENT = gql`
       eventStartDate: $eventStartDate
       eventLocation: $eventLocation
       eventCapacity: $eventCapacity
-      eventInvitation: $eventInvitation
       minAge: $minAge
     ) {
       _id

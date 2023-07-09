@@ -99,7 +99,6 @@ export const CREATE_EVENT = gql`
     $tags: [String!]!
     $eventStartDate: String!
     $eventLocation: EventLocationInput!
-    $eventType: String!
     $eventCapacity: Int!
     $eventInvitation: Boolean!
     $minAge: Int!
@@ -113,7 +112,6 @@ export const CREATE_EVENT = gql`
       tags: $tags
       eventStartDate: $eventStartDate
       eventLocation: $eventLocation
-      eventType: $eventType
       eventCapacity: $eventCapacity
       eventInvitation: $eventInvitation
       minAge: $minAge
@@ -184,7 +182,6 @@ export const UPDATE_EVENT = gql`
     $tags: [String!]!
     $eventStartDate: String!
     $eventLocation: EventLocationInput!
-    $eventType: String!
     $eventCapacity: Int!
     $eventInvitation: Boolean!
     $minAge: Int!
@@ -199,7 +196,6 @@ export const UPDATE_EVENT = gql`
       tags: $tags
       eventStartDate: $eventStartDate
       eventLocation: $eventLocation
-      eventType: $eventType
       eventCapacity: $eventCapacity
       eventInvitation: $eventInvitation
       minAge: $minAge

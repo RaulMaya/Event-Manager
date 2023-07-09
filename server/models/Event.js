@@ -50,15 +50,8 @@ const eventSchema = new Schema(
       address: String,
       city: String,
       country: String,
-      state: String,
       lat: String,
       lon: String,
-    },
-    eventType: {
-      type: String,
-      required: true,
-      maxLength: 280,
-      minLength: 1,
     },
     eventCapacity: {
       type: Number,

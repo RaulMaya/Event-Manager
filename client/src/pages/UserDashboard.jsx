@@ -40,7 +40,7 @@ const UserDashboard = () => {
     const { loading, error, data, refetch } = useQuery(id ? QUERY_SINGLE_USER : QUERY_ME, {
         variables: { userId: id },
     });
-
+    const [eventToUpdate, setEventToUpdate] = useState(null)
     const eventAtt = data?.me?.assistingEvents || [];
 
     const [attendEvent] = useMutation(ATTEND_EVENT, {
@@ -55,7 +55,8 @@ const UserDashboard = () => {
         refetchQueries: [{ query: id ? QUERY_SINGLE_USER : QUERY_ME }],
     });
 
-    const [updateEvent] = useMutation(UPDATE_EVENT);  // Define the updateEvent mutation function
+    const [updateEvent] = useMutation(UPDATE_EVENT); // Define the updateEvent mutation function
+    
     const [formData, setFormData] = useState({
         eventName: "",
         eventCategory: "",
@@ -63,12 +64,12 @@ const UserDashboard = () => {
         // ... Initialize other fields here with default values
     });
     
-    const [eventToUpdate, setEventToUpdate] = useState(null)
-
     const handleUpdateEvent = (event) => {
         setEventToUpdate(event._id);
-        console.log(event.id)
-        console.log(eventToUpdate)
+        console.log(event._id)
+        console.log(event.eventName)
+        console.log(event.eventCategory)
+        console.log(event.eventDescription)
         setFormData({
             eventName: event.eventName,
             eventCategory: event.eventCategory,
@@ -114,6 +115,7 @@ const UserDashboard = () => {
     };
 
     const handleSubmit = async (e) => {
+        console.log(eventToUpdate)
         e.preventDefault();
         try {
             await updateEvent({ variables: { ...formData, updateEventId: eventToUpdate } });

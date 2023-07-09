@@ -3,16 +3,15 @@ import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { CREATE_EVENT } from '../utils/mutations';
 import Auth from '../utils/auth';
+import FormFields from '../components/FormsFields';
 import {
     Box,
     Button,
     chakra,
-    FormControl,
-    FormLabel,
-    Input,
-    Textarea,
     Grid,
-    useToast
+    useToast,
+    Spinner,
+    Alert
 } from "@chakra-ui/react";
 
 const CreateEventForm = () => {
@@ -28,11 +27,9 @@ const CreateEventForm = () => {
             address: '',
             city: '',
             country: '',
-            state: '',
             lat: 0,
             lon: 0,
         },
-        eventType: '',
         eventCapacity: 0,
         eventInvitation: false,
         minAge: 0,
@@ -112,10 +109,6 @@ const CreateEventForm = () => {
         }));
     };
 
-
-
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -144,11 +137,15 @@ const CreateEventForm = () => {
     }, [navigate]);
 
     if (loading) {
-        return <p>Loading...</p>;
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <Spinner color="purple.500" />
+            </Box>
+        );
     }
 
     if (error) {
-        return <p>Error :(</p>;
+        return <Alert status="error">{error.message} :(</Alert>;
     }
 
     return (
@@ -157,176 +154,21 @@ const CreateEventForm = () => {
                 Create Event
             </chakra.h1>
             <chakra.form onSubmit={handleSubmit}>
-
-                <FormControl mb={4}>
-                    <FormLabel>Event Name</FormLabel>
-                    <Input
-                        type="text"
-                        name="eventName"
-                        value={formData.eventName}
-                        onChange={handleChange}
-                        placeholder="Enter event name"
-                    />
-                </FormControl>
-
-                <FormControl mb={4}>
-                    <FormLabel>Event Description</FormLabel>
-                    <Textarea
-                        name="eventDescription"
-                        value={formData.eventDescription}
-                        onChange={handleChange}
-                        placeholder="Enter event description"
-                    />
-                </FormControl>
+                <FormFields name={"eventName"} text={"Event Name"} val={formData.eventName} handler={handleChange} type={"input"} />
+                <FormFields name={"eventDescription"} text={"Event Description"} val={formData.eventDescription} handler={handleChange} type={"textarea"} />
                 <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-                    <FormControl mb={4}>
-                        <FormLabel>Event Category</FormLabel>
-                        <Input
-                            type="text"
-                            name="eventCategory"
-                            value={formData.eventCategory}
-                            onChange={handleChange}
-                            placeholder="Enter event category"
-                        />
-                    </FormControl>
-                    <FormControl mb={4}>
-                        <FormLabel>Main Image URL</FormLabel>
-                        <Input
-                            type="text"
-                            name="mainImg"
-                            value={formData.mainImg}
-                            onChange={handleChange}
-                            placeholder="Enter main image URL"
-                        />
-                    </FormControl>
-                    <FormControl mb={4}>
-                        <FormLabel>Portrait Image URL</FormLabel>
-                        <Input
-                            type="text"
-                            name="portraitImg"
-                            value={formData.portraitImg}
-                            onChange={handleChange}
-                            placeholder="Enter portrait image URL"
-                        />
-                    </FormControl>
-                    <FormControl mb={4}>
-                        <FormLabel>Tags (separated by comma)</FormLabel>
-                        <Input
-                            type="text"
-                            name="tags"
-                            value={formData.tags}
-                            onChange={handleChange}
-                            placeholder="Enter tags"
-                        />
-                    </FormControl>
-                    <FormControl mb={4}>
-                        <FormLabel>Event Start Date</FormLabel>
-                        <Input
-                            type="date"
-                            name="eventStartDate"
-                            value={formData.eventStartDate}
-                            onChange={handleChange}
-                            placeholder="Enter event start date"
-                        />
-                    </FormControl>
-                    <FormControl mb={4}>
-                        <FormLabel>Event Address</FormLabel>
-                        <Input
-                            type="text"
-                            name="address"
-                            value={formData.eventLocation.address}
-                            onChange={handleLocationChange}
-                            placeholder="Enter event address"
-                        />
-                    </FormControl>
-                    <FormControl mb={4}>
-                        <FormLabel>Event City</FormLabel>
-                        <Input
-                            type="text"
-                            name="city"
-                            value={formData.eventLocation.city}
-                            onChange={handleLocationChange}
-                            placeholder="Enter event city"
-                        />
-                    </FormControl>
-                    <FormControl mb={4}>
-                        <FormLabel>Event Country</FormLabel>
-                        <Input
-                            type="text"
-                            name="country"
-                            value={formData.eventLocation.country}
-                            onChange={handleLocationChange}
-                            placeholder="Enter event country"
-                        />
-                    </FormControl>
-                    <FormControl mb={4}>
-                        <FormLabel>Event State</FormLabel>
-                        <Input
-                            type="text"
-                            name="state"
-                            value={formData.eventLocation.state}
-                            onChange={handleLocationChange}
-                            placeholder="Enter event state"
-                        />
-                    </FormControl>
-                    <FormControl mb={4}>
-                        <FormLabel>Event Latitude</FormLabel>
-                        <Input
-                            name="lat"
-                            value={formData.eventLocation.lat}
-                            onChange={handleLocationChange}
-                            type="number"
-                            pattern="-?[0-9]*\.?[0-9]+"
-                            placeholder="Enter event latitude"
-                            isInvalid={
-                                formData.eventLocation.lat < -90 || formData.eventLocation.lat > 90
-                            }
-                        />
-                    </FormControl>
-                    <FormControl mb={4}>
-                        <FormLabel>Event Longitude</FormLabel>
-                        <Input
-                            name="lon"
-                            value={formData.eventLocation.lon}
-                            onChange={handleLocationChange}
-                            type="number"
-                            pattern="-?[0-9]*\.?[0-9]+"
-                            placeholder="Enter event longitude"
-                            isInvalid={
-                                formData.eventLocation.lon < -180 || formData.eventLocation.lon > 180
-                            }
-                        />
-                    </FormControl>
-                    <FormControl mb={4}>
-                        <FormLabel>Event Type</FormLabel>
-                        <Input
-                            type="text"
-                            name="eventType"
-                            value={formData.eventType}
-                            onChange={handleChange}
-                            placeholder="Enter event type"
-                        />
-                    </FormControl>
-                    <FormControl mb={4}>
-                        <FormLabel>Event Capacity</FormLabel>
-                        <Input
-                            type="number"
-                            name="eventCapacity"
-                            value={formData.eventCapacity}
-                            onChange={handleChange}
-                            placeholder="Enter event capacity"
-                        />
-                    </FormControl>
-                    <FormControl mb={4}>
-                        <FormLabel>Minimum Age</FormLabel>
-                        <Input
-                            type="number"
-                            name="minAge"
-                            value={formData.minAge}
-                            onChange={handleChange}
-                            placeholder="Enter minimum age"
-                        />
-                    </FormControl>
+                    <FormFields name={"eventCategory"} text={"Event Category"} val={formData.eventCategory} handler={handleChange} type={"input"} />
+                    <FormFields name={"mainImg"} text={"Main Image URL"} val={formData.mainImg} handler={handleChange} type={"input"} />
+                    <FormFields name={"portraitImg"} text={"Portrait Image URL"} val={formData.portraitImg} handler={handleChange} type={"input"} />
+                    <FormFields name={"tags"} text={"Tags"} val={formData.tags} handler={handleChange} type={"input"} />
+                    <FormFields name={"eventStartDate"} text={"Event Start Date"} val={formData.eventStartDate} handler={handleChange} type={"date"} />
+                    <FormFields name={"address"} text={"Event Address"} val={formData.eventLocation.address} handler={handleLocationChange} type={"input"} />
+                    <FormFields name={"city"} text={"Event City"} val={formData.eventLocation.city} handler={handleLocationChange} type={"input"} />
+                    <FormFields name={"country"} text={"Event Country"} val={formData.eventLocation.country} handler={handleLocationChange} type={"input"} />
+                    <FormFields name={"lat"} text={"Event Latitude"} val={formData.eventLocation.lat} handler={handleLocationChange} type={"coords"} />
+                    <FormFields name={"lon"} text={"Event Longitude"} val={formData.eventLocation.lon} handler={handleLocationChange} type={"coords"} />
+                    <FormFields name={"eventCapacity"} text={"Event Capacity"} val={formData.eventCapacity} handler={handleChange} type={"nums"} />
+                    <FormFields name={"minAge"} text={"Minimum Age"} val={formData.minAge} handler={handleChange} type={"nums"} />
                 </Grid>
                 <Button type="submit" colorScheme="purple" size="lg" w="100%">
                     Create Event

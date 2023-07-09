@@ -101,7 +101,6 @@ export const QUERY_ALL_EVENTS = gql`
         city
         country
       }
-      eventType
       eventStartDate
       usersAssisting {
         _id
@@ -127,12 +126,10 @@ export const QUERY_SINGLE_EVENT = gql`
         address
         city
         country
-        state
         lat
         lon
       }
       eventStartDate
-      eventType
       eventInvitation
       minAge
       tags

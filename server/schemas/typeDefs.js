@@ -36,7 +36,6 @@ const typeDefs = gql`
     tags: [String!]!
     eventStartDate: String
     eventLocation: EventLocation!
-    eventType: String!
     eventCapacity: Int!
     eventInvitation: Boolean!
     minAge: Int!
@@ -100,7 +99,6 @@ const typeDefs = gql`
       tags: [String]
       eventStartDate: String
       eventLocation: EventLocationInput
-      eventType: String
       eventCapacity: Int
       eventInvitation: Boolean
       minAge: Int
@@ -115,7 +113,6 @@ const typeDefs = gql`
       tags: [String!]!
       eventStartDate: String!
       eventLocation: EventLocationInput!
-      eventType: String!
       eventCapacity: Int!
       eventInvitation: Boolean!
       minAge: Int!

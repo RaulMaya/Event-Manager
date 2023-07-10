@@ -10,7 +10,7 @@ const EventList = ({ events, isAuthenticated, showAllEvents }) => {
     const limitedEvents = showAllEvents ? events : events.slice(0, 3);
     const { loading, error, data, client } = useQuery(QUERY_ME);
     const eventAtt = data?.me?.assistingEvents || [];
-
+    console.log(limitedEvents)
     const [attendEvent] = useMutation(ATTEND_EVENT);
     const [cancelEvent] = useMutation(CANCEL_EVENT);
 
@@ -60,9 +60,7 @@ const EventList = ({ events, isAuthenticated, showAllEvents }) => {
     if (error) {
         return <Alert status="error">{error.message} :(</Alert>;
     }
-    console.log(events)
-    console.log(limitedEvents)
-    console.log(isAuthenticated)
+
     return (
         <div className="row">
             {events && (
@@ -101,7 +99,7 @@ const EventList = ({ events, isAuthenticated, showAllEvents }) => {
                                     <strong>Date:</strong> {format(new Date(event.eventStartDate), 'MMMM dd, yyyy')}
                                 </Text>
                                 <Text color="gray.500">
-                                    <strong>Type:</strong> {event.eventType}
+                                    <strong>Type:</strong> {event.eventCategory}
                                 </Text>
                                 <Text color="gray.500">
                                     <strong>Capacity:</strong> {event.eventCapacity}

@@ -5,6 +5,7 @@ import EventList from '../components/EventList';
 import { Box, Heading, Spinner, Alert, Button } from '@chakra-ui/react';
 
 const Events = ({ isAuthenticated }) => {
+    console.log(isAuthenticated)
     const { loading, error, data, refetch } = useQuery(QUERY_ALL_EVENTS);
     const events = data?.events || [];
 

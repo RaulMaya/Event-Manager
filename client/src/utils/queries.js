@@ -122,7 +122,6 @@ export const QUERY_ALL_EVENTS = gql`
         username
       }
       eventCapacity
-      eventInvitation
       minAge
     }
   }

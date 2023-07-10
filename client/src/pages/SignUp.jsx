@@ -30,7 +30,7 @@ import Auth from '../utils/auth';
 const SignUp = ({ isAuthenticated }) => {
   if (isAuthenticated) {
     return <Navigate to="/" />; // or wherever you want to redirect
-}
+  }
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -60,7 +60,7 @@ const SignUp = ({ isAuthenticated }) => {
 
       Auth.login(data.createUser.token);
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
       setErrorMessage(error.message);
     }
   };
@@ -91,7 +91,7 @@ const SignUp = ({ isAuthenticated }) => {
             Sign up
           </Heading>
           <Text fontSize={'lg'} color={'gray.600'}>
-            to enjoy all of our cool features ✌️
+            to enjoy all of our upcoming events ✌️
           </Text>
         </Stack>
         <Box rounded={'lg'} bg={formBgColor} boxShadow={'lg'} p={8}>
@@ -113,7 +113,7 @@ const SignUp = ({ isAuthenticated }) => {
               </Text>
             ) : (
               <form onSubmit={handleSubmit}>
-                <FormControl id="username" isRequired>
+                <FormControl mt={'3'} id="username" isRequired>
                   <FormLabel>Username</FormLabel>
                   <Input
                     type="text"
@@ -124,7 +124,7 @@ const SignUp = ({ isAuthenticated }) => {
                     borderColor={formBorderColor}
                   />
                 </FormControl>
-                <FormControl id="email" isRequired>
+                <FormControl mt={'3'} id="email" isRequired>
                   <FormLabel>Email address</FormLabel>
                   <Input
                     type="email"
@@ -135,7 +135,7 @@ const SignUp = ({ isAuthenticated }) => {
                     borderColor={formBorderColor}
                   />
                 </FormControl>
-                <FormControl id="dateOfBirth" isRequired>
+                <FormControl mt={'3'} id="dateOfBirth" isRequired>
                   <FormLabel>Date of Birth</FormLabel>
                   <Input
                     type="date"
@@ -146,7 +146,7 @@ const SignUp = ({ isAuthenticated }) => {
                     borderColor={formBorderColor}
                   />
                 </FormControl>
-                <FormControl id="profilePic" isRequired>
+                <FormControl mt={'3'} id="profilePic" isRequired>
                   <FormLabel>Profile Picture</FormLabel>
                   <Input
                     type="text"
@@ -157,7 +157,7 @@ const SignUp = ({ isAuthenticated }) => {
                     borderColor={formBorderColor}
                   />
                 </FormControl>
-                <FormControl id="password" isRequired>
+                <FormControl mt={3} id="password" isRequired>
                   <FormLabel>Password</FormLabel>
                   <InputGroup>
                     <Input

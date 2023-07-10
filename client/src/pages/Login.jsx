@@ -15,7 +15,8 @@ import {
     Heading,
     Text,
     useColorModeValue,
-    Spinner
+    Spinner,
+    useToast
 } from '@chakra-ui/react';
 
 import Auth from '../utils/auth';
@@ -24,6 +25,7 @@ const LoginForm = ({ isAuthenticated }) => {
     if (isAuthenticated) {
         return <Navigate to="/" />; // or wherever you want to redirect
     }
+
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -39,6 +41,8 @@ const LoginForm = ({ isAuthenticated }) => {
         });
     };
 
+    const toast = useToast();
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -48,8 +52,14 @@ const LoginForm = ({ isAuthenticated }) => {
 
             Auth.login(data.login.token);
         } catch (error) {
-            console.error(error);
-            // Handle error or display error message to the user
+            console.error('Error deleting event:', error);
+            toast({
+                title: 'Error',
+                description: 'An error occurred: invalid username or password.',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            });
         }
         // clear form values
         setFormData({
@@ -73,6 +83,7 @@ const LoginForm = ({ isAuthenticated }) => {
         );
     }
 
+
     return (
         <Flex
             minH={'100vh'}
@@ -86,9 +97,9 @@ const LoginForm = ({ isAuthenticated }) => {
                         Sign in to your account
                     </Heading>
                     <Text fontSize={'lg'} color={'gray.600'}>
-                        to enjoy all of our cool{' '}
-                        <Link as={RouterLink} color={headingColor} to={'/'}>
-                            features
+                        to have access to upcoming {' '}
+                        <Link as={RouterLink} color={headingColor} to={'/events'}>
+                            events
                         </Link>{' '}
                         ✌️
                     </Text>
@@ -110,7 +121,7 @@ const LoginForm = ({ isAuthenticated }) => {
                         ) : (
                             <form onSubmit={handleSubmit}>
                                 <FormControl id="username">
-                                    <FormLabel color={headingColor}>Username</FormLabel>
+                                    <FormLabel mt={'3'} color={headingColor}>Username</FormLabel>
                                     <Input
                                         type="text"
                                         name="username"
@@ -121,7 +132,7 @@ const LoginForm = ({ isAuthenticated }) => {
                                     />
                                 </FormControl>
                                 <FormControl id="password">
-                                    <FormLabel color={headingColor}>Password</FormLabel>
+                                    <FormLabel mt={'3'} color={headingColor}>Password</FormLabel>
                                     <Input
                                         type="password"
                                         name="password"
@@ -138,7 +149,7 @@ const LoginForm = ({ isAuthenticated }) => {
                                         justify={'space-between'}
                                     >
 
-                                        <Link as={RouterLink} color={headingColor} to={'/'}>
+                                        <Link mt={'3'} as={RouterLink} color={headingColor} to={'/'}>
                                             Forgot password?
                                         </Link>
                                     </Stack>
@@ -154,7 +165,6 @@ const LoginForm = ({ isAuthenticated }) => {
                                         Sign in
                                     </Button>
                                 </Stack>
-                                {error && <Text>Error occurred. Please try again.</Text>}
                             </form>
                         )}
                     </Stack>

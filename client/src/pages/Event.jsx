@@ -55,12 +55,9 @@ const SingleEvent = () => {
     const [deleteComment, { error: deleteCommentError }] = useMutation(DELETE_COMMENT);
 
     const toast = useToast();
-    console.log(data)
+
     const handleCommentSubmit = async (event) => {
         event.preventDefault();
-
-        console.log(Auth.getUser());
-
         try {
             if (commentEditId) {
                 // Edit existing comment
@@ -160,7 +157,7 @@ const SingleEvent = () => {
     if (!event) return <NotFound />;
 
     const bgImage = `url('${event.mainImg}')`
-    console.log(bgImage)
+  
     return (
         <Container maxW="container.xl" mt={5}>
             <Container maxW={"container.xl"}

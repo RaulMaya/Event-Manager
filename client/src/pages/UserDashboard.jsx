@@ -84,10 +84,6 @@ const UserDashboard = () => {
 
     const handleUpdateEvent = (event) => {
         setEventToUpdate(event._id);
-        console.log(event)
-        console.log(event.eventName)
-        console.log(event.eventCategory)
-        console.log(event.eventDescription)
         setFormData({
             eventName: event.eventName,
             eventCategory: event.eventCategory,
@@ -111,7 +107,6 @@ const UserDashboard = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        console.log(name, value)
         setFormData(prev => ({ ...prev, [name]: value }));
     }
 
@@ -145,7 +140,6 @@ const UserDashboard = () => {
     };
 
     const handleSubmit = async (e) => {
-        console.log(eventToUpdate)
         e.preventDefault();
         try {
             await updateEvent({ variables: { ...formData, updateEventId: eventToUpdate } });

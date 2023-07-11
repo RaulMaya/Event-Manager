@@ -238,7 +238,6 @@ const resolvers = {
     },
 
     createEvent: async (parent, args, { user }) => {
-      console.log(user);
       if (user) {
         const {
           eventName,
@@ -331,7 +330,7 @@ const resolvers = {
         // Find the user and event
         const authUser = await User.findById(user._id);
         const event = await Event.findById(args.eventId);
-        console.log(event, authUser);
+
         if (!authUser || !event) {
           throw new Error("User or event not found");
         }
@@ -352,7 +351,7 @@ const resolvers = {
         // Return the updated event
         return event;
       } catch (error) {
-        console.log(error);
+
         throw new Error("Error attending event");
       }
     },

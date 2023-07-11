@@ -13,7 +13,7 @@ import DeveloperCard from '../components/DevTeam';
 const Home = ({ isLoggedIn }) => {
     const { loading, error, data } = useQuery(QUERY_ALL_EVENTS);
     const events = data?.events || [];
-    console.log(isLoggedIn)
+    
     if (loading) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="100vh">

@@ -10,7 +10,7 @@ const EventList = ({ events, isAuthenticated, showAllEvents }) => {
     const limitedEvents = showAllEvents ? events : events.slice(0, 3);
     const { loading, error, data, client } = useQuery(QUERY_ME);
     const eventAtt = data?.me?.assistingEvents || [];
-    console.log(limitedEvents)
+
     const [attendEvent] = useMutation(ATTEND_EVENT);
     const [cancelEvent] = useMutation(CANCEL_EVENT);
 

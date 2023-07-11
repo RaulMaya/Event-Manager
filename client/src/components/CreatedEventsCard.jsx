@@ -11,7 +11,6 @@ import { DeleteIcon } from '@chakra-ui/icons';
 import { Link as RouterLink } from 'react-router-dom';
 
 const CreatedEventCard = ({ event, handlerEdit, handlerDelete }) => {
-    console.log(event)
     return (
         <Flex borderWidth={1} rounded="md" justify="flex-end">
             <Box flex="1" p={4}>

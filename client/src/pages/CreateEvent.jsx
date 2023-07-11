@@ -116,7 +116,6 @@ const CreateEventForm = () => {
             const { data } = await createEvent({
                 variables: { ...formData },
             });
-            console.log(data)
             // Redirect to the created event page or any other desired page
             navigate(`/event/${data.createEvent._id}`); // Use navigate function
         } catch (error) {

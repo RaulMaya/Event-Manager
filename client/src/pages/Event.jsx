@@ -157,16 +157,27 @@ const SingleEvent = () => {
     if (!event) return <NotFound />;
 
     const bgImage = `url('${event.mainImg}')`
-  
+
     return (
         <Container maxW="container.xl" mt={5}>
             <Container maxW={"container.xl"}
                 height={"300px"}
                 backgroundImage={bgImage}
                 backgroundSize="cover"
-                backgroundPosition="center">
-
+                backgroundPosition="center"
+                p={0}>
+                <Flex ps={2} pt={2} direction={"column"} h={"100%"} color={"black"} bg={"whiteAlpha.600"} w={"500px"} borderRightWidth={'3px'} borderColor={'purple.500'}>
+                    <Text m={0} p={1}>Event Name:</Text>
+                    <Heading display={"flex"} fontSize={"2xl"} p={1}>
+                        {event.eventName}
+                    </Heading>
+                    <Text m={0} p={1}>Event Description:</Text>
+                    <Text p={1} display={"flex"} as={'b'} fontSize={'lg'}>
+                        {event.eventDescription}
+                    </Text>
+                </Flex>
             </Container>
+
             <Flex my={4} minWidth='max-content' alignItems='center' gap='2'>
                 {/* Event Information */}
 

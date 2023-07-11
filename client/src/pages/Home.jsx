@@ -13,7 +13,7 @@ import DeveloperCard from '../components/DevTeam';
 const Home = ({ isLoggedIn }) => {
     const { loading, error, data } = useQuery(QUERY_ALL_EVENTS);
     const events = data?.events || [];
-    
+
     if (loading) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
@@ -50,22 +50,6 @@ const Home = ({ isLoggedIn }) => {
             github: "https://github.com/SamRF13",
             whatsapp: "+525535211344",
             email: "./Projects/NotesApp.png",
-        },
-        {
-            name: "Freddy Corona",
-            image: "team/freddycorona.jpg",
-            position: "Web Developer",
-            github: "https://github.com/cryptovoyager",
-            whatsapp: "+525584834472",
-            email: "./Projects/NuevoLeonElections.png",
-        },
-        {
-            name: "Saul Wade",
-            image: "team/saulwade.jpg",
-            position: "Web Developer",
-            github: "https://github.com/saulwade",
-            whatsapp: "+529221574450",
-            email: "./Projects/SoccerQuiz.png",
         }
     ];
 
@@ -81,6 +65,9 @@ const Home = ({ isLoggedIn }) => {
             <Box mb={4}>
                 <EventList events={events} title="All our events..." isAuthenticated={isLoggedIn} showAllEvents={false} />
             </Box>
+            <Heading as="h1" size="xl" marginRight={4} color="purple.500" mb={4}>
+                Developers
+            </Heading>
             <Flex bg="purple.500" justify='center' align='center' direction='row' wrap='wrap'>
                 {developers.map((developer, index) => (
                     <DeveloperCard key={index} developer={developer} />

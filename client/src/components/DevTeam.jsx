@@ -1,5 +1,5 @@
 import React from "react";
-import { VStack, Flex, Image, Text, Link, Box } from "@chakra-ui/react";
+import { Flex, Image, Text, Link, Box } from "@chakra-ui/react";
 import { FaGithub, FaWhatsapp, FaEnvelope } from 'react-icons/fa';
 
 const DeveloperCard = ({ developer }) => {

@@ -157,12 +157,13 @@ const SingleEvent = () => {
     if (!event) return <NotFound />;
 
     const bgImage = `url('${event.mainImg}')`
+    const bgPortraitImage = `url('${event.portraitImg}')`
 
     return (
         <Container maxW="container.xl" mt={5}>
             <Container maxW={"container.xl"}
                 height={"300px"}
-                backgroundImage={bgImage}
+                backgroundImage={bgPortraitImage}
                 backgroundSize="cover"
                 backgroundPosition="center"
                 p={0}>

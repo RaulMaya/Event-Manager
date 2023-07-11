@@ -35,6 +35,7 @@ import {
     Td,
     TableCaption,
     TableContainer,
+    Image
 } from '@chakra-ui/react';
 import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
 
@@ -156,50 +157,21 @@ const SingleEvent = () => {
 
     if (!event) return <NotFound />;
 
+    const bgImage = `url('${event.mainImg}')`
+    console.log(bgImage)
     return (
         <Container maxW="container.xl" mt={10}>
             <Flex direction={{ base: 'column', md: 'row' }} gap={8}>
                 {/* Event Information */}
                 <Box flex={1} mb={4}>
-                    <img src={event.mainImg} alt={event.eventName} />
-                    <Text fontSize='2xl' mt={5}>{event.eventDescription}</Text>
-                    <TableContainer>
-                        <Table variant='striped' colorScheme='purple'>
-                            <TableCaption>All your event details</TableCaption>
-                            <Thead>
-
-                            </Thead>
-                            <Tbody>
-                                <Tr>
-                                    <Td><strong>Event Name</strong>:</Td>
-                                    <Td>{event.eventName}</Td>
-                                    <Td><strong>Event Capacity</strong>:</Td>
-                                    <Td >{event.eventCapacity}</Td>
-                                </Tr>
-                                <Tr>
-                                    <Td><strong>Event Start Date</strong>:</Td>
-                                    <Td>{format(new Date(event.eventStartDate), 'MMMM dd, yyyy')}</Td>
-                                    <Td ><strong>Event Type</strong>:</Td>
-                                    <Td >{event.eventType}</Td>
-                                </Tr>
-                                <Tr>
-                                    <Td><strong>Minimum Age</strong>:</Td>
-                                    <Td >{event.minAge}</Td>
-                                    <Td ><strong>Created By</strong>:</Td>
-                                    <Td >{event.createdBy.username}</Td>
-                                </Tr>
-                                <Tr>
-                                    <Td><strong>Address</strong>:</Td>
-                                    <Td>{event.eventLocation.address}</Td>
-                                    <Td><strong>City, Country</strong>:</Td>
-                                    <Td>{event.eventLocation.city}, {event.eventLocation.country}</Td>
-                                </Tr>
-                            </Tbody>
-                            <Tfoot>
-
-                            </Tfoot>
-                        </Table>
-                    </TableContainer>
+                    <Box
+                        maxW={["100%", "100%", "500px", "600px", "600px"]}
+                        height={["300px", "400px", "500px", "600px", "700px"]}
+                        backgroundImage={bgImage}
+                        backgroundSize="cover"
+                        backgroundPosition="center"
+                    >
+                    </Box>
                 </Box>
 
                 {/* Map Section */}
@@ -207,7 +179,45 @@ const SingleEvent = () => {
                     <LeafletMap latitude={event.eventLocation.lat} longitude={event.eventLocation.lon} name={event.eventName} />
                 </Box>
             </Flex>
+            <Box>
+                <TableContainer>
+                    <Table variant='striped' colorScheme='purple' >
+                        <TableCaption>All your event details</TableCaption>
+                        <Thead>
 
+                        </Thead>
+                        <Tbody>
+                            <Tr>
+                                <Td><strong>Event Name</strong>:</Td>
+                                <Td>{event.eventName}</Td>
+                                <Td><strong>Event Capacity</strong>:</Td>
+                                <Td >{event.eventCapacity}</Td>
+                            </Tr>
+                            <Tr>
+                                <Td><strong>Event Start Date</strong>:</Td>
+                                <Td>{format(new Date(event.eventStartDate), 'MMMM dd, yyyy')}</Td>
+                                <Td ><strong>Event Type</strong>:</Td>
+                                <Td >{event.eventCategory}</Td>
+                            </Tr>
+                            <Tr>
+                                <Td><strong>Minimum Age</strong>:</Td>
+                                <Td >{event.minAge}</Td>
+                                <Td ><strong>Created By</strong>:</Td>
+                                <Td >{event.createdBy.username}</Td>
+                            </Tr>
+                            <Tr>
+                                <Td><strong>Address</strong>:</Td>
+                                <Td>{event.eventLocation.address}</Td>
+                                <Td><strong>City, Country</strong>:</Td>
+                                <Td>{event.eventLocation.city}, {event.eventLocation.country}</Td>
+                            </Tr>
+                        </Tbody>
+                        <Tfoot>
+
+                        </Tfoot>
+                    </Table>
+                </TableContainer>
+            </Box>
             {/* Comment Section */}
             <Box mb={10}>
                 <Heading size="lg" mb={10} mt={10}>

@@ -3,9 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_SINGLE_USER, QUERY_ME } from '../utils/queries';
 import { DELETE_EVENT, ATTEND_EVENT, CANCEL_EVENT, UPDATE_EVENT } from '../utils/mutations';
-import { Link } from 'react-router-dom';
 import Auth from '../utils/auth';
 import FormFields from '../components/FormsFields';
+import CreatedEventCard from '../components/CreatedEventsCard';
+import AssistingEventCard  from '../components/AssistingEventCard'
 import {
     Box,
     Flex,
@@ -30,10 +31,10 @@ import {
     ModalFooter,
     useToast,
     Spinner,
-    Grid
+    Grid,
+    Alert
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
-import { Link as RouterLink } from 'react-router-dom';
 
 const UserDashboard = () => {
     const { id } = useParams();
@@ -292,44 +293,7 @@ const UserDashboard = () => {
                 </Heading>
                 <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
                     {user.createdEvents.map((event) => (
-                        <Flex borderWidth={1} rounded="md" key={event._id} justify="flex-end">
-                            <Box flex="1" p={4} display="flex" flexDirection="column">
-                                <Heading size="sm">{event.eventName}</Heading>
-                                <Text fontSize="sm" mt={2}>
-                                    {event.eventDescription}
-                                </Text>
-                                <Flex mt="auto" justifyContent="space-between" alignItems="flex-end">
-                                    <Button colorScheme="green" size="sm" mr={2} onClick={() => handleUpdateEvent(event)}>
-                                        Edit Event
-                                    </Button>
-                                </Flex>
-                                <Flex mt="auto" justifyContent="space-between" alignItems="flex-end">
-                                    <RouterLink to={`/event/${event._id}`}>
-                                        <Button colorScheme="purple" size="sm" mr={2}>
-                                            Visit Event
-                                        </Button>
-                                    </RouterLink>
-                                    <Button
-                                        colorScheme="red"
-                                        size="sm"
-                                        leftIcon={<DeleteIcon />}
-                                        ml={2}
-                                        onClick={() => handleDeleteEvent(event._id)}
-                                    >
-                                        Delete
-                                    </Button>
-                                </Flex>
-                            </Box>
-                            <Box width="200px" height="200px" overflow="hidden" roundedTopRight="md" roundedBottomRight="md">
-                                <Image
-                                    src={event.mainImg}
-                                    alt={event.eventName}
-                                    height="100%"
-                                    width="100%"
-                                    objectFit="cover"
-                                />
-                            </Box>
-                        </Flex>
+                        <CreatedEventCard key={event._id} event={event} handlerEdit={handleUpdateEvent} handlerDelete={handleDeleteEvent}/>
                     ))}
                 </SimpleGrid>
             </Box>
@@ -342,41 +306,7 @@ const UserDashboard = () => {
                 </Heading>
                 <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={4}>
                     {user.assistingEvents.map((event) => (
-                        <Flex borderWidth={1} rounded="md" key={event._id} justify="flex-end">
-                            <Box flex="1" p={4}>
-                                <Heading size="sm">{event.eventName}</Heading>
-                                <Text fontSize="sm" mt={2}>
-                                    {event.eventDescription}
-                                </Text>
-                                <Flex mt="auto" justifyContent="space-between" alignItems="flex-end">
-                                    <Link to={`/event/${event._id}`}>
-                                        <Button colorScheme="purple" mt={12} mr={2} size="sm">
-                                            Visit Event
-                                        </Button>
-                                    </Link>
-                                    <Button
-                                        colorScheme={
-                                            eventAtt.some((eventAtt) => eventAtt._id === event._id) ? 'green' : 'purple'
-                                        }
-                                        onClick={() => handleButtonClick(event._id)}
-                                        ml={2}
-                                        size="sm"
-                                        isTruncated
-                                    >
-                                        {eventAtt.some((eventAtt) => eventAtt._id === event._id) ? 'Assisting' : 'Attend Event'}
-                                    </Button>
-                                </Flex>
-                            </Box>
-                            <Box width="200px" height="200px" overflow="hidden" roundedTopRight="md" roundedBottomRight="md">
-                                <Image
-                                    src={event.mainImg}
-                                    alt={event.eventName}
-                                    height="100%"
-                                    width="100%"
-                                    objectFit="cover"
-                                />
-                            </Box>
-                        </Flex>
+                        <AssistingEventCard key={event._id} event={event} eventAtt={eventAtt} handler={handleButtonClick} />
                     ))}
                 </SimpleGrid>
             </Box>

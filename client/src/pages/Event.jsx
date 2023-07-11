@@ -35,9 +35,11 @@ import {
     Td,
     TableCaption,
     TableContainer,
-    Image
+    Image,
+    Spacer
 } from '@chakra-ui/react';
 import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
+import { wrap } from 'framer-motion';
 
 const SingleEvent = () => {
     const { id } = useParams();
@@ -160,24 +162,29 @@ const SingleEvent = () => {
     const bgImage = `url('${event.mainImg}')`
     console.log(bgImage)
     return (
-        <Container maxW="container.xl" mt={10}>
-            <Flex direction={{ base: 'column', md: 'row' }} gap={8}>
+        <Container maxW="container.xl" mt={5}>
+            <Container maxW={"container.xl"}
+                height={"300px"}
+                backgroundImage={bgImage}
+                backgroundSize="cover"
+                backgroundPosition="center">
+
+            </Container>
+            <Flex my={4} minWidth='max-content' alignItems='center' gap='2'>
                 {/* Event Information */}
-                <Box flex={1} mb={4}>
-                    <Box
-                        maxW={["100%", "100%", "500px", "600px", "600px"]}
-                        height={["300px", "400px", "500px", "600px", "700px"]}
-                        backgroundImage={bgImage}
-                        backgroundSize="cover"
-                        backgroundPosition="center"
-                    >
-                    </Box>
-                </Box>
+
+                <Container
+                    maxW={["100%", "100%", "500px", "600px", "600px"]}
+                    height={["300px", "400px", "500px", "600px", "700px"]}
+                    backgroundImage={bgImage}
+                    backgroundSize="cover"
+                    backgroundPosition="center"
+                >
+                </Container>
 
                 {/* Map Section */}
-                <Box flex={1} mb={4}>
-                    <LeafletMap latitude={event.eventLocation.lat} longitude={event.eventLocation.lon} name={event.eventName} />
-                </Box>
+                <Spacer />
+                <LeafletMap latitude={event.eventLocation.lat} longitude={event.eventLocation.lon} name={event.eventName} />
             </Flex>
             <Box>
                 <TableContainer>
